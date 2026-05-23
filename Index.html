@@ -23,43 +23,36 @@ input,textarea{-webkit-user-select:text;user-select:text;}
 button{font-family:inherit;border:none;cursor:pointer;background:none;color:inherit;}
 .app{position:relative;z-index:1;width:100%;height:calc(var(--vh,1vh)*100);max-width:480px;margin:0 auto;display:flex;flex-direction:column;overflow:hidden;}
 
-/* Ticker (synced across pages) */
-.ticker-wrap{flex-shrink:0;padding:8px 0;background:linear-gradient(90deg,rgba(139,92,246,.08),rgba(251,191,36,.08));border-bottom:1px solid var(--border);overflow:hidden;position:relative;}
-.ticker-wrap.personal{background:linear-gradient(90deg,rgba(251,191,36,.25),rgba(139,92,246,.2));animation:personalPulse 1s infinite;}
-@keyframes personalPulse{0%,100%{box-shadow:inset 0 0 20px rgba(251,191,36,.3);}50%{box-shadow:inset 0 0 40px rgba(251,191,36,.5);}}
-.ticker{display:flex;animation:tickerScroll var(--ticker-dur,45s) linear infinite;width:max-content;}
-.ticker-card{flex:0 0 auto;width:46vw;max-width:220px;margin:0 6px;padding:8px 10px;background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(251,191,36,.08));border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;gap:8px;}
-.ticker-card.bigwin{background:linear-gradient(135deg,rgba(251,191,36,.35),rgba(245,158,11,.15));border-color:var(--gold);box-shadow:0 0 12px rgba(251,191,36,.3);}
+/* Ticker */
+.ticker-wrap{flex-shrink:0;padding:8px 0;background:linear-gradient(90deg,rgba(251,191,36,.08),rgba(139,92,246,.08));border-bottom:1px solid var(--border);overflow:hidden;position:relative;}
+.ticker-wrap.personal{background:linear-gradient(90deg,rgba(251,191,36,.3),rgba(139,92,246,.2));animation:personalPulse 1s infinite;}
+@keyframes personalPulse{0%,100%{box-shadow:inset 0 0 20px rgba(251,191,36,.3);}50%{box-shadow:inset 0 0 40px rgba(251,191,36,.6);}}
+.ticker{display:flex;animation:tickerScroll var(--ticker-dur,60s) linear infinite;width:max-content;}
+.ticker-card{flex:0 0 auto;width:46vw;max-width:220px;margin:0 6px;padding:8px 10px;background:linear-gradient(135deg,rgba(251,191,36,.2),rgba(245,158,11,.1));border:1px solid rgba(251,191,36,.3);border-radius:10px;display:flex;align-items:center;gap:8px;}
 .ticker-card.personal{background:linear-gradient(135deg,rgba(251,191,36,.5),rgba(139,92,246,.3));border-color:var(--gold);box-shadow:0 0 20px rgba(251,191,36,.5);}
-.ticker-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--gold));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;}
-.ticker-card.personal .ticker-avatar{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#1a1a2e;}
+.ticker-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-2));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;color:#1a1a2e;}
 .ticker-info{flex:1;min-width:0;}
-.ticker-user{font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ticker-user{font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--gold);}
 .ticker-game{font-size:9px;color:var(--text-dim);}
 .ticker-card.personal .ticker-game{color:var(--gold);}
-.ticker-win{font-size:11px;font-weight:800;color:var(--green);white-space:nowrap;}
-.ticker-card.bigwin .ticker-win{color:var(--gold);font-size:13px;text-shadow:0 0 8px rgba(251,191,36,.5);}
-.ticker-card.personal .ticker-win{color:var(--gold);font-size:14px;text-shadow:0 0 10px rgba(251,191,36,.8);}
-.ticker-mult{font-size:9px;color:var(--gold);font-weight:700;}
+.ticker-win{font-size:12px;font-weight:800;color:var(--gold);white-space:nowrap;text-shadow:0 0 8px rgba(251,191,36,.5);}
+.ticker-card.personal .ticker-win{font-size:14px;text-shadow:0 0 12px rgba(251,191,36,.8);}
+.ticker-mult{font-size:10px;color:var(--gold);font-weight:700;}
 @keyframes tickerScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
-/* Header */
-.header{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:linear-gradient(135deg,rgba(139,92,246,.18),rgba(35,35,64,.6));border-bottom:1px solid var(--border);}
-.header-logo{display:flex;align-items:center;gap:8px;}
+/* Headers */
+.header,.game-header{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:linear-gradient(135deg,rgba(139,92,246,.18),rgba(35,35,64,.6));border-bottom:1px solid var(--border);}
+.header-logo,.game-header-title{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;}
 .logo-ico{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--gold));display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 4px 14px rgba(139,92,246,.4);}
 .logo-text{font-weight:700;font-size:15px;}
 .logo-sub{font-size:9px;color:var(--text-dim);margin-top:1px;}
+.game-header-title .gh-ic{font-size:20px;}
 .header-balance{display:flex;align-items:center;gap:8px;}
 .hbal{display:flex;align-items:center;gap:4px;padding:6px 10px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;font-size:12px;font-weight:700;}
 .hbal-actions{display:flex;gap:4px;}
 .hbal-btn{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;touch-action:manipulation;}
 .hbal-btn.deposit{background:linear-gradient(135deg,var(--purple),var(--purple-2));}
 .hbal-btn.withdraw{background:rgba(255,255,255,.08);border:1px solid var(--border);}
-
-/* Game header (with current game name) */
-.game-header{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:linear-gradient(135deg,rgba(139,92,246,.18),rgba(35,35,64,.6));border-bottom:1px solid var(--border);}
-.game-header-title{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;}
-.game-header-title .gh-ic{font-size:20px;}
 
 .main{flex:1;overflow:hidden;position:relative;}
 .page{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden;}
@@ -82,6 +75,9 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
 .progress-bar{width:100%;height:7px;background:rgba(255,255,255,.08);border-radius:10px;overflow:hidden;}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--gold));border-radius:10px;transition:width .6s cubic-bezier(.4,0,.2,1);box-shadow:0 0 12px rgba(139,92,246,.6);}
 .progress-info{display:flex;justify-content:space-between;margin-top:5px;font-size:10px;color:var(--text-dim);}
+.goal-achieved{margin-top:10px;padding:12px;background:linear-gradient(135deg,rgba(16,185,129,.25),rgba(16,185,129,.1));border:1px solid rgba(16,185,129,.4);border-radius:12px;font-size:16px;font-weight:800;color:var(--green);text-align:center;animation:goalPulse 2s infinite;}
+@keyframes goalPulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5);}50%{box-shadow:0 0 20px 5px rgba(16,185,129,.2);}}
+
 .timer{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 12px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:10px;font-size:12px;font-weight:600;color:#fca5a5;margin-bottom:10px;}
 .freeze-amounts{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:10px;}
 .freeze-amt{padding:10px 3px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:11px;font-weight:700;touch-action:manipulation;}
@@ -89,15 +85,25 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
 .btn-primary{width:100%;padding:14px;background:linear-gradient(135deg,var(--purple),var(--purple-2));border-radius:12px;color:white;font-size:14px;font-weight:700;box-shadow:0 6px 18px rgba(139,92,246,.4);touch-action:manipulation;transition:transform .1s;}
 .btn-primary:active{transform:scale(.97);}
 .btn-primary.gold{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#1a1a2e;box-shadow:0 6px 18px rgba(251,191,36,.35);}
-.btn-primary.danger{background:linear-gradient(135deg,var(--red),#dc2626);color:white;box-shadow:0 6px 18px rgba(239,68,68,.35);}
 .btn-primary:disabled{opacity:.45;cursor:not-allowed;transform:none;}
-.user-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
-.stat-box{padding:12px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;}
-.stat-label{font-size:10px;color:var(--text-dim);margin-bottom:4px;}
-.stat-val{font-size:15px;font-weight:700;display:flex;align-items:center;gap:4px;}
+.user-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;}
+.stat-box{padding:10px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;}
+.stat-label{font-size:9px;color:var(--text-dim);margin-bottom:3px;}
+.stat-val{font-size:13px;font-weight:700;display:flex;align-items:center;gap:3px;}
 
-/* Games tabs - removed; replaced by bottom selector */
-.game-selector{flex-shrink:0;display:flex;gap:5px;padding:8px 10px;overflow-x:auto;scrollbar-width:none;background:var(--bg-2);border-top:1px solid var(--border);}
+/* Games page with vertical scroll */
+.games-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:y mandatory;scroll-behavior:smooth;}
+.games-section{min-height:100%;scroll-snap-align:start;display:flex;flex-direction:column;position:relative;padding-bottom:calc(70px + var(--safe-b));}
+
+.all-games-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;}
+.all-game-tile{padding:14px 6px;background:var(--card);border:1px solid var(--border);border-radius:12px;text-align:center;touch-action:manipulation;transition:all .15s;}
+.all-game-tile.active{background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(251,191,36,.1));border-color:var(--purple);box-shadow:0 4px 14px rgba(139,92,246,.3);}
+.all-game-tile .ic{font-size:28px;margin-bottom:4px;}
+.all-game-tile .nm{font-size:11px;font-weight:700;}
+.all-games-title{padding:14px 12px 4px;font-size:13px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;}
+.scroll-hint{text-align:center;padding:6px;font-size:10px;color:var(--text-dim);opacity:.6;}
+
+.game-selector{flex-shrink:0;display:flex;gap:5px;padding:8px 10px;overflow-x:auto;scrollbar-width:none;background:var(--bg-2);border-bottom:1px solid var(--border);}
 .game-selector::-webkit-scrollbar{display:none;}
 .game-sel-btn{flex-shrink:0;padding:7px 12px;background:var(--card);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;touch-action:manipulation;white-space:nowrap;}
 .game-sel-btn.active{background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(251,191,36,.1));border-color:var(--purple);}
@@ -144,16 +150,13 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
 .dice-handle{position:absolute;top:-2px;width:6px;bottom:-2px;background:white;border-radius:3px;box-shadow:0 0 8px rgba(255,255,255,.5);}
 .dice-prob{font-size:12px;color:var(--text-dim);}
 .dice-prob b{color:var(--gold);font-size:14px;}
-.dice-action-row{display:flex;gap:8px;width:90%;}
-.dice-action-row .btn-primary{flex:1;}
 
 /* Tower */
 .tower-display{position:absolute;inset:6px;display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
 .tower-cell{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text-dim);touch-action:manipulation;transition:all .15s;min-height:0;}
-.tower-cell.active{background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(251,191,36,.1));border-color:var(--purple);color:var(--gold);font-weight:700;}
 .tower-cell.safe{background:linear-gradient(135deg,rgba(16,185,129,.25),rgba(16,185,129,.1));border-color:rgba(16,185,129,.4);color:var(--green);animation:cellOpen .3s ease;}
 .tower-cell.skull{background:linear-gradient(135deg,rgba(239,68,68,.3),rgba(239,68,68,.1));border-color:rgba(239,68,68,.5);color:var(--red);animation:cellShake .4s;}
-.tower-cell.current{box-shadow:0 0 12px rgba(139,92,246,.6);transform:scale(1.05);}
+.tower-cell.current{box-shadow:0 0 12px rgba(139,92,246,.6);transform:scale(1.05);background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(251,191,36,.1));border-color:var(--purple);color:var(--gold);font-weight:700;}
 .tower-cell:active{transform:scale(.95);}
 
 /* Blackjack */
@@ -176,7 +179,7 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
 .bj-action-btn{padding:10px 16px;background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#1a1a2e;border-radius:9px;font-size:12px;font-weight:700;touch-action:manipulation;}
 .bj-action-btn.danger{background:linear-gradient(135deg,var(--red),#dc2626);color:white;}
 .bj-action-btn:disabled{opacity:.4;cursor:not-allowed;}
-.bj-result-banner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);padding:16px 28px;border-radius:16px;font-size:22px;font-weight:800;z-index:20;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.5);animation:bannerPop .5s cubic-bezier(.16,1,.3,1);}
+.bj-result-banner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);padding:16px 28px;border-radius:16px;font-size:20px;font-weight:800;z-index:20;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.5);animation:bannerPop .5s cubic-bezier(.16,1,.3,1);}
 .bj-result-banner.win{background:linear-gradient(135deg,var(--green),#059669);color:white;}
 .bj-result-banner.lose{background:linear-gradient(135deg,var(--red),#dc2626);color:white;}
 .bj-result-banner.push{background:linear-gradient(135deg,#64748b,#475569);color:white;}
@@ -202,10 +205,16 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
 .game-action-btn:disabled{opacity:.45;transform:none;}
 .hold-hint{text-align:center;font-size:9px;color:var(--text-dim);}
 
-/* Deposit banner */
 .deposit-banner{padding:20px 16px;margin:12px;background:linear-gradient(135deg,rgba(239,68,68,.15),rgba(251,191,36,.1));border:1px solid rgba(239,68,68,.3);border-radius:14px;text-align:center;}
 .deposit-banner-title{font-size:14px;font-weight:700;margin-bottom:6px;}
 .deposit-banner-desc{font-size:11px;color:var(--text-dim);margin-bottom:12px;}
+
+/* Big win banner (games) */
+.bigwin-banner{position:fixed;top:calc(var(--safe-t) + 10px);left:50%;transform:translateX(-50%) translateY(-200px);z-index:250;max-width:90%;width:360px;padding:14px 18px;background:linear-gradient(135deg,rgba(251,191,36,.95),rgba(245,158,11,.9));border:2px solid var(--gold);border-radius:16px;color:#1a1a2e;box-shadow:0 10px 40px rgba(251,191,36,.5);transition:transform .4s cubic-bezier(.16,1,.3,1);}
+.bigwin-banner.show{transform:translateX(-50%) translateY(0);}
+.bigwin-banner-title{font-size:16px;font-weight:800;text-align:center;margin-bottom:4px;}
+.bigwin-banner-info{font-size:12px;font-weight:600;text-align:center;}
+.bigwin-banner-amount{font-size:22px;font-weight:900;text-align:center;margin-top:4px;text-shadow:0 2px 8px rgba(251,191,36,.5);}
 
 /* Bottom nav */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(20,20,32,.95);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:8px 0 calc(8px + var(--safe-b));z-index:100;}
@@ -215,7 +224,7 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
 .nav-btn .nl{font-size:9px;font-weight:600;}
 .nav-btn.active{background:linear-gradient(135deg,rgba(139,92,246,.25),rgba(168,85,247,.1));color:white;}
 
-/* Profile tabs */
+/* Profile */
 .profile-tabs-nav{flex-shrink:0;display:flex;gap:4px;padding:10px 12px;background:var(--bg);border-bottom:1px solid var(--border);}
 .profile-tab-btn{flex:1;padding:8px 4px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;color:var(--text-dim);font-size:10px;font-weight:600;touch-action:manipulation;}
 .profile-tab-btn.active{background:linear-gradient(135deg,var(--purple),var(--purple-2));border-color:transparent;color:white;}
@@ -242,9 +251,10 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
 .menu-label{flex:1;font-size:12px;font-weight:600;}
 .menu-arrow{color:var(--text-dim);font-size:16px;}
 
-/* Profile stats sub-tabs */
-.stats-subtabs{display:flex;gap:4px;margin-bottom:10px;}
-.stats-subtab{flex:1;padding:8px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:9px;font-size:11px;font-weight:600;color:var(--text-dim);touch-action:manipulation;}
+/* Profile stats sub-tabs (per-game buttons) */
+.stats-subtabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:10px;}
+.stats-subtab{padding:8px 4px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:9px;font-size:10px;font-weight:600;color:var(--text-dim);touch-action:manipulation;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.stats-subtab .ss-ic{font-size:16px;}
 .stats-subtab.active{background:linear-gradient(135deg,var(--purple),var(--purple-2));border-color:transparent;color:white;}
 .stats-subcontent{display:none;}
 .stats-subcontent.active{display:block;}
@@ -260,8 +270,8 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
 
 .game-stat-card{padding:10px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;}
 .game-stat-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.game-stat-icon{font-size:18px;}
-.game-stat-name{font-size:13px;font-weight:700;flex:1;}
+.game-stat-icon{font-size:20px;}
+.game-stat-name{font-size:14px;font-weight:700;flex:1;}
 
 /* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);z-index:200;display:none;align-items:flex-end;justify-content:center;}
@@ -291,10 +301,21 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
 .toggle::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;background:white;border-radius:50%;transition:transform .2s;}
 .toggle.on::after{transform:translateX(16px);}
 
-/* Effects overlay */
-.effects-layer{position:fixed;inset:0;pointer-events:none;z-index:150;}
-.particle{position:absolute;pointer-events:none;border-radius:50%;}
-.firework{position:absolute;width:4px;height:4px;border-radius:50%;pointer-events:none;}
+/* Rain effects */
+.effects-layer{position:fixed;inset:0;pointer-events:none;z-index:150;overflow:hidden;}
+.rain-drop{position:absolute;pointer-events:none;border-radius:2px;}
+
+/* Bots list */
+.bots-panel-full{padding:12px;flex:1;overflow-y:auto;}
+.bots-section-title{font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;}
+.bots-list-full{display:flex;flex-direction:column;gap:4px;}
+.bot-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;font-size:11px;}
+.bot-avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--gold));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.bot-name{flex:1;color:var(--text);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.bot-bet{color:var(--text-dim);font-size:10px;}
+.bot-result{font-size:11px;font-weight:700;}
+.bot-result.win{color:var(--green);}
+.bot-result.lose{color:var(--red);}
 
 @media(min-width:700px){html,body{overflow:auto;}}
 </style>
@@ -305,16 +326,11 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
   <div class="main">
     <!-- BANK PAGE -->
     <div class="page active" id="page-bank">
-      <div class="ticker-wrap" id="tickerWrapBank">
-        <div class="ticker" id="tickerBank"></div>
-      </div>
+      <div class="ticker-wrap" id="tickerWrapBank"><div class="ticker" id="tickerBank"></div></div>
       <div class="header">
         <div class="header-logo">
           <div class="logo-ico">⭐</div>
-          <div>
-            <div class="logo-text">Stars Bank</div>
-            <div class="logo-sub">Заморозь и зарабатывай</div>
-          </div>
+          <div><div class="logo-text">Stars Bank</div><div class="logo-sub">Заморозь и зарабатывай</div></div>
         </div>
         <div class="header-balance">
           <div class="hbal">⭐ <span id="hbalDisplayBank">0</span></div>
@@ -330,10 +346,11 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
             <div class="bank-label">💎 Общий банк</div>
             <div class="bank-value">⭐ <span id="totalBank">0</span></div>
             <div class="bank-target">Цель: <span id="goalValue">1,000,000 ⭐</span></div>
-            <div class="progress-wrap">
+            <div class="progress-wrap" id="progressWrap">
               <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
               <div class="progress-info"><span id="progressPct">0%</span><span>до цели</span></div>
             </div>
+            <div class="goal-achieved" id="goalAchieved" style="display:none;">ЦЕЛЬ ДОСТИГНУТА 🎯</div>
           </div>
           <div class="timer">⏱ До конца круга: <strong id="timerValue">06:00:00</strong></div>
           <div class="card">
@@ -352,8 +369,12 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
                 <div class="stat-val">⭐ <span id="frozenAmount">0</span></div>
               </div>
               <div class="stat-box">
-                <div class="stat-label">Прибыль (через 6ч)</div>
+                <div class="stat-label">Прибыль через 6ч</div>
                 <div class="stat-val" style="color:var(--green)">+<span id="profitAmount">0</span></div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">В час</div>
+                <div class="stat-val" style="color:var(--gold)">+<span id="profitPerHour">0</span></div>
               </div>
             </div>
             <button class="btn-primary gold" style="margin-top:10px" id="unfreezeBtn" disabled>💰 Забрать (после круга)</button>
@@ -364,216 +385,235 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
 
     <!-- GAMES PAGE -->
     <div class="page" id="page-games">
-      <div class="ticker-wrap" id="tickerWrapGames">
-        <div class="ticker" id="tickerGames"></div>
-      </div>
       <div class="game-header">
         <div class="game-header-title"><span class="gh-ic" id="ghIcon">🎱</span><span id="ghName">Плинко</span></div>
         <div class="header-balance">
           <div class="hbal">⭐ <span id="hbalDisplayGames">0</span></div>
-          <div class="hbal-actions">
-            <button class="hbal-btn deposit" data-deposit="1">+</button>
-          </div>
+          <div class="hbal-actions"><button class="hbal-btn deposit" data-deposit="1">+</button></div>
         </div>
       </div>
-      <div class="games-wrap">
-        <!-- PLINKO -->
-        <div class="game-area active" data-area="plinko">
-          <div class="game-board">
-            <div class="board-main"><canvas class="board-canvas" id="plinkoCanvas"></canvas><div class="board-info">Шариков: <span id="ballCount">0</span></div></div>
+      <div class="games-scroll" id="gamesScroll">
+        <!-- Section 1: All games -->
+        <div class="games-section" id="sectionGames">
+          <div class="all-games-title">🎮 Выбери игру</div>
+          <div class="all-games-grid" id="allGamesGrid">
+            <div class="all-game-tile active" data-game="plinko"><div class="ic">🎱</div><div class="nm">Плинко</div></div>
+            <div class="all-game-tile" data-game="crash"><div class="ic">🚀</div><div class="nm">Краш</div></div>
+            <div class="all-game-tile" data-game="mines"><div class="ic">💣</div><div class="nm">Мины</div></div>
+            <div class="all-game-tile" data-game="dice"><div class="ic">🎲</div><div class="nm">Кубик</div></div>
+            <div class="all-game-tile" data-game="tower"><div class="ic">🗼</div><div class="nm">Башня</div></div>
+            <div class="all-game-tile" data-game="blackjack"><div class="ic">🃏</div><div class="nm">Блэкджек</div></div>
           </div>
-          <div class="game-controls" data-game-ctrl="plinko">
-            <div class="bet-controls">
-              <button class="bet-btn" data-minus="plinko">−</button>
-              <input type="number" class="bet-input" id="betPlinko" value="100" inputmode="numeric">
-              <button class="bet-btn" data-plus="plinko">+</button>
-            </div>
-            <div class="quick-bets">
-              <button class="quick-bet" data-qb="plinko" data-val="50">50</button>
-              <button class="quick-bet" data-qb="plinko" data-val="100">100</button>
-              <button class="quick-bet" data-qb="plinko" data-val="500">500</button>
-              <button class="quick-bet" data-qb="plinko" data-val="1000">1K</button>
-              <button class="quick-bet" data-qb="plinko" data-val="5000">5K</button>
-            </div>
-            <button class="game-action-btn" id="plinkoBtn">🎱 Запустить шарик</button>
-            <div class="hold-hint">💡 Удерживай для автоспама</div>
-          </div>
+          <div class="scroll-hint">↓ Прокрути вниз чтобы играть</div>
         </div>
 
-        <!-- CRASH -->
-        <div class="game-area" data-area="crash">
-          <div class="game-board">
-            <div class="board-main">
-              <canvas class="board-canvas" id="crashCanvas"></canvas>
-              <div class="big-multiplier" id="crashMultiplier">1.00x</div>
-              <div class="board-status" id="crashStatus">Ожидание ставки...</div>
-            </div>
-            <div class="cooldown-overlay" id="cooldownCrash"><div class="cooldown-num" id="cooldownNumCrash">3</div><div class="cooldown-label">Следующий раунд...</div></div>
+        <!-- Section 2: Play area -->
+        <div class="games-section" id="sectionPlay">
+          <div class="game-selector" id="gameSelector">
+            <button class="game-sel-btn active" data-game="plinko"><span>🎱</span>Плинко</button>
+            <button class="game-sel-btn" data-game="crash"><span>🚀</span>Краш</button>
+            <button class="game-sel-btn" data-game="mines"><span>💣</span>Мины</button>
+            <button class="game-sel-btn" data-game="dice"><span>🎲</span>Кубик</button>
+            <button class="game-sel-btn" data-game="tower"><span>🗼</span>Башня</button>
+            <button class="game-sel-btn" data-game="blackjack"><span>🃏</span>Блэкджек</button>
           </div>
-          <div class="game-controls" data-game-ctrl="crash">
-            <div class="bet-controls">
-              <button class="bet-btn" data-minus="crash">−</button>
-              <input type="number" class="bet-input" id="betCrash" value="100" inputmode="numeric">
-              <button class="bet-btn" data-plus="crash">+</button>
+          <div class="games-wrap">
+            <!-- PLINKO -->
+            <div class="game-area active" data-area="plinko">
+              <div class="game-board">
+                <div class="board-main"><canvas class="board-canvas" id="plinkoCanvas"></canvas><div class="board-info">Шариков: <span id="ballCount">0</span></div></div>
+              </div>
+              <div class="game-controls" data-game-ctrl="plinko">
+                <div class="bet-controls">
+                  <button class="bet-btn" data-minus="plinko">−</button>
+                  <input type="number" class="bet-input" id="betPlinko" value="100" inputmode="numeric">
+                  <button class="bet-btn" data-plus="plinko">+</button>
+                </div>
+                <div class="quick-bets">
+                  <button class="quick-bet" data-qb="plinko" data-val="50">50</button>
+                  <button class="quick-bet" data-qb="plinko" data-val="100">100</button>
+                  <button class="quick-bet" data-qb="plinko" data-val="500">500</button>
+                  <button class="quick-bet" data-qb="plinko" data-val="1000">1K</button>
+                  <button class="quick-bet" data-qb="plinko" data-val="5000">5K</button>
+                </div>
+                <button class="game-action-btn" id="plinkoBtn">🎱 Запустить шарик</button>
+                <div class="hold-hint">💡 Удерживай для автоспама</div>
+              </div>
             </div>
-            <div class="quick-bets">
-              <button class="quick-bet" data-qb="crash" data-val="50">50</button>
-              <button class="quick-bet" data-qb="crash" data-val="100">100</button>
-              <button class="quick-bet" data-qb="crash" data-val="500">500</button>
-              <button class="quick-bet" data-qb="crash" data-val="1000">1K</button>
-              <button class="quick-bet" data-qb="crash" data-val="5000">5K</button>
-            </div>
-            <button class="game-action-btn" id="crashBtn">🚀 Играть</button>
-          </div>
-        </div>
 
-        <!-- MINES -->
-        <div class="game-area" data-area="mines">
-          <div class="game-board">
-            <div class="board-main">
-              <div class="mines-grid" id="minesGrid"></div>
-              <div class="board-info">Множитель: <span id="minesMulti">1.00x</span></div>
+            <!-- CRASH -->
+            <div class="game-area" data-area="crash">
+              <div class="game-board">
+                <div class="board-main">
+                  <canvas class="board-canvas" id="crashCanvas"></canvas>
+                  <div class="big-multiplier" id="crashMultiplier">1.00x</div>
+                  <div class="board-status" id="crashStatus">Ожидание ставки...</div>
+                </div>
+                <div class="cooldown-overlay" id="cooldownCrash"><div class="cooldown-num" id="cooldownNumCrash">3</div><div class="cooldown-label">Следующий раунд...</div></div>
+              </div>
+              <div class="game-controls" data-game-ctrl="crash">
+                <div class="bet-controls">
+                  <button class="bet-btn" data-minus="crash">−</button>
+                  <input type="number" class="bet-input" id="betCrash" value="100" inputmode="numeric">
+                  <button class="bet-btn" data-plus="crash">+</button>
+                </div>
+                <div class="quick-bets">
+                  <button class="quick-bet" data-qb="crash" data-val="50">50</button>
+                  <button class="quick-bet" data-qb="crash" data-val="100">100</button>
+                  <button class="quick-bet" data-qb="crash" data-val="500">500</button>
+                  <button class="quick-bet" data-qb="crash" data-val="1000">1K</button>
+                  <button class="quick-bet" data-qb="crash" data-val="5000">5K</button>
+                </div>
+                <button class="game-action-btn" id="crashBtn">🚀 Играть</button>
+              </div>
             </div>
-          </div>
-          <div class="game-controls" data-game-ctrl="mines">
-            <div class="bet-controls">
-              <button class="bet-btn" data-minus="mines">−</button>
-              <input type="number" class="bet-input" id="betMines" value="100" inputmode="numeric">
-              <button class="bet-btn" data-plus="mines">+</button>
-            </div>
-            <div class="extra-controls">
-              <button class="extra-btn active" data-field="3">3×3</button>
-              <button class="extra-btn" data-field="5">5×5</button>
-              <button class="extra-btn" data-field="8">8×8</button>
-            </div>
-            <div class="extra-controls">
-              <button class="extra-btn active" data-mode="easy">🟢 Лёгкий</button>
-              <button class="extra-btn" data-mode="medium">🟡 Средний</button>
-              <button class="extra-btn" data-mode="hard">🔴 Сложный</button>
-            </div>
-            <button class="game-action-btn" id="minesBtn">💣 Начать игру</button>
-          </div>
-        </div>
 
-        <!-- DICE -->
-        <div class="game-area" data-area="dice">
-          <div class="game-board">
-            <div class="board-main">
-              <div class="dice-display">
-                <div class="dice-result" id="diceResult">—</div>
-                <div class="dice-slider-wrap">
-                  <button class="dice-dir-btn" id="diceRollBelow">↓ Ниже</button>
-                  <div class="dice-slider" id="diceSlider">
-                    <div class="dice-fill" id="diceFill" style="width:50%"></div>
-                    <div class="dice-handle" id="diceHandle" style="left:50%"></div>
+            <!-- MINES -->
+            <div class="game-area" data-area="mines">
+              <div class="game-board">
+                <div class="board-main">
+                  <div class="mines-grid" id="minesGrid"></div>
+                  <div class="board-info">Множитель: <span id="minesMulti">1.00x</span></div>
+                </div>
+              </div>
+              <div class="game-controls" data-game-ctrl="mines">
+                <div class="bet-controls">
+                  <button class="bet-btn" data-minus="mines">−</button>
+                  <input type="number" class="bet-input" id="betMines" value="100" inputmode="numeric">
+                  <button class="bet-btn" data-plus="mines">+</button>
+                </div>
+                <div class="extra-controls">
+                  <button class="extra-btn active" data-field="3">3×3</button>
+                  <button class="extra-btn" data-field="5">5×5</button>
+                  <button class="extra-btn" data-field="8">8×8</button>
+                </div>
+                <div class="extra-controls">
+                  <button class="extra-btn active" data-mode="easy">🟢 Лёгкий</button>
+                  <button class="extra-btn" data-mode="medium">🟡 Средний</button>
+                  <button class="extra-btn" data-mode="hard">🔴 Сложный</button>
+                </div>
+                <button class="game-action-btn" id="minesBtn">💣 Начать игру</button>
+              </div>
+            </div>
+
+            <!-- DICE -->
+            <div class="game-area" data-area="dice">
+              <div class="game-board">
+                <div class="board-main">
+                  <div class="dice-display">
+                    <div class="dice-result" id="diceResult">—</div>
+                    <div class="dice-slider-wrap">
+                      <button class="dice-dir-btn" id="diceRollBelow">↓ Ниже</button>
+                      <div class="dice-slider" id="diceSlider">
+                        <div class="dice-fill" id="diceFill" style="width:50%"></div>
+                        <div class="dice-handle" id="diceHandle" style="left:50%"></div>
+                      </div>
+                      <button class="dice-dir-btn gold" id="diceRollAbove">↑ Выше</button>
+                    </div>
+                    <div class="dice-prob">Шанс: <b id="diceProb">49%</b> · Множитель: <b id="diceMult">2.00x</b></div>
+                    <div class="dice-prob">Цель: <b id="diceTargetDisplay">50</b></div>
                   </div>
-                  <button class="dice-dir-btn gold" id="diceRollAbove">↑ Выше</button>
                 </div>
-                <div class="dice-prob">Шанс: <b id="diceProb">49%</b> · Множитель: <b id="diceMult">2.00x</b></div>
-                <div class="dice-prob">Цель: <b id="diceTarget">50</b></div>
               </div>
-            </div>
-          </div>
-          <div class="game-controls" data-game-ctrl="dice">
-            <div class="bet-controls">
-              <button class="bet-btn" data-minus="dice">−</button>
-              <input type="number" class="bet-input" id="betDice" value="100" inputmode="numeric">
-              <button class="bet-btn" data-plus="dice">+</button>
-            </div>
-            <div class="quick-bets">
-              <button class="quick-bet" data-qb="dice" data-val="50">50</button>
-              <button class="quick-bet" data-qb="dice" data-val="100">100</button>
-              <button class="quick-bet" data-qb="dice" data-val="500">500</button>
-              <button class="quick-bet" data-qb="dice" data-val="1000">1K</button>
-              <button class="quick-bet" data-qb="dice" data-val="5000">5K</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- TOWER -->
-        <div class="game-area" data-area="tower">
-          <div class="game-board">
-            <div class="board-main">
-              <div class="tower-display" id="towerGrid"></div>
-              <div class="board-info">Множитель: <span id="towerMulti">1.00x</span></div>
-            </div>
-          </div>
-          <div class="game-controls" data-game-ctrl="tower">
-            <div class="bet-controls">
-              <button class="bet-btn" data-minus="tower">−</button>
-              <input type="number" class="bet-input" id="betTower" value="100" inputmode="numeric">
-              <button class="bet-btn" data-plus="tower">+</button>
-            </div>
-            <div class="extra-controls">
-              <button class="extra-btn active" data-diff="easy">🟢 Лёгкий (1💀)</button>
-              <button class="extra-btn" data-diff="medium">🟡 Средний (2💀)</button>
-              <button class="extra-btn" data-diff="hard">🔴 Сложный (2💀×1.5)</button>
-            </div>
-            <button class="game-action-btn" id="towerBtn">🗼 Начать восхождение</button>
-          </div>
-        </div>
-
-        <!-- BLACKJACK -->
-        <div class="game-area" data-area="blackjack">
-          <div class="game-board">
-            <div class="board-main">
-              <div class="bj-table" id="bjTable">
-                <div class="bj-dealer-area">
-                  <div class="bj-dealer-label">Дилер · <span id="bjDealerScore">0</span></div>
-                  <div class="bj-hand" id="bjDealerHand"></div>
+              <div class="game-controls" data-game-ctrl="dice">
+                <div class="bet-controls">
+                  <button class="bet-btn" data-minus="dice">−</button>
+                  <input type="number" class="bet-input" id="betDice" value="100" inputmode="numeric">
+                  <button class="bet-btn" data-plus="dice">+</button>
                 </div>
-                <div style="flex:1;"></div>
-                <div class="bj-player-area">
-                  <div class="bj-player-label">Ты · <span id="bjPlayerScore">0</span> · ставка: <span id="bjPlayerBet">0</span>⭐</div>
-                  <div class="bj-hand" id="bjPlayerHand"></div>
-                </div>
-                <div class="bj-actions" id="bjActions">
-                  <button class="bj-action-btn" id="bjHit">✋ ЕЩЁ</button>
-                  <button class="bj-action-btn gold" id="bjStand">🛑 ХВАТИТ</button>
-                  <button class="bj-action-btn danger" id="bjDouble">2× УДВОИТЬ</button>
+                <div class="quick-bets">
+                  <button class="quick-bet" data-qb="dice" data-val="50">50</button>
+                  <button class="quick-bet" data-qb="dice" data-val="100">100</button>
+                  <button class="quick-bet" data-qb="dice" data-val="500">500</button>
+                  <button class="quick-bet" data-qb="dice" data-val="1000">1K</button>
+                  <button class="quick-bet" data-qb="dice" data-val="5000">5K</button>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="game-controls" data-game-ctrl="blackjack">
-            <div class="bet-controls">
-              <button class="bet-btn" data-minus="blackjack">−</button>
-              <input type="number" class="bet-input" id="betBlackjack" value="100" inputmode="numeric">
-              <button class="bet-btn" data-plus="blackjack">+</button>
+
+            <!-- TOWER -->
+            <div class="game-area" data-area="tower">
+              <div class="game-board">
+                <div class="board-main">
+                  <div class="tower-display" id="towerGrid"></div>
+                  <div class="board-info">Множитель: <span id="towerMulti">1.00x</span></div>
+                </div>
+              </div>
+              <div class="game-controls" data-game-ctrl="tower">
+                <div class="bet-controls">
+                  <button class="bet-btn" data-minus="tower">−</button>
+                  <input type="number" class="bet-input" id="betTower" value="100" inputmode="numeric">
+                  <button class="bet-btn" data-plus="tower">+</button>
+                </div>
+                <div class="extra-controls">
+                  <button class="extra-btn active" data-diff="easy">🟢 Лёгкий</button>
+                  <button class="extra-btn" data-diff="medium">🟡 Средний</button>
+                  <button class="extra-btn" data-diff="hard">🔴 Сложный</button>
+                </div>
+                <button class="game-action-btn" id="towerBtn">🗼 Начать восхождение</button>
+              </div>
             </div>
-            <div class="quick-bets">
-              <button class="quick-bet" data-qb="blackjack" data-val="50">50</button>
-              <button class="quick-bet" data-qb="blackjack" data-val="100">100</button>
-              <button class="quick-bet" data-qb="blackjack" data-val="500">500</button>
-              <button class="quick-bet" data-qb="blackjack" data-val="1000">1K</button>
-              <button class="quick-bet" data-qb="blackjack" data-val="5000">5K</button>
+
+            <!-- BLACKJACK -->
+            <div class="game-area" data-area="blackjack">
+              <div class="game-board">
+                <div class="board-main">
+                  <div class="bj-table" id="bjTable">
+                    <div class="bj-dealer-area">
+                      <div class="bj-dealer-label">Дилер · <span id="bjDealerScore">0</span></div>
+                      <div class="bj-hand" id="bjDealerHand"></div>
+                    </div>
+                    <div style="flex:1;"></div>
+                    <div class="bj-player-area">
+                      <div class="bj-player-label">Ты · <span id="bjPlayerScore">0</span> · ставка: <span id="bjPlayerBet">0</span>⭐</div>
+                      <div class="bj-hand" id="bjPlayerHand"></div>
+                    </div>
+                    <div class="bj-actions" id="bjActions">
+                      <button class="bj-action-btn" id="bjHit">✋ ЕЩЁ</button>
+                      <button class="bj-action-btn gold" id="bjStand">🛑 ХВАТИТ</button>
+                      <button class="bj-action-btn danger" id="bjDouble">2× УДВОИТЬ</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="game-controls" data-game-ctrl="blackjack">
+                <div class="bet-controls">
+                  <button class="bet-btn" data-minus="blackjack">−</button>
+                  <input type="number" class="bet-input" id="betBlackjack" value="100" inputmode="numeric">
+                  <button class="bet-btn" data-plus="blackjack">+</button>
+                </div>
+                <div class="quick-bets">
+                  <button class="quick-bet" data-qb="blackjack" data-val="50">50</button>
+                  <button class="quick-bet" data-qb="blackjack" data-val="100">100</button>
+                  <button class="quick-bet" data-qb="blackjack" data-val="500">500</button>
+                  <button class="quick-bet" data-qb="blackjack" data-val="1000">1K</button>
+                  <button class="quick-bet" data-qb="blackjack" data-val="5000">5K</button>
+                </div>
+                <button class="game-action-btn" id="bjDealBtn">🃏 Раздать карты</button>
+              </div>
             </div>
-            <button class="game-action-btn" id="bjDealBtn">🃏 Раздать карты</button>
+
+            <div class="deposit-banner" id="depositBanner" style="display:none;">
+              <div class="deposit-banner-title">💸 Недостаточно средств</div>
+              <div class="deposit-banner-desc">Пополни баланс, чтобы продолжить игру</div>
+              <button class="btn-primary gold" data-deposit="1">⭐ Пополнить</button>
+            </div>
           </div>
         </div>
 
-        <!-- Deposit banner (hidden by default) -->
-        <div class="deposit-banner" id="depositBanner" style="display:none;">
-          <div class="deposit-banner-title">💸 Недостаточно средств</div>
-          <div class="deposit-banner-desc">Пополни баланс, чтобы продолжить игру</div>
-          <button class="btn-primary gold" data-deposit="1">⭐ Пополнить</button>
+        <!-- Section 3: Live bots -->
+        <div class="games-section" id="sectionBots">
+          <div class="bots-panel-full">
+            <div class="bots-section-title">🤖 Боты играют в реальном времени</div>
+            <div class="bots-list-full" id="botsListFull"></div>
+          </div>
         </div>
-      </div>
-      <div class="game-selector">
-        <button class="game-sel-btn active" data-game="plinko"><span>🎱</span>Плинко</button>
-        <button class="game-sel-btn" data-game="crash"><span>🚀</span>Краш</button>
-        <button class="game-sel-btn" data-game="mines"><span>💣</span>Мины</button>
-        <button class="game-sel-btn" data-game="dice"><span>🎲</span>Кубик</button>
-        <button class="game-sel-btn" data-game="tower"><span>🗼</span>Башня</button>
-        <button class="game-sel-btn" data-game="blackjack"><span>🃏</span>Блэкджек</button>
       </div>
     </div>
 
     <!-- PROFILE PAGE -->
     <div class="page" id="page-profile">
-      <div class="ticker-wrap" id="tickerWrapProfile">
-        <div class="ticker" id="tickerProfile"></div>
-      </div>
+      <div class="ticker-wrap" id="tickerWrapProfile"><div class="ticker" id="tickerProfile"></div></div>
       <div class="profile-tabs-nav">
         <button class="profile-tab-btn active" data-ptab="stats">📊 Стат.</button>
         <button class="profile-tab-btn" data-ptab="ref">🎁 Реф.</button>
@@ -581,7 +621,6 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
         <button class="profile-tab-btn" data-ptab="settings">⚙️ Настр.</button>
       </div>
       <div class="profile-scroll" id="profileScroll">
-        <!-- Stats panel -->
         <div class="profile-panel" data-panel="stats">
           <div class="profile-head">
             <div class="avatar" id="userAvatar">U</div>
@@ -591,8 +630,13 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
             </div>
           </div>
           <div class="stats-subtabs">
-            <button class="stats-subtab active" data-ssub="overview">Обзор</button>
-            <button class="stats-subtab" data-ssub="allgames">Все игры</button>
+            <button class="stats-subtab active" data-ssub="overview"><span>🏆</span>Обзор</button>
+            <button class="stats-subtab" data-ssub="plinko"><span class="ss-ic">🎱</span>Плинко</button>
+            <button class="stats-subtab" data-ssub="crash"><span class="ss-ic">🚀</span>Краш</button>
+            <button class="stats-subtab" data-ssub="mines"><span class="ss-ic">💣</span>Мины</button>
+            <button class="stats-subtab" data-ssub="dice"><span class="ss-ic">🎲</span>Кубик</button>
+            <button class="stats-subtab" data-ssub="tower"><span class="ss-ic">🗼</span>Башня</button>
+            <button class="stats-subtab" data-ssub="blackjack"><span class="ss-ic">🃏</span>BJ</button>
           </div>
           <div class="stats-subcontent active" data-sub="overview">
             <div class="card">
@@ -612,12 +656,14 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
               </div>
             </div>
           </div>
-          <div class="stats-subcontent" data-sub="allgames">
-            <div id="perGameStats"></div>
-          </div>
+          <div class="stats-subcontent" data-sub="plinko" id="statCardPlinko"></div>
+          <div class="stats-subcontent" data-sub="crash" id="statCardCrash"></div>
+          <div class="stats-subcontent" data-sub="mines" id="statCardMines"></div>
+          <div class="stats-subcontent" data-sub="dice" id="statCardDice"></div>
+          <div class="stats-subcontent" data-sub="tower" id="statCardTower"></div>
+          <div class="stats-subcontent" data-sub="blackjack" id="statCardBlackjack"></div>
         </div>
 
-        <!-- Referral panel -->
         <div class="profile-panel" data-panel="ref">
           <div class="ref-box">
             <div class="ref-title">🎁 Реферальная программа</div>
@@ -627,7 +673,6 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
           </div>
         </div>
 
-        <!-- Friends panel -->
         <div class="profile-panel" data-panel="friends">
           <div class="card">
             <div class="card-title"><span class="emoji">👥</span>Приглашённые друзья</div>
@@ -638,7 +683,6 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
           </div>
         </div>
 
-        <!-- Settings panel -->
         <div class="profile-panel" data-panel="settings">
           <div class="card">
             <div class="card-title"><span class="emoji">⚙️</span>Настройки</div>
@@ -682,6 +726,11 @@ button{font-family:inherit;border:none;cursor:pointer;background:none;color:inhe
 <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
 <div class="toast" id="toast"></div>
 <div class="effects-layer" id="effectsLayer"></div>
+<div class="bigwin-banner" id="bigwinBanner">
+  <div class="bigwin-banner-title" id="bigwinTitle">🎉 КРУПНЫЙ ВЫИГРЫШ!</div>
+  <div class="bigwin-banner-info" id="bigwinInfo">Плинко · x5.00</div>
+  <div class="bigwin-banner-amount" id="bigwinAmount">+500 ⭐</div>
+</div>
 
 <script>
 (function(){
@@ -718,14 +767,14 @@ function toast(msg, type){
 
 // ============ STATE ============
 var DEFAULT = {
-  balance: 1000, frozen: 0, pendingProfit: 0,
+  balance: 1000, frozen: 0, pendingProfit: 0, freezeStartTime: null,
   totalBank: 287432, goalLevel: 1,
   friends: 0, notif: true, notifAsked: false,
   userId: Math.floor(100000 + Math.random() * 900000),
   userName: 'Гость',
   cycleEnd: Date.now() + 6 * 3600 * 1000,
   games: {
-    plinko:    { total:0, won:0, incomeHistory:[0], multHist:new Array(11).fill(0), streak:[] },
+    plinko:    { total:0, won:0, incomeHistory:[0], multHist:new Array(15).fill(0), streak:[] },
     crash:     { total:0, won:0, incomeHistory:[0], multHist:[0,0,0,0,0,0,0,0], streak:[] },
     mines:     { total:0, won:0, incomeHistory:[0], multHist:new Array(25).fill(0), streak:[] },
     dice:      { total:0, won:0, incomeHistory:[0], multHist:new Array(10).fill(0), streak:[] },
@@ -734,7 +783,7 @@ var DEFAULT = {
   }
 };
 var stored = null;
-try { stored = JSON.parse(localStorage.getItem('starsbank_v4')); } catch(e){}
+try { stored = JSON.parse(localStorage.getItem('starsbank_v5')); } catch(e){}
 var state = stored || JSON.parse(JSON.stringify(DEFAULT));
 ['plinko','crash','mines','dice','tower','blackjack'].forEach(function(g){
   if (!state.games[g]) state.games[g] = JSON.parse(JSON.stringify(DEFAULT.games[g]));
@@ -744,6 +793,7 @@ var state = stored || JSON.parse(JSON.stringify(DEFAULT));
 });
 if (!state.cycleEnd) state.cycleEnd = Date.now() + 6 * 3600 * 1000;
 if (state.pendingProfit === undefined) state.pendingProfit = 0;
+if (state.freezeStartTime === undefined) state.freezeStartTime = null;
 
 try {
   if (window.Telegram && window.Telegram.WebApp) {
@@ -757,7 +807,7 @@ try {
   }
 } catch(e){}
 
-function save(){ try { localStorage.setItem('starsbank_v4', JSON.stringify(state)); } catch(e){} }
+function save(){ try { localStorage.setItem('starsbank_v5', JSON.stringify(state)); } catch(e){} }
 
 // ============ GAMES META ============
 var GAMES = {
@@ -769,44 +819,36 @@ var GAMES = {
   blackjack: { name:'Блэкджек', icon:'🃏', minBet:50 }
 };
 
-// ============ TICKER (synced) ============
+// ============ TICKER (только 10x+, только крупные победители) ============
 var tickerItems = [];
-var personalBanner = null; // {until: timestamp, text, game, amount}
+var personalBanner = null;
 var BOT_NAMES = ['Alex','Max','Kate','Neo','Luna','Jack','Mia','Leo','Zoe','Eva','Kai','Nina','Ivan','Sara','Tom','Ana','Bob','Kim','Dan','Sam','Ray','Joy','Ace','Sky','Ash','Kit','Rex','Lux','Zen','Ivy','Gem','Pax','Orin','Juno','Nyx','Kira','Finn','Nova','Mike','Lily'];
 function rndName(){ return BOT_NAMES[Math.floor(Math.random()*BOT_NAMES.length)] + Math.floor(Math.random()*999); }
-function rndGameKey(){
-  var keys = Object.keys(GAMES);
-  return keys[Math.floor(Math.random()*keys.length)];
-}
 
-function generateTickerItem(){
-  var gk = rndGameKey();
+function generateBigWinItem(){
+  var keys = Object.keys(GAMES);
+  var gk = keys[Math.floor(Math.random()*keys.length)];
   var g = GAMES[gk];
-  var bet = [50,100,200,500,1000,2000,5000][Math.floor(Math.random()*7)];
-  var win = Math.random() < 0.45;
-  var mult = win ? (1.5 + Math.random() * (gk==='crash'?40:10)) : 0;
+  var bet = [500,1000,2000,5000,10000][Math.floor(Math.random()*5)];
+  // Только крупные x10+
+  var mult = 10 + Math.random() * 90;
+  if (Math.random() < 0.3) mult = 10 + Math.random() * 20;
+  var amount = Math.floor(bet * mult - bet);
   return {
     id: Math.random().toString(36).slice(2),
     name: rndName(),
     gameKey: gk,
     game: g,
     bet: bet,
-    win: win,
-    amount: win ? Math.floor(bet * mult - bet) : -bet,
-    mult: mult,
-    big: win && mult >= 5
+    win: true,
+    amount: amount,
+    mult: mult
   };
-}
-
-function addTickerItem(item){
-  tickerItems.push(item);
-  if (tickerItems.length > 15) tickerItems.shift();
-  renderTicker();
 }
 
 function renderTicker(){
   var isPersonal = personalBanner && Date.now() < personalBanner.until;
-  ['tickerBank','tickerGames','tickerProfile'].forEach(function(id){
+  ['tickerBank','tickerProfile'].forEach(function(id){
     var el = $(id);
     if (!el) return;
     var wrap = el.parentElement;
@@ -830,39 +872,42 @@ function renderTicker(){
       el.style.setProperty('--ticker-dur', '20s');
     } else {
       wrap.classList.remove('personal');
-      var items = tickerItems.slice(-12);
+      var items = tickerItems.slice(-10);
       var html = '';
       items.forEach(function(it){
-        html += '<div class="ticker-card' + (it.big ? ' bigwin' : '') + '">' +
-          '<div class="ticker-avatar">' + it.name[0] + '</div>' +
+        html += '<div class="ticker-card">' +
+          '<div class="ticker-avatar">🏆</div>' +
           '<div class="ticker-info">' +
             '<div class="ticker-user">@' + it.name + '</div>' +
             '<div class="ticker-game">' + it.game.icon + ' ' + it.game.name + ' · ' + fmt(it.bet) + '⭐</div>' +
           '</div>' +
           '<div style="text-align:right">' +
-            '<div class="ticker-win">' + (it.win ? '+' + fmt(it.amount) : '-' + fmt(it.bet)) + '</div>' +
-            (it.win ? '<div class="ticker-mult">x' + it.mult.toFixed(2) + '</div>' : '<div class="ticker-mult" style="color:var(--red)">проигрыш</div>') +
+            '<div class="ticker-win">+' + fmt(it.amount) + '</div>' +
+            '<div class="ticker-mult">x' + it.mult.toFixed(2) + '</div>' +
           '</div></div>';
       });
+      // Дублируем для бесшовной прокрутки
       el.innerHTML = html + html;
-      var dur = Math.max(20, items.length * 3.75); // slower 1.5x
+      var dur = Math.max(30, items.length * 6);
       el.style.setProperty('--ticker-dur', dur + 's');
     }
   });
 }
 
-// Initial ticker
-for (var i = 0; i < 12; i++) tickerItems.push(generateTickerItem());
+// Initial ticker - только крупные
+for (var i = 0; i < 10; i++) tickerItems.push(generateBigWinItem());
 renderTicker();
 
-// Add new ticker items every 3.5s (slower)
+// Новые карточки добавляем редко (раз в 15 сек), и только когда не персональный баннер
 setInterval(function(){
   if (!personalBanner || Date.now() >= personalBanner.until) {
-    addTickerItem(generateTickerItem());
+    tickerItems.push(generateBigWinItem());
+    if (tickerItems.length > 20) tickerItems.shift();
+    renderTicker();
   }
-}, 3500);
+}, 15000);
 
-// Personal banner on big wins (x5+)
+// Персональный баннер при крупном выигрыше (x5+) в любой игре
 function showPersonalBanner(gameKey, amount, mult){
   personalBanner = {
     until: Date.now() + 5000,
@@ -880,29 +925,65 @@ function showPersonalBanner(gameKey, amount, mult){
   }, 5100);
 }
 
+// Большой баннер сверху в играх (x5+)
+var bigwinBannerTimeout = null;
+function showBigwinBanner(gameKey, amount, mult){
+  var banner = $('bigwinBanner');
+  $('bigwinTitle').textContent = '🎉 КРУПНЫЙ ВЫИГРЫШ!';
+  $('bigwinInfo').textContent = GAMES[gameKey].icon + ' ' + GAMES[gameKey].name + ' · x' + mult.toFixed(2);
+  $('bigwinAmount').textContent = '+' + fmt(amount) + ' ⭐';
+  banner.classList.add('show');
+  if (bigwinBannerTimeout) clearTimeout(bigwinBannerTimeout);
+  bigwinBannerTimeout = setTimeout(function(){
+    banner.classList.remove('show');
+  }, 4000);
+}
+
 // ============ UI ============
 function updateUI(){
   var bal = fmt(state.balance);
   $('hbalDisplayBank').textContent = bal;
   $('hbalDisplayGames').textContent = bal;
   $('totalBank').textContent = fmt(state.totalBank);
+
   var baseGoal = 1000000;
   var currentGoal = baseGoal * Math.pow(2, state.goalLevel - 1);
   var pct = Math.min(100, (state.totalBank / currentGoal) * 100);
-  $('progressFill').style.width = pct + '%';
-  $('progressPct').textContent = pct.toFixed(2) + '%';
+
+  // Если достигли 100% - показать "Цель достигнута"
+  if (pct >= 100) {
+    $('progressWrap').style.display = 'none';
+    $('goalAchieved').style.display = 'block';
+  } else {
+    $('progressWrap').style.display = 'block';
+    $('goalAchieved').style.display = 'none';
+    $('progressFill').style.width = pct + '%';
+    $('progressPct').textContent = pct.toFixed(2) + '%';
+  }
   $('goalValue').textContent = fmt(currentGoal) + ' ⭐';
   $('frozenAmount').textContent = fmt(state.frozen);
-  $('profitAmount').textContent = fmt(state.pendingProfit);
+
+  // ПРИБЫЛЬ: правильно отображаем
+  // pendingProfit - это накопленная прибыль (после цикла)
+  // potentialProfit - сколько получишь через 6ч (5% от frozen)
+  var potentialProfit = Math.floor(state.frozen * 0.05);
+  var profitPerHour = Math.floor(potentialProfit / 6);
+  var displayedProfit = state.pendingProfit > 0 ? state.pendingProfit : potentialProfit;
+
+  $('profitAmount').textContent = fmt(displayedProfit);
+  $('profitPerHour').textContent = fmt(profitPerHour);
+
   var cycleDone = Date.now() >= state.cycleEnd;
   var canUnfreeze = state.frozen > 0 && cycleDone;
   $('unfreezeBtn').disabled = !canUnfreeze;
   $('unfreezeBtn').textContent = canUnfreeze ? '💰 Забрать прибыль' : '💰 Забрать (после круга)';
-  if (cycleDone && state.totalBank >= currentGoal && state.goalLevel < 20) {
+
+  if (cycleDone && state.totalBank >= currentGoal && state.goalLevel < 20 && state.pendingProfit > 0) {
     state.goalLevel++;
     save();
     toast('🎉 Новый уровень ' + state.goalLevel, 'gold');
   }
+
   $('userName').textContent = state.userName;
   $('userId').textContent = state.userId;
   $('userAvatar').textContent = (state.userName[0] || 'U').toUpperCase();
@@ -933,7 +1014,6 @@ function updateUI(){
     el.style.color = pProfit >= 0 ? 'var(--green)' : 'var(--red)';
   }
 
-  // Check minimum bet and show deposit banner
   checkDepositBanner();
 }
 
@@ -947,7 +1027,6 @@ function checkDepositBanner(){
   } else {
     banner.style.display = 'none';
   }
-  // Disable game controls when low balance
   document.querySelectorAll('[data-game-ctrl]').forEach(function(ctrl){
     var game = ctrl.getAttribute('data-game-ctrl');
     if (state.balance < GAMES[game].minBet && game === currentGame) {
@@ -978,17 +1057,18 @@ function updateTimer(){
   $('timerValue').textContent = h + ':' + m + ':' + s;
 }
 setInterval(updateTimer, 1000); updateTimer();
-
 setInterval(function(){ state.totalBank += Math.floor(Math.random() * 500 + 100); save(); updateUI(); }, 30000);
 
 // ============ NAV ============
+var currentPage = 'bank';
 function switchPage(name){
+  currentPage = name;
   document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
   document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('active'); });
   $('page-' + name).classList.add('active');
   document.querySelector('.nav-btn[data-page="' + name + '"]').classList.add('active');
   if (name === 'games') {
-    setTimeout(function(){ initAllCanvases(); updateUI(); }, 50);
+    setTimeout(function(){ initAllCanvases(); updateUI(); scrollToSection(1); }, 50);
   }
   if (name === 'profile') setTimeout(drawProfileCharts, 50);
   haptic('selection');
@@ -997,11 +1077,28 @@ document.querySelectorAll('.nav-btn').forEach(function(btn){
   btn.addEventListener('click', function(e){ e.preventDefault(); switchPage(btn.getAttribute('data-page')); });
 });
 
-// Game selector (bottom)
+// Games scroll sections
+var gamesScroll = $('gamesScroll');
+function scrollToSection(idx){
+  var sections = gamesScroll.querySelectorAll('.games-section');
+  if (sections[idx]) sections[idx].scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// All-games tiles
+document.querySelectorAll('.all-game-tile').forEach(function(t){
+  t.addEventListener('click', function(e){
+    e.preventDefault();
+    switchGame(t.getAttribute('data-game'));
+    setTimeout(function(){ scrollToSection(1); }, 100);
+  });
+});
+
+// Game selector
 var currentGame = 'plinko';
 function switchGame(game){
   currentGame = game;
   document.querySelectorAll('.game-sel-btn').forEach(function(t){ t.classList.toggle('active', t.getAttribute('data-game') === game); });
+  document.querySelectorAll('.all-game-tile').forEach(function(t){ t.classList.toggle('active', t.getAttribute('data-game') === game); });
   document.querySelectorAll('.game-area').forEach(function(a){ a.classList.toggle('active', a.getAttribute('data-area') === game); });
   $('ghName').textContent = GAMES[game].name;
   $('ghIcon').textContent = GAMES[game].icon;
@@ -1027,7 +1124,11 @@ $('freezeBtn').addEventListener('click', function(e){
   state.balance -= selectedFreezeAmt;
   state.frozen += selectedFreezeAmt;
   state.totalBank += selectedFreezeAmt;
-  if (Date.now() >= state.cycleEnd && state.pendingProfit === 0) state.cycleEnd = Date.now() + 6 * 3600 * 1000;
+  if (!state.freezeStartTime) state.freezeStartTime = Date.now();
+  if (Date.now() >= state.cycleEnd && state.pendingProfit === 0) {
+    state.cycleEnd = Date.now() + 6 * 3600 * 1000;
+    state.freezeStartTime = Date.now();
+  }
   save(); updateUI();
   toast('❄️ Заморожено ' + fmt(selectedFreezeAmt) + ' ⭐', 'success');
 });
@@ -1038,8 +1139,7 @@ $('unfreezeBtn').addEventListener('click', function(e){
   state.balance += total;
   state.totalBank = Math.max(0, state.totalBank - state.frozen);
   toast('💰 +' + fmt(total) + ' ⭐', 'gold');
-  state.frozen = 0; state.pendingProfit = 0;
-  // Start new cycle
+  state.frozen = 0; state.pendingProfit = 0; state.freezeStartTime = null;
   state.cycleEnd = Date.now() + 6 * 3600 * 1000;
   save(); updateUI();
 });
@@ -1080,88 +1180,69 @@ document.querySelectorAll('.quick-bet').forEach(function(b){
   });
 });
 
-// ============ EFFECTS (Fireworks / Gold rain) ============
+// ============ EFFECTS: ТОЛЬКО ДОЖДЬ В ПЛИНКО ============
 var effectsLayer = $('effectsLayer');
 
-function spawnParticles(x, y, count, colors, spread, sizeRange, lifeRange){
-  for (var i = 0; i < count; i++) {
-    var p = document.createElement('div');
-    p.className = 'firework';
-    var size = sizeRange[0] + Math.random() * (sizeRange[1] - sizeRange[0]);
-    var color = colors[Math.floor(Math.random() * colors.length)];
-    p.style.width = size + 'px';
-    p.style.height = size + 'px';
-    p.style.background = color;
-    p.style.boxShadow = '0 0 ' + (size*2) + 'px ' + color;
-    p.style.left = x + 'px';
-    p.style.top = y + 'px';
-    effectsLayer.appendChild(p);
-    var angle = Math.random() * Math.PI * 2;
-    var speed = spread * (0.5 + Math.random() * 0.5);
-    var vx = Math.cos(angle) * speed;
-    var vy = Math.sin(angle) * speed - 2;
-    var life = lifeRange[0] + Math.random() * (lifeRange[1] - lifeRange[0]);
+function spawnRainDrop(color, delay, intensity){
+  setTimeout(function(){
+    var drop = document.createElement('div');
+    drop.className = 'rain-drop';
+    var x = Math.random() * window.innerWidth;
+    var size = 3 + Math.random() * 5 * intensity;
+    var length = 8 + Math.random() * 20 * intensity;
+    drop.style.left = x + 'px';
+    drop.style.top = '-20px';
+    drop.style.width = size + 'px';
+    drop.style.height = length + 'px';
+    drop.style.background = 'linear-gradient(180deg, transparent, ' + color + ', ' + color + ')';
+    drop.style.boxShadow = '0 0 ' + (size*2) + 'px ' + color;
+    drop.style.borderRadius = '2px';
+    effectsLayer.appendChild(drop);
+
+    var vy = 4 + Math.random() * 6 * intensity;
+    var life = 2000 + Math.random() * 1500;
     var startTime = Date.now();
+    var y = -20;
+
     (function animate(){
       var elapsed = Date.now() - startTime;
-      var progress = elapsed / life;
-      if (progress >= 1) { p.remove(); return; }
-      vx *= 0.98; vy += 0.15;
-      x += vx; y += vy;
-      p.style.left = x + 'px';
-      p.style.top = y + 'px';
-      p.style.opacity = 1 - progress;
+      if (elapsed > life || y > window.innerHeight + 50) { drop.remove(); return; }
+      y += vy;
+      vy += 0.2;
+      drop.style.top = y + 'px';
+      drop.style.opacity = Math.max(0, 1 - elapsed/life);
       requestAnimationFrame(animate);
     })();
+  }, delay);
+}
+
+function plinkoRain(level){
+  // level: 1.5, 3, 5, 10
+  var config;
+  if (level >= 10) {
+    // Очень большой золотой
+    config = { count: 100, colors: ['#fbbf24','#f59e0b','#fde68a','#ffd700','#fff'], intensity: 2.5, duration: 3000 };
+  } else if (level >= 5) {
+    // Большой красный
+    config = { count: 60, colors: ['#ef4444','#dc2626','#f87171','#b91c1c','#fecaca'], intensity: 1.8, duration: 2500 };
+  } else if (level >= 3) {
+    // Средний серебряный
+    config = { count: 40, colors: ['#e5e7eb','#d1d5db','#9ca3af','#f3f4f6','#cbd5e1'], intensity: 1.3, duration: 2000 };
+  } else {
+    // Слабый жёлтый
+    config = { count: 20, colors: ['#fbbf24','#fde68a','#fef3c7'], intensity: 0.8, duration: 1500 };
+  }
+  for (var i = 0; i < config.count; i++) {
+    var delay = Math.random() * config.duration;
+    var color = config.colors[Math.floor(Math.random() * config.colors.length)];
+    spawnRainDrop(color, delay, config.intensity);
   }
 }
 
-function goldRain(){
-  var w = window.innerWidth;
-  for (var i = 0; i < 30; i++) {
-    setTimeout(function(){
-      spawnParticles(Math.random() * w, -10, 1, ['#fbbf24','#f59e0b','#fde68a'], 3, [4,8], [1500,2500]);
-    }, i * 40);
-  }
-}
-
-function weakFirework(){
-  var cx = window.innerWidth / 2;
-  var cy = window.innerHeight / 2;
-  spawnParticles(cx, cy, 30, ['#8b5cf6','#a855f7','#fbbf24'], 6, [3,6], [800,1500]);
-}
-
-function mediumFirework(){
-  var cx = window.innerWidth / 2;
-  var cy = window.innerHeight / 2;
-  spawnParticles(cx, cy, 60, ['#10b981','#fbbf24','#8b5cf6','#ef4444'], 10, [4,8], [1000,2000]);
-  setTimeout(function(){ spawnParticles(cx - 80, cy - 50, 20, ['#fbbf24','#fde68a'], 6, [3,6], [800,1500]); }, 200);
-  setTimeout(function(){ spawnParticles(cx + 80, cy - 50, 20, ['#fbbf24','#fde68a'], 6, [3,6], [800,1500]); }, 400);
-}
-
-function strongFirework(){
-  var cx = window.innerWidth / 2;
-  var cy = window.innerHeight / 2;
-  for (var i = 0; i < 5; i++) {
-    setTimeout(function(){
-      var x = cx + (Math.random() - 0.5) * 200;
-      var y = cy + (Math.random() - 0.5) * 150;
-      spawnParticles(x, y, 80, ['#fbbf24','#f59e0b','#ef4444','#10b981','#8b5cf6','#fff'], 12, [4,10], [1200,2500]);
-    }, i * 250);
-  }
-  goldRain();
-}
-
-function celebrate(mult){
-  if (mult >= 10) strongFirework();
-  else if (mult >= 5) mediumFirework();
-  else if (mult >= 3) weakFirework();
-  else if (mult >= 1.5) goldRain();
-}
-
-// ============ PLINKO ============
-var PLINKO_MULTIPLIERS = [10, 5, 3, 1.5, 1, 0.5, 1, 1.5, 3, 5, 10];
-var PLINKO_COLORS = ['#8b5cf6','#a855f7','#c084fc','#fbbf24','#e5e7eb','#9ca3af','#e5e7eb','#fbbf24','#c084fc','#a855f7','#8b5cf6'];
+// ============ PLINKO с новыми множителями ============
+// 15 значений: 10, 5, 3, 1.5, 1, 0.75, 0.5, 0.25, 0.5, 0.75, 1, 1.5, 3, 5, 10
+var PLINKO_MULTIPLIERS = [10, 5, 3, 1.5, 1, 0.75, 0.5, 0.25, 0.5, 0.75, 1, 1.5, 3, 5, 10];
+var PLINKO_COLORS = ['#8b5cf6','#a855f7','#c084fc','#fbbf24','#e5e7eb','#9ca3af','#9ca3af','#ef4444','#9ca3af','#9ca3af','#e5e7eb','#fbbf24','#c084fc','#a855f7','#8b5cf6'];
 var plinkoCanvas = $('plinkoCanvas');
 var plinkoCtx = plinkoCanvas.getContext('2d');
 var pW = 0, pH = 0;
@@ -1184,10 +1265,11 @@ function initPlinko(){
   plinkoCanvas.height = pH * dpr;
   plinkoCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
   pins = [];
-  var rows = 10;
+  var rows = 12;
   var boardHeight = pH - slotHeight - 25;
   for (var r = 0; r < rows; r++) {
     var numPins = r + 3;
+    if (numPins > PLINKO_MULTIPLIERS.length) numPins = PLINKO_MULTIPLIERS.length;
     var gap = pW / (numPins + 1);
     var y = 25 + (r * boardHeight / rows);
     for (var p = 0; p < numPins; p++) {
@@ -1254,8 +1336,12 @@ function updatePlinkoPhysics(){
       if (profit > 0) {
         toast('🎱 x' + mult + ' +' + fmt(profit) + ' ⭐', 'gold');
         haptic('success');
-        celebrate(mult);
-        if (mult >= 5) showPersonalBanner('plinko', profit, mult);
+        // ТОЛЬКО в плинко: дождь в зависимости от коэффициента
+        if (mult >= 1.5) plinkoRain(mult);
+        if (mult >= 5) {
+          showPersonalBanner('plinko', profit, mult);
+          showBigwinBanner('plinko', profit, mult);
+        }
       } else if (profit < 0) {
         toast('🎱 x' + mult + ' ' + fmt(profit) + ' ⭐', 'error');
       } else {
@@ -1287,7 +1373,7 @@ function drawPlinko(){
     plinkoCtx.fillStyle = PLINKO_COLORS[i] + '33';
     plinkoCtx.fillRect(x, y, slotWidth, slotHeight);
     plinkoCtx.fillStyle = PLINKO_COLORS[i];
-    plinkoCtx.font = 'bold 10px sans-serif';
+    plinkoCtx.font = 'bold 9px sans-serif';
     plinkoCtx.textAlign = 'center';
     plinkoCtx.textBaseline = 'middle';
     plinkoCtx.fillText(PLINKO_MULTIPLIERS[i] + 'x', x + slotWidth / 2, y + slotHeight / 2);
@@ -1427,8 +1513,10 @@ $('crashBtn').addEventListener('click', function(e){
     $('crashStatus').textContent = '✅ Забрано на ' + crashMultiplier.toFixed(2) + 'x';
     toast('💰 +' + fmt(profit) + ' ⭐', 'gold');
     haptic('success');
-    celebrate(crashMultiplier);
-    if (crashMultiplier >= 5) showPersonalBanner('crash', profit, crashMultiplier);
+    if (crashMultiplier >= 5) {
+      showPersonalBanner('crash', profit, crashMultiplier);
+      showBigwinBanner('crash', profit, crashMultiplier);
+    }
     startCrashCooldown(resetCrashUI);
     return;
   }
@@ -1631,8 +1719,10 @@ function cashoutMines(){
   save(); updateUI();
   toast('💰 +' + fmt(profit) + ' ⭐', 'gold');
   haptic('success');
-  celebrate(minesMultiplier);
-  if (minesMultiplier >= 5) showPersonalBanner('mines', profit, minesMultiplier);
+  if (minesMultiplier >= 5) {
+    showPersonalBanner('mines', profit, minesMultiplier);
+    showBigwinBanner('mines', profit, minesMultiplier);
+  }
   $('minesGrid').querySelectorAll('.mine-cell').forEach(function(c, i){
     if (minesGrid[i]) { c.classList.add('mine'); c.textContent = '💣'; }
   });
@@ -1648,10 +1738,10 @@ $('minesBtn').addEventListener('click', function(e){
   else if (minesState === 'playing') cashoutMines();
 });
 
-// ============ DICE with drag ============
+// ============ DICE ============
 var diceState = 'idle';
 var diceTarget = 50;
-var diceDirection = 'below'; // below or above
+var diceDirection = 'below';
 
 function updateDiceUI(){
   $('diceFill').style.width = diceTarget + '%';
@@ -1665,10 +1755,9 @@ function updateDiceUI(){
   mult = chance > 0 ? (99 / chance) : 0;
   $('diceProb').textContent = chance.toFixed(1) + '%';
   $('diceMult').textContent = mult.toFixed(2) + 'x';
-  $('diceTarget').textContent = diceTarget;
+  $('diceTargetDisplay').textContent = diceTarget;
 }
 
-// Drag slider
 var diceSlider = $('diceSlider');
 var diceDragging = false;
 
@@ -1728,8 +1817,10 @@ function rollDice(direction){
     gs.won++;
     toast('🎲 Выигрыш +' + fmt(profit) + ' ⭐', 'gold');
     haptic('success');
-    celebrate(mult);
-    if (mult >= 5) showPersonalBanner('dice', profit, mult);
+    if (mult >= 5) {
+      showPersonalBanner('dice', profit, mult);
+      showBigwinBanner('dice', profit, mult);
+    }
   } else {
     profit = -bet;
     toast('🎲 ' + roll.toFixed(2) + ' проигрыш', 'error');
@@ -1747,7 +1838,7 @@ $('diceRollBelow').addEventListener('click', function(e){ e.preventDefault(); ro
 $('diceRollAbove').addEventListener('click', function(e){ e.preventDefault(); rollDice('above'); });
 updateDiceUI();
 
-// ============ TOWER (FIXED) ============
+// ============ TOWER ============
 var TOWER_ROWS = 8;
 var towerState = 'idle', towerDiff = 'easy', towerBet = 0, towerRow = -1;
 var towerGrid = [], towerMultiplier = 1;
@@ -1765,7 +1856,6 @@ function towerCalcMult(row, d){
   var safe = 3 - skulls;
   var mult = 1;
   for (var i = 0; i <= row; i++) mult *= 3 / safe;
-  // Бонус для сложного режима
   if (d === 'hard') mult *= 1.3;
   else if (d === 'medium') mult *= 1.1;
   return mult * 0.99;
@@ -1862,8 +1952,10 @@ function cashoutTower(){
   save(); updateUI();
   toast('💰 +' + fmt(profit) + ' ⭐', 'gold');
   haptic('success');
-  celebrate(towerMultiplier);
-  if (towerMultiplier >= 5) showPersonalBanner('tower', profit, towerMultiplier);
+  if (towerMultiplier >= 5) {
+    showPersonalBanner('tower', profit, towerMultiplier);
+    showBigwinBanner('tower', profit, towerMultiplier);
+  }
   towerState = 'ended';
   renderTower();
   $('towerBtn').textContent = '🗼 Начать восхождение';
@@ -1876,7 +1968,7 @@ $('towerBtn').addEventListener('click', function(e){
   else if (towerState === 'playing') cashoutTower();
 });
 
-// ============ BLACKJACK (animated, no bots, keep final screen) ============
+// ============ BLACKJACK ============
 var SUITS = ['♠','♥','♦','♣'];
 var RANKS = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
 var bjState = 'idle';
@@ -1884,7 +1976,6 @@ var bjDeck = [];
 var bjDealerHand = [];
 var bjPlayerHand = [];
 var bjBet = 0;
-var bjLastResult = null;
 
 function createDeck(n){
   var deck = [];
@@ -1921,12 +2012,12 @@ function cardHTML(card, hidden, delay){
   return '<div class="bj-card ' + (red ? 'red' : '') + '" style="animation-delay:' + delay + 's"><div class="rank">' + card.rank + '</div><div class="suit">' + card.suit + '</div></div>';
 }
 
-function renderBJ(animate){
+function renderBJ(){
   var dh = $('bjDealerHand');
   dh.innerHTML = '';
   bjDealerHand.forEach(function(c, i){
-    if (i === 1 && bjState === 'playing') dh.innerHTML += cardHTML(c, true, animate ? i * 0.3 : 0);
-    else dh.innerHTML += cardHTML(c, false, animate ? i * 0.3 : 0);
+    if (i === 1 && bjState === 'playing') dh.innerHTML += cardHTML(c, true, i * 0.3);
+    else dh.innerHTML += cardHTML(c, false, i * 0.3);
   });
   var dScore = bjState === 'playing' && bjDealerHand.length >= 2 ? bjDealerHand[0].value : handValue(bjDealerHand);
   if (bjState === 'playing' && bjDealerHand.length >= 2 && bjDealerHand[0].rank === 'A') dScore = 11;
@@ -1934,7 +2025,7 @@ function renderBJ(animate){
   var ph = $('bjPlayerHand');
   ph.innerHTML = '';
   bjPlayerHand.forEach(function(c, i){
-    ph.innerHTML += cardHTML(c, false, animate ? i * 0.3 : 0);
+    ph.innerHTML += cardHTML(c, false, i * 0.3);
   });
   $('bjPlayerScore').textContent = bjState === 'idle' && bjPlayerHand.length === 0 ? '0' : handValue(bjPlayerHand);
   $('bjPlayerBet').textContent = bjState === 'idle' && bjBet === 0 ? '0' : fmt(bjBet);
@@ -1951,13 +2042,11 @@ function showBJResult(type, text){
   banner.className = 'bj-result-banner ' + type;
   banner.textContent = text;
   $('bjTable').appendChild(banner);
-  bjLastResult = { type: type, text: text };
 }
 
 function clearBJResult(){
   var existing = document.querySelector('.bj-result-banner');
   if (existing) existing.remove();
-  bjLastResult = null;
 }
 
 function dealBJ(){
@@ -1972,15 +2061,14 @@ function dealBJ(){
   bjDealerHand = [];
   bjPlayerHand = [];
   bjState = 'dealing';
-  renderBJ(false);
-  // Animated deal
-  setTimeout(function(){ bjPlayerHand.push(bjDeck.pop()); renderBJ(false); }, 200);
-  setTimeout(function(){ bjDealerHand.push(bjDeck.pop()); renderBJ(false); }, 600);
-  setTimeout(function(){ bjPlayerHand.push(bjDeck.pop()); renderBJ(false); }, 1000);
+  renderBJ();
+  setTimeout(function(){ bjPlayerHand.push(bjDeck.pop()); renderBJ(); }, 200);
+  setTimeout(function(){ bjDealerHand.push(bjDeck.pop()); renderBJ(); }, 600);
+  setTimeout(function(){ bjPlayerHand.push(bjDeck.pop()); renderBJ(); }, 1000);
   setTimeout(function(){
     bjDealerHand.push(bjDeck.pop());
     bjState = 'playing';
-    renderBJ(false);
+    renderBJ();
     if (isBlackjack(bjPlayerHand)) {
       setTimeout(standBJ, 800);
     }
@@ -1996,7 +2084,7 @@ function hitBJ(double){
     save(); updateUI();
   }
   bjPlayerHand.push(bjDeck.pop());
-  renderBJ(false);
+  renderBJ();
   if (handValue(bjPlayerHand) > 21) {
     setTimeout(finishBJ, 800);
   } else if (double) {
@@ -2007,11 +2095,11 @@ function hitBJ(double){
 function standBJ(){
   if (bjState !== 'playing') return;
   bjState = 'dealer';
-  renderBJ(false);
+  renderBJ();
   function dealerDraw(){
     if (handValue(bjDealerHand) < 17) {
       bjDealerHand.push(bjDeck.pop());
-      renderBJ(false);
+      renderBJ();
       setTimeout(dealerDraw, 600);
     } else {
       setTimeout(finishBJ, 700);
@@ -2077,24 +2165,57 @@ function finishBJ(){
   gs.streak.push(profit);
   if (gs.streak.length > 50) gs.streak.shift();
   save(); updateUI();
-  renderBJ(false);
+  renderBJ();
   showBJResult(resultType, resultText);
   if (profit > 0) {
     toast('🃏 +' + fmt(profit) + ' ⭐', 'gold');
-    celebrate(mult);
-    if (mult >= 5) showPersonalBanner('blackjack', profit, mult);
+    if (mult >= 5) {
+      showPersonalBanner('blackjack', profit, mult);
+      showBigwinBanner('blackjack', profit, mult);
+    }
   } else if (profit < 0) {
     toast('🃏 -' + fmt(bjBet) + ' ⭐', 'error');
   } else {
     toast('🃏 Ничья', '');
   }
-  // Keep final screen until user clicks "Раздать" again
 }
 
 $('bjDealBtn').addEventListener('click', function(e){ e.preventDefault(); dealBJ(); });
 $('bjHit').addEventListener('click', function(e){ e.preventDefault(); hitBJ(false); });
 $('bjStand').addEventListener('click', function(e){ e.preventDefault(); standBJ(); });
 $('bjDouble').addEventListener('click', function(e){ e.preventDefault(); hitBJ(true); });
+
+// ============ BOTS LIVE ============
+var botsFull = [];
+function addBotFull(game, name, bet, win, amount){
+  botsFull.unshift({game:game, name:name, bet:bet, win:win, amount:amount, time:Date.now()});
+  if (botsFull.length > 50) botsFull.pop();
+  renderBotsFull();
+}
+function renderBotsFull(){
+  var el = $('botsListFull');
+  if (!el) return;
+  var gameNames = {plinko:'🎱 Плинко',crash:'🚀 Краш',mines:'💣 Мины',dice:'🎲 Кубик',tower:'🗼 Башня',blackjack:'🃏 Блэкджек'};
+  el.innerHTML = '';
+  botsFull.slice(0, 30).forEach(function(b){
+    var item = document.createElement('div');
+    item.className = 'bot-item';
+    item.innerHTML = '<div class="bot-avatar">' + b.name[0] + '</div>' +
+      '<div class="bot-name">' + b.name + '</div>' +
+      '<div class="bot-bet">' + gameNames[b.game] + ' · ' + fmt(b.bet) + '⭐</div>' +
+      '<div class="bot-result ' + (b.win?'win':'lose') + '">' + (b.amount>=0?'+':'') + fmt(b.amount) + '</div>';
+    el.appendChild(item);
+  });
+}
+setInterval(function(){
+  var games = ['plinko','crash','mines','dice','tower','blackjack'];
+  var g = games[Math.floor(Math.random()*games.length)];
+  var bet = [50,100,200,500,1000,2000][Math.floor(Math.random()*6)];
+  var win = Math.random() < 0.44;
+  var mult = win ? (1.5 + Math.random() * 8) : 0;
+  var amt = win ? Math.floor(bet * mult - bet) : -bet;
+  addBotFull(g, rndName(), bet, win, amt);
+}, 2000);
 
 // ============ INIT ============
 function initAllCanvases(){
@@ -2105,79 +2226,85 @@ function initAllCanvases(){
 // ============ PROFILE CHARTS ============
 function drawProfileCharts(){
   var c = $('profIncomeChart');
-  if (!c) return;
-  var cx = c.getContext('2d');
-  var w = c.clientWidth, h = c.clientHeight;
-  if (w === 0) return;
-  c.width = w * dpr; c.height = h * dpr;
-  cx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  cx.clearRect(0, 0, w, h);
-  var combined = [];
-  var maxLen = 0;
-  ['plinko','crash','mines','dice','tower','blackjack'].forEach(function(g){
-    var len = state.games[g].incomeHistory.length;
-    if (len > maxLen) maxLen = len;
-  });
-  for (var i = 0; i < maxLen; i++) {
-    var sum = 0;
-    ['plinko','crash','mines','dice','tower','blackjack'].forEach(function(g){
-      var arr = state.games[g].incomeHistory;
-      sum += arr[Math.min(i, arr.length - 1)] || 0;
-    });
-    combined.push(sum);
-  }
-  if (combined.length < 2) {
-    cx.fillStyle = '#9ca3af'; cx.font = '11px sans-serif'; cx.textAlign = 'center';
-    cx.fillText('Нет данных', w / 2, h / 2);
-  } else {
-    var max = Math.max.apply(null, combined);
-    var min = Math.min.apply(null, combined);
-    var range = max - min || 1;
-    cx.beginPath();
-    combined.forEach(function(v, i){
-      var x = (i / (combined.length - 1)) * w;
-      var y = h - ((v - min) / range) * (h - 10) - 5;
-      if (i === 0) cx.moveTo(x, y); else cx.lineTo(x, y);
-    });
-    cx.strokeStyle = '#fbbf24'; cx.lineWidth = 2; cx.stroke();
-    cx.lineTo(w, h); cx.lineTo(0, h); cx.closePath();
-    var grad = cx.createLinearGradient(0, 0, 0, h);
-    grad.addColorStop(0, 'rgba(251,191,36,.3)');
-    grad.addColorStop(1, 'rgba(139,92,246,.3)');
-    cx.fillStyle = grad; cx.globalAlpha = 0.3; cx.fill(); cx.globalAlpha = 1;
+  if (c) {
+    var cx = c.getContext('2d');
+    var w = c.clientWidth, h = c.clientHeight;
+    if (w !== 0) {
+      c.width = w * dpr; c.height = h * dpr;
+      cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cx.clearRect(0, 0, w, h);
+      var combined = [];
+      var maxLen = 0;
+      ['plinko','crash','mines','dice','tower','blackjack'].forEach(function(g){
+        var len = state.games[g].incomeHistory.length;
+        if (len > maxLen) maxLen = len;
+      });
+      for (var i = 0; i < maxLen; i++) {
+        var sum = 0;
+        ['plinko','crash','mines','dice','tower','blackjack'].forEach(function(g){
+          var arr = state.games[g].incomeHistory;
+          sum += arr[Math.min(i, arr.length - 1)] || 0;
+        });
+        combined.push(sum);
+      }
+      if (combined.length < 2) {
+        cx.fillStyle = '#9ca3af'; cx.font = '11px sans-serif'; cx.textAlign = 'center';
+        cx.fillText('Нет данных', w / 2, h / 2);
+      } else {
+        var max = Math.max.apply(null, combined);
+        var min = Math.min.apply(null, combined);
+        var range = max - min || 1;
+        cx.beginPath();
+        combined.forEach(function(v, i){
+          var x = (i / (combined.length - 1)) * w;
+          var y = h - ((v - min) / range) * (h - 10) - 5;
+          if (i === 0) cx.moveTo(x, y); else cx.lineTo(x, y);
+        });
+        cx.strokeStyle = '#fbbf24'; cx.lineWidth = 2; cx.stroke();
+        cx.lineTo(w, h); cx.lineTo(0, h); cx.closePath();
+        var grad = cx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, 'rgba(251,191,36,.3)');
+        grad.addColorStop(1, 'rgba(139,92,246,.3)');
+        cx.fillStyle = grad; cx.globalAlpha = 0.3; cx.fill(); cx.globalAlpha = 1;
+      }
+    }
   }
   var c2 = $('profGamesChart');
-  if (!c2) return;
-  var cx2 = c2.getContext('2d');
-  var w2 = c2.clientWidth, h2 = c2.clientHeight;
-  c2.width = w2 * dpr; c2.height = h2 * dpr;
-  cx2.setTransform(dpr, 0, 0, dpr, 0, 0);
-  cx2.clearRect(0, 0, w2, h2);
+  if (c2) {
+    var cx2 = c2.getContext('2d');
+    var w2 = c2.clientWidth, h2 = c2.clientHeight;
+    if (w2 !== 0) {
+      c2.width = w2 * dpr; c2.height = h2 * dpr;
+      cx2.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cx2.clearRect(0, 0, w2, h2);
+      var games = ['plinko','crash','mines','dice','tower','blackjack'];
+      var labels = ['Плинко','Краш','Мины','Кубик','Башня','BJ'];
+      var colors = ['#8b5cf6','#fbbf24','#10b981','#ef4444','#a855f7','#3b82f6'];
+      var counts = games.map(function(g){ return state.games[g].total; });
+      var max2 = Math.max.apply(null, counts) || 1;
+      var bw = (w2 - 20) / games.length;
+      counts.forEach(function(count, i){
+        var bh = (count / max2) * (h2 - 24);
+        var x = 10 + i * bw, y = h2 - 14 - bh;
+        cx2.fillStyle = colors[i]; cx2.globalAlpha = 0.85;
+        cx2.fillRect(x + 2, y, bw - 4, bh); cx2.globalAlpha = 1;
+        if (count > 0) { cx2.fillStyle = '#fff'; cx2.font = 'bold 8px sans-serif'; cx2.textAlign = 'center'; cx2.fillText(count, x + bw/2, y - 3); }
+        cx2.fillStyle = '#9ca3af'; cx2.font = '8px sans-serif'; cx2.fillText(labels[i], x + bw/2, h2 - 4);
+      });
+    }
+  }
+  // Per-game cards
   var games = ['plinko','crash','mines','dice','tower','blackjack'];
   var labels = ['Плинко','Краш','Мины','Кубик','Башня','Блэкджек'];
-  var colors = ['#8b5cf6','#fbbf24','#10b981','#ef4444','#a855f7','#3b82f6'];
-  var counts = games.map(function(g){ return state.games[g].total; });
-  var max2 = Math.max.apply(null, counts) || 1;
-  var bw = (w2 - 20) / games.length;
-  counts.forEach(function(count, i){
-    var bh = (count / max2) * (h2 - 24);
-    var x = 10 + i * bw, y = h2 - 14 - bh;
-    cx2.fillStyle = colors[i]; cx2.globalAlpha = 0.85;
-    cx2.fillRect(x + 2, y, bw - 4, bh); cx2.globalAlpha = 1;
-    if (count > 0) { cx2.fillStyle = '#fff'; cx2.font = 'bold 8px sans-serif'; cx2.textAlign = 'center'; cx2.fillText(count, x + bw/2, y - 3); }
-    cx2.fillStyle = '#9ca3af'; cx2.font = '8px sans-serif'; cx2.fillText(labels[i], x + bw/2, h2 - 4);
-  });
-  // Per-game
-  var container = $('perGameStats');
-  if (!container) return;
-  container.innerHTML = '';
+  var icons = ['🎱','🚀','💣','🎲','🗼','🃏'];
   games.forEach(function(g, i){
+    var container = $('statCard' + g.charAt(0).toUpperCase() + g.slice(1));
+    if (!container) return;
     var gs = state.games[g];
     var rate = gs.total > 0 ? ((gs.won / gs.total) * 100).toFixed(1) : '0.0';
     var last = gs.incomeHistory[gs.incomeHistory.length - 1] || 0;
-    var card = document.createElement('div');
-    card.className = 'game-stat-card';
-    card.innerHTML = '<div class="game-stat-head"><div class="game-stat-icon">' + ['🎱','🚀','💣','🎲','🗼','🃏'][i] + '</div><div class="game-stat-name">' + labels[i] + '</div></div>' +
+    container.innerHTML = '<div class="game-stat-card">' +
+      '<div class="game-stat-head"><div class="game-stat-icon">' + icons[i] + '</div><div class="game-stat-name">' + labels[i] + '</div></div>' +
       '<div class="stats-grid">' +
         '<div class="gstat"><div class="lbl">Всего</div><div class="val">' + gs.total + '</div></div>' +
         '<div class="gstat"><div class="lbl">Побед</div><div class="val" style="color:var(--green)">' + gs.won + '</div></div>' +
@@ -2186,8 +2313,7 @@ function drawProfileCharts(){
       '<div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px;">' +
         '<span style="color:var(--text-dim)">Профит:</span>' +
         '<span style="color:' + (last >= 0 ? 'var(--green)' : 'var(--red)') + ';font-weight:700">' + (last >= 0 ? '+' : '') + fmt(last) + ' ⭐</span>' +
-      '</div>';
-    container.appendChild(card);
+      '</div></div>';
   });
 }
 
@@ -2212,7 +2338,7 @@ profileScroll.addEventListener('scroll', function(){
   if (idx === 0) setTimeout(drawProfileCharts, 50);
 });
 
-// Profile stats subtabs
+// Stats subtabs (per game)
 document.querySelectorAll('.stats-subtab').forEach(function(b){
   b.addEventListener('click', function(e){
     e.preventDefault();
@@ -2222,7 +2348,7 @@ document.querySelectorAll('.stats-subtab').forEach(function(b){
     var sub = b.getAttribute('data-ssub');
     var el = document.querySelector('.stats-subcontent[data-sub="' + sub + '"]');
     if (el) el.classList.add('active');
-    if (sub === 'allgames') setTimeout(drawProfileCharts, 50);
+    setTimeout(drawProfileCharts, 50);
   });
 });
 
@@ -2306,7 +2432,6 @@ function openModal(type){
 }
 function closeModal(){ $('modalOverlay').classList.remove('show'); }
 
-// Deposit/withdraw buttons (delegated)
 document.addEventListener('click', function(e){
   var t = e.target;
   if (t.closest('[data-deposit]')) { e.preventDefault(); openModal('deposit'); }
@@ -2320,7 +2445,6 @@ $('modalOverlay').addEventListener('click', function(e){ if (e.target === $('mod
 $('menuNotif').addEventListener('click', function(e){
   e.preventDefault();
   if (!state.notif) {
-    // Turning on - request permission
     state.notif = true;
     save(); updateUI();
     if ('Notification' in window) {
@@ -2333,7 +2457,6 @@ $('menuNotif').addEventListener('click', function(e){
               toast('🔔 Уведомления разрешены', 'success');
               state.notifAsked = true;
               save();
-              // Test notification
               try { new Notification('🔔 Stars Bank', { body: 'Уведомления работают!' }); } catch(ex){}
             } else {
               toast('❌ Разрешение не получено', 'error');
@@ -2347,7 +2470,6 @@ $('menuNotif').addEventListener('click', function(e){
           save(); updateUI();
         }
       } else {
-        // Already denied - show instructions
         toast('⚠️ Разрешение заблокировано. Открой настройки Safari', 'error');
         state.notif = false;
         save(); updateUI();
@@ -2367,7 +2489,7 @@ $('menuNotif').addEventListener('click', function(e){
 $('menuReset').addEventListener('click', function(e){
   e.preventDefault();
   if (!confirm('Сбросить все данные?')) return;
-  try { localStorage.removeItem('starsbank_v4'); } catch(ex){}
+  try { localStorage.removeItem('starsbank_v5'); } catch(ex){}
   state = JSON.parse(JSON.stringify(DEFAULT));
   state.userId = Math.floor(100000 + Math.random() * 900000);
   state.cycleEnd = Date.now() + 6 * 3600 * 1000;
@@ -2395,7 +2517,7 @@ window.addEventListener('load', function(){
   updateUI();
   renderMines();
   renderTower();
-  renderBJ(false);
+  renderBJ();
   setTimeout(function(){ initAllCanvases(); }, 100);
   plinkoLoop();
 });
@@ -2414,3 +2536,5 @@ try {
 </script>
 </body>
 </html>
+
+Добавь в код систему шифрования этого кода, где частые обозначения функций констант и переменных будут заменены эмодзи 
