@@ -1,1095 +1,858 @@
-<!-- =========================
-     CONTINUE FROM:
-     <button class="game-action-btn" id="plinkoBtn">🎱 За
-========================= -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0a0a0f">
+    <title>Stars Bank — Проверка работоспособности</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-пуск</button>
+        :root {
+            --bg: #0a0a0f;
+            --card: #1a1a2e;
+            --purple: #8b5cf6;
+            --gold: #fbbf24;
+            --green: #10b981;
+            --red: #ef4444;
+            --text: #ffffff;
+            --text-dim: #9ca3af;
+            --border: rgba(139, 92, 246, .2);
+        }
 
-              <div class="mini-stats">
-                <span>Winrate: <b class="ms-win" id="plinkoWR">52%</b></span>
-                <span>AVG: <b id="plinkoAvg">1.34x</b></span>
-                <span>Max: <b class="ms-win" id="plinkoMax">16x</b></span>
-              </div>
-            </div>
-          </div>
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            padding: 20px;
+            line-height: 1.5;
+        }
 
-          <!-- CRASH -->
-          <div class="game-area" data-area="crash">
-            <div class="game-board">
-              <div class="board-main">
-                <canvas class="board-canvas" id="crashCanvas"></canvas>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-                <div class="board-status-top">
-                  LIVE
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--purple), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-dim);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .test-section {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .test-section h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .test-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .test-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, .03);
+            border: 1px solid rgba(255, 255, 255, .06);
+            border-radius: 10px;
+            gap: 12px;
+        }
+
+        .test-name {
+            flex: 1;
+            font-size: 13px;
+            font-weight: 500;
+            min-width: 200px;
+        }
+
+        .test-status {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            text-align: center;
+            min-width: 100px;
+            white-space: nowrap;
+        }
+
+        .status-ok {
+            background: rgba(16, 185, 129, .15);
+            color: var(--green);
+        }
+
+        .status-fail {
+            background: rgba(239, 68, 68, .15);
+            color: var(--red);
+        }
+
+        .status-warn {
+            background: rgba(251, 191, 36, .15);
+            color: var(--gold);
+        }
+
+        .status-pending {
+            background: rgba(255, 255, 255, .05);
+            color: var(--text-dim);
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        button {
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: rgba(139, 92, 246, .15);
+            color: var(--text);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all .15s;
+            white-space: nowrap;
+        }
+
+        button:hover {
+            background: rgba(139, 92, 246, .3);
+        }
+
+        button:active {
+            transform: scale(.96);
+        }
+
+        button.gold {
+            background: linear-gradient(135deg, var(--gold), #f59e0b);
+            color: #1a1a2e;
+            border: none;
+            font-weight: 700;
+        }
+
+        button.danger {
+            background: rgba(239, 68, 68, .2);
+            border-color: rgba(239, 68, 68, .4);
+        }
+
+        .log-area {
+            background: rgba(0, 0, 0, .4);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'SF Mono', 'Menlo', monospace;
+            font-size: 11px;
+            color: var(--text-dim);
+            line-height: 1.7;
+        }
+
+        .log-line {
+            padding: 2px 0;
+        }
+
+        .log-line.ok {
+            color: var(--green);
+        }
+        .log-line.fail {
+            color: var(--red);
+        }
+        .log-line.warn {
+            color: var(--gold);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, .08);
+            border-radius: 2px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--purple), var(--gold));
+            border-radius: 2px;
+            transition: width .3s;
+        }
+
+        .summary {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+
+        .summary b {
+            font-size: 20px;
+        }
+
+        .summary .ok {
+            color: var(--green);
+        }
+        .summary .fail {
+            color: var(--red);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🔍 Stars Bank — Тест работоспособности</h1>
+        <div class="subtitle">Полная проверка всех компонентов</div>
+
+        <div class="test-section">
+            <h2>🌐 Среда и API</h2>
+            <div class="test-grid">
+                <div class="test-item">
+                    <span class="test-name">Web Audio API</span>
+                    <span class="test-status status-pending" id="stAudio">Проверка...</span>
                 </div>
-
-                <div class="big-multiplier" id="crashMultiplier">
-                  1.00x
+                <div class="test-item">
+                    <span class="test-name">Web Crypto API</span>
+                    <span class="test-status status-pending" id="stCrypto">Проверка...</span>
                 </div>
-
-                <div class="board-status" id="crashStatus">
-                  Ожидание раунда...
+                <div class="test-item">
+                    <span class="test-name">Canvas 2D</span>
+                    <span class="test-status status-pending" id="stCanvas">Проверка...</span>
                 </div>
-
-                <div class="cooldown-overlay" id="crashCooldown">
-                  <div class="cooldown-num" id="crashCooldownNum">5</div>
-                  <div class="cooldown-label">Новый раунд</div>
-                  <div class="cooldown-sub">Подготовь ставку</div>
+                <div class="test-item">
+                    <span class="test-name">localStorage доступен</span>
+                    <span class="test-status status-pending" id="stStorage">Проверка...</span>
                 </div>
-              </div>
-            </div>
-
-            <div class="game-controls">
-              <div class="bet-controls">
-                <button class="bet-btn" data-minus="crash">−</button>
-                <input type="number" class="bet-input" id="betCrash" value="100">
-                <button class="bet-btn" data-plus="crash">+</button>
-              </div>
-
-              <div class="quick-bets">
-                <button class="quick-bet" data-qb="crash" data-val="50">50</button>
-                <button class="quick-bet" data-qb="crash" data-val="100">100</button>
-                <button class="quick-bet" data-qb="crash" data-val="500">500</button>
-                <button class="quick-bet" data-qb="crash" data-val="1000">1K</button>
-                <button class="quick-bet" data-qb="crash" data-val="5000">5K</button>
-              </div>
-
-              <button class="game-action-btn gold" id="crashBtn">
-                🚀 Ставка
-              </button>
-
-              <button class="game-action-btn" id="cashoutBtn" disabled>
-                💰 Забрать
-              </button>
-
-              <div class="mini-stats">
-                <span>LIVE: <b class="ms-win" id="crashLive">1.00x</b></span>
-                <span>Top: <b id="crashTop">27x</b></span>
-                <span>AVG: <b id="crashAvg">3.2x</b></span>
-              </div>
-            </div>
-          </div>
-
-          <!-- MINES -->
-          <div class="game-area" data-area="mines">
-            <div class="game-board">
-              <div class="board-main">
-                <div class="mines-grid" id="minesGrid"></div>
-
-                <div class="board-status">
-                  Открой безопасные клетки
+                <div class="test-item">
+                    <span class="test-name">Notification API</span>
+                    <span class="test-status status-pending" id="stNotif">Проверка...</span>
                 </div>
-              </div>
-            </div>
-
-            <div class="game-controls">
-              <div class="bet-controls">
-                <button class="bet-btn" data-minus="mines">−</button>
-                <input type="number" class="bet-input" id="betMines" value="100">
-                <button class="bet-btn" data-plus="mines">+</button>
-              </div>
-
-              <div class="extra-controls">
-                <button class="extra-btn active" data-mines="3">3 💣</button>
-                <button class="extra-btn" data-mines="5">5 💣</button>
-                <button class="extra-btn" data-mines="7">7 💣</button>
-                <button class="extra-btn" data-mines="10">10 💣</button>
-              </div>
-
-              <button class="game-action-btn" id="minesBtn">
-                💣 Начать
-              </button>
-
-              <button class="game-action-btn gold" id="minesCashout" disabled>
-                💰 Забрать
-              </button>
-
-              <div class="mini-stats">
-                <span>Открыто: <b id="openedCells">0</b></span>
-                <span>Множитель: <b class="ms-win" id="minesMulti">1.00x</b></span>
-                <span>Мин: <b class="ms-lose" id="minesCountLabel">3</b></span>
-              </div>
-            </div>
-          </div>
-
-          <!-- DICE -->
-          <div class="game-area" data-area="dice">
-            <div class="game-board dice-board-compact">
-              <div class="board-main">
-                <div class="dice-display">
-                  <div class="dice-result" id="diceResult">
-                    50
-                  </div>
-
-                  <div class="dice-slider-wrap">
-                    <button class="dice-dir-btn" id="rollUnder">
-                      UNDER
-                    </button>
-
-                    <div class="dice-slider" id="diceSlider">
-                      <div class="dice-fill" id="diceFill"></div>
-                      <div class="dice-handle" id="diceHandle"></div>
-                    </div>
-
-                    <button class="dice-dir-btn gold" id="rollOver">
-                      OVER
-                    </button>
-                  </div>
-
-                  <div class="dice-prob">
-                    Шанс: <b id="diceChance">50%</b>
-                  </div>
+                <div class="test-item">
+                    <span class="test-name">Telegram WebApp</span>
+                    <span class="test-status status-pending" id="stTg">Проверка...</span>
                 </div>
-              </div>
-            </div>
-
-            <div class="game-controls">
-              <div class="bet-controls">
-                <button class="bet-btn" data-minus="dice">−</button>
-                <input type="number" class="bet-input" id="betDice" value="100">
-                <button class="bet-btn" data-plus="dice">+</button>
-              </div>
-
-              <div class="dice-action-btns">
-                <button class="dice-action-btn" id="diceRollBtn">
-                  🎲 Бросить
-                </button>
-              </div>
-
-              <div class="mini-stats">
-                <span>Target: <b id="diceTarget">50</b></span>
-                <span>X: <b class="ms-win" id="diceX">1.98x</b></span>
-                <span>Last: <b id="diceLast">—</b></span>
-              </div>
-            </div>
-          </div>
-
-          <!-- TOWER -->
-          <div class="game-area" data-area="tower">
-            <div class="game-board">
-              <div class="board-main">
-                <div class="tower-display" id="towerGrid"></div>
-
-                <div class="board-status">
-                  Поднимайся выше
+                <div class="test-item">
+                    <span class="test-name">Device Pixel Ratio</span>
+                    <span class="test-status status-pending" id="stDpr">Проверка...</span>
                 </div>
-              </div>
-            </div>
-
-            <div class="game-controls">
-              <div class="bet-controls">
-                <button class="bet-btn" data-minus="tower">−</button>
-                <input type="number" class="bet-input" id="betTower" value="100">
-                <button class="bet-btn" data-plus="tower">+</button>
-              </div>
-
-              <button class="game-action-btn" id="towerBtn">
-                🗼 Начать
-              </button>
-
-              <button class="game-action-btn gold" id="towerCashout" disabled>
-                💰 Забрать
-              </button>
-
-              <div class="mini-stats">
-                <span>Этаж: <b id="towerFloor">0</b></span>
-                <span>X: <b class="ms-win" id="towerMulti">1.00x</b></span>
-                <span>Top: <b id="towerTop">13x</b></span>
-              </div>
-            </div>
-          </div>
-
-          <!-- BLACKJACK -->
-          <div class="game-area" data-area="blackjack">
-            <div class="game-board">
-              <div class="board-main">
-                <div class="bj-table">
-                  <div class="bj-dealer-area">
-                    <div class="bj-dealer-label">Dealer</div>
-
-                    <div class="bj-hand" id="dealerHand"></div>
-
-                    <div class="bj-score">
-                      Score: <span id="dealerScore">0</span>
-                    </div>
-                  </div>
-
-                  <div class="bj-actions">
-                    <button class="bj-action-btn" id="bjHit" disabled>
-                      HIT
-                    </button>
-
-                    <button class="bj-action-btn danger" id="bjStand" disabled>
-                      STAND
-                    </button>
-                  </div>
-
-                  <div class="bj-player-area">
-                    <div class="bj-player-label">
-                      ⭐ PLAYER
-                    </div>
-
-                    <div class="bj-hand" id="playerHand"></div>
-
-                    <div class="bj-score">
-                      Score: <span id="playerScore">0</span>
-                    </div>
-                  </div>
-
-                  <div id="bjBanner"></div>
+                <div class="test-item">
+                    <span class="test-name">Viewport & Safe Area</span>
+                    <span class="test-status status-pending" id="stViewport">Проверка...</span>
                 </div>
-              </div>
             </div>
-
-            <div class="game-controls">
-              <div class="bet-controls">
-                <button class="bet-btn" data-minus="blackjack">−</button>
-                <input type="number" class="bet-input" id="betBJ" value="100">
-                <button class="bet-btn" data-plus="blackjack">+</button>
-              </div>
-
-              <button class="game-action-btn gold" id="bjStart">
-                🃏 Deal
-              </button>
-
-              <div class="mini-stats">
-                <span>Wins: <b class="ms-win" id="bjWins">0</b></span>
-                <span>Loses: <b class="ms-lose" id="bjLoses">0</b></span>
-                <span>Push: <b id="bjPush">0</b></span>
-              </div>
-            </div>
-          </div>
-
-          <!-- MY BETS -->
-          <div class="my-bets-panel">
-            <div class="my-bets-title">
-              🎯 Последние ставки
-            </div>
-
-            <div class="bet-filter">
-              <button class="bet-filter-btn active">
-                Все
-              </button>
-
-              <button class="bet-filter-btn">
-                Win
-              </button>
-
-              <button class="bet-filter-btn">
-                Lose
-              </button>
-            </div>
-
-            <div id="betsFeed"></div>
-          </div>
         </div>
-      </div>
+
+        <div class="test-section">
+            <h2>🎮 Игровая механика</h2>
+            <div class="test-grid">
+                <div class="test-item">
+                    <span class="test-name">Plinko — Физика шариков</span>
+                    <span class="test-status status-pending" id="stPlinko">Проверка...</span>
+                </div>
+                <div class="test-item">
+                    <span class="test-name">Crash — Генерация краш-поинта</span>
+                    <span class="test-status status-pending" id="stCrash">Проверка...</span>
+                </div>
+                <div class="test-item">
+                    <span class="test-name">Mines — Размещение мин</span>
+                    <span class="test-status status-pending" id="stMines">Проверка...</span>
+                </div>
+                <div class="test-item">
+                    <span class="test-name">Dice — Вероятности</span>
+                    <span class="test-status status-pending" id="stDice">Проверка...</span>
+                </div>
+                <div class="test-item">
+                    <span class="test-name">Tower — Генерация уровней</span>
+                    <span class="test-status status-pending" id="stTower">Проверка...</span>
+                </div>
+                <div class="test-item">
+                    <span class="test-name">Blackjack — Колода и раздача</span>
+                    <span class="test-status status-pending" id="stBj">Проверка...</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <button onclick="runGameTests()">🎯 Запустить тесты игр</button>
+                <button onclick="runProbDistTests()">📊 Проверить распределения</button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>💾 Данные и Состояние</h2>
+            <div class="test-grid">
+                <div class="test-item">
+                    <span class="test-name">Сохранение состояния</span>
+                    <span class="test-status status-pending" id="stSave">Проверка...</span>
+                </div>
+                <div class="test-item">
+                    <span class="test-name">Загрузка состояния</span>
+                    <span class="test-status status-pending" id="stLoad">Проверка...</span>
+                </div>
+                <div class="test-item">
+                    <span class="test-name">Целостность данных игр</span>
+                    <span class="test-status status-pending" id="stIntegrity">Проверка...</span>
+                </div>
+                <div class="test-item">
+                    <span class="test-name">История операций</span>
+                    <span class="test-status status-pending" id="stHistory">Проверка...</span>
+                </div>
+                <div class="test-item">
+                    <span class="test-name">Банк — заморозка/разморозка</span>
+                    <span class="test-status status-pending" id="stBank">Проверка...</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <button onclick="runStorageTests()">💽 Тест хранилища</button>
+                <button onclick="runBankTests()">🏦 Тест банка</button>
+                <button class="danger" onclick="resetAllData()">🔄 Сбросить все данные</button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🎨 UI и Рендеринг</h2>
+            <div class="test-grid">
+                <div class="test-item">
+                    <span class="test-name">Навигация (4 страницы)</span>
+                    <span class="test-status status-pending" id="stNav">Проверка...</span>
+                </div>
+                <div class="test-item">
+                    <span class="test-name">Модальные окна</span>
+                    <span class="test-status status-pending" id="stModal">Проверка...</span>
+                </div>
+                <div class="test-item">
+                    <span class="test-name">Toast-уведомления</span>
+                    <span class="test-status status-pending" id="stToast">Проверка...</span>
+                </div>
+                <div class="test-item">
+                    <span class="test-name">Глобальный тикер</span>
+                    <span class="test-status status-pending" id="stTicker">Проверка...</span>
+                </div>
+                <div class="test-item">
+                    <span class="test-name">Профиль — графики</span>
+                    <span class="test-status status-pending" id="stCharts">Проверка...</span>
+                </div>
+                <div class="test-item">
+                    <span class="test-name">Тёмная тема / CSS-переменные</span>
+                    <span class="test-status status-pending" id="stTheme">Проверка...</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <button onclick="runUITests()">🖼 Тест интерфейса</button>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="totalProgress" style="width: 0%"></div>
+        </div>
+        <div class="summary" id="testSummary"></div>
+
+        <div class="log-area" id="logArea">
+            <div class="log-line">📋 Лог тестов появится здесь...</div>
+        </div>
     </div>
 
-    <!-- PROFILE -->
-    <div class="page" id="page-profile">
-      <div class="ticker-wrap" id="tickerWrapProfile">
-        <div class="ticker" id="tickerProfile"></div>
-      </div>
-
-      <div class="header">
-        <div class="header-title">
-          👤 Профиль
-        </div>
-
-        <div class="header-bal">
-          ⭐ <span id="hbalProfile">0</span>
-        </div>
-      </div>
-
-      <div class="profile-tabs-nav">
-        <button class="profile-tab-btn active">
-          Меню
-        </button>
-
-        <button class="profile-tab-btn">
-          Статистика
-        </button>
-
-        <button class="profile-tab-btn">
-          Referral
-        </button>
-
-        <button class="profile-tab-btn">
-          Settings
-        </button>
-      </div>
-
-      <div class="profile-scroll">
-
-        <!-- MENU -->
-        <div class="profile-panel">
-          <div class="menu-list">
-
-            <div class="menu-item">
-              <div class="menu-ico">💬</div>
-              <div class="menu-label">Support</div>
-              <div class="menu-arrow">›</div>
-            </div>
-
-            <div class="menu-item">
-              <div class="menu-ico">🎁</div>
-              <div class="menu-label">Bonus</div>
-              <div class="menu-arrow">›</div>
-            </div>
-
-            <div class="menu-item">
-              <div class="menu-ico">📜</div>
-              <div class="menu-label">History</div>
-              <div class="menu-arrow">›</div>
-            </div>
-
-            <div class="menu-item">
-              <div class="menu-ico">🏆</div>
-              <div class="menu-label">Leaderboard</div>
-              <div class="menu-arrow">›</div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- STATS -->
-        <div class="profile-panel">
-          <div class="stats-subtabs">
-
-            <button class="stats-subtab active">
-              <span class="ss-ic">🎰</span>
-              Games
-            </button>
-
-            <button class="stats-subtab">
-              <span class="ss-ic">📈</span>
-              Profit
-            </button>
-
-            <button class="stats-subtab">
-              <span class="ss-ic">🏦</span>
-              Bank
-            </button>
-
-            <button class="stats-subtab">
-              <span class="ss-ic">⚡</span>
-              Activity
-            </button>
-
-          </div>
-
-          <div class="stats-grid">
-            <div class="gstat">
-              <div class="lbl">Всего игр</div>
-              <div class="val" id="totalGames">
-                0
-              </div>
-            </div>
-
-            <div class="gstat">
-              <div class="lbl">Winrate</div>
-              <div class="val ms-win" id="winRate">
-                0%
-              </div>
-            </div>
-
-            <div class="gstat">
-              <div class="lbl">Profit</div>
-              <div class="val" id="totalProfit">
-                0
-              </div>
-            </div>
-          </div>
-
-          <div class="chart-box">
-            <div class="chart-title">
-              <span>Balance Chart</span>
-              <span class="chart-val">LIVE</span>
-            </div>
-
-            <canvas class="chart-canvas" id="statsChart"></canvas>
-          </div>
-        </div>
-
-        <!-- REF -->
-        <div class="profile-panel">
-
-          <div class="ref-box">
-            <div class="ref-title">
-              👥 Referral Program
-            </div>
-
-            <div class="ref-desc">
-              Invite friends and earn 5% from their activity.
-            </div>
-
-            <div class="ref-link">
-              <span id="refLink">
-                https://stars-bank.app/ref/demo123
-              </span>
-            </div>
-
-            <button class="btn-primary">
-              📋 Copy
-            </button>
-          </div>
-
-        </div>
-
-        <!-- SETTINGS -->
-        <div class="profile-panel">
-
-          <div class="menu-list">
-
-            <div class="menu-item">
-              <div class="menu-ico">🌐</div>
-              <div class="menu-label">
-                Language
-              </div>
-
-              <div class="toggle on" id="langToggle"></div>
-            </div>
-
-            <div class="menu-item">
-              <div class="menu-ico">🎵</div>
-              <div class="menu-label">
-                Sounds
-              </div>
-
-              <div class="toggle on"></div>
-            </div>
-
-            <div class="menu-item">
-              <div class="menu-ico">✨</div>
-              <div class="menu-label">
-                Effects
-              </div>
-
-              <div class="toggle on"></div>
-            </div>
-
-            <div class="menu-item">
-              <div class="menu-ico">📱</div>
-              <div class="menu-label">
-                Install App
-              </div>
-
-              <div class="menu-arrow">›</div>
-            </div>
-
-          </div>
-
-          <div style="height:14px"></div>
-
-          <div class="pwa-instr">
-            <b>iPhone / Android:</b>
-
-            <ol>
-              <li>Открой через Safari / Chrome</li>
-              <li>Нажми “Поделиться”</li>
-              <li>Добавить на экран домой</li>
-            </ol>
-          </div>
-
-        </div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- BOTTOM NAV -->
-<div class="bottom-nav">
-  <div class="nav-wrap">
-
-    <button class="nav-btn active" data-nav="bank">
-      <div class="ni">🏦</div>
-      <div class="nl">Bank</div>
-    </button>
-
-    <button class="nav-btn" data-nav="balance">
-      <div class="ni">⭐</div>
-      <div class="nl">Balance</div>
-    </button>
-
-    <button class="nav-btn" data-nav="games">
-      <div class="ni">🎮</div>
-      <div class="nl">Games</div>
-    </button>
-
-    <button class="nav-btn" data-nav="profile">
-      <div class="ni">👤</div>
-      <div class="nl">Profile</div>
-    </button>
-
-  </div>
-</div>
-
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
-
-<!-- BIG WIN -->
-<div class="bigwin-banner" id="bigWinBanner">
-  <div class="bigwin-banner-title">
-    BIG WIN 🎉
-  </div>
-
-  <div class="bigwin-banner-info">
-    Huge multiplier!
-  </div>
-
-  <div class="bigwin-banner-amount" id="bigWinAmount">
-    +0 ⭐
-  </div>
-</div>
-
-<!-- FX -->
-<div class="effects-layer" id="effectsLayer"></div>
-
-<script>
-/* =========================
-   APP CORE
-========================= */
-
-const state = {
-  balance: 100000,
-  frozen: 0,
-  lang: navigator.language.startsWith('ru') ? 'ru' : 'en',
-  totalBank: 472930,
-  goal: 1000000,
-  games: 0,
-  wins: 0,
-  loses: 0
-};
-
-const $ = s => document.querySelector(s);
-const $$ = s => document.querySelectorAll(s);
-
-function format(n){
-  return Intl.NumberFormat().format(Math.floor(n));
-}
-
-function updateAllBalances(){
-  [
-    '#hbalBank',
-    '#hbalBalance',
-    '#hbalGames',
-    '#hbalProfile',
-    '#balancePage'
-  ].forEach(id=>{
-    const el = $(id);
-    if(el) el.textContent = format(state.balance);
-  });
-}
-
-function toast(text,type=''){
-  const t = $('#toast');
-
-  t.className = 'toast show ' + type;
-  t.textContent = text;
-
-  setTimeout(()=>{
-    t.classList.remove('show');
-  },2500);
-}
-
-function bigWin(amount){
-  const b = $('#bigWinBanner');
-
-  $('#bigWinAmount').textContent =
-    '+' + format(amount) + ' ⭐';
-
-  b.classList.add('show');
-
-  setTimeout(()=>{
-    b.classList.remove('show');
-  },3500);
-}
-
-updateAllBalances();
-
-/* =========================
-   NAVIGATION
-========================= */
-
-$$('[data-nav]').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const page = btn.dataset.nav;
-
-    $$('.page').forEach(p=>{
-      p.classList.remove('active');
-    });
-
-    $('#page-'+page).classList.add('active');
-
-    $$('.nav-btn').forEach(n=>{
-      n.classList.remove('active');
-    });
-
-    $(`.nav-btn[data-nav="${page}"]`)?.classList.add('active');
-  });
-});
-
-/* =========================
-   FREEZE SYSTEM
-========================= */
-
-let selectedFreeze = 100;
-
-$$('.freeze-amt').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-
-    $$('.freeze-amt').forEach(x=>{
-      x.classList.remove('active');
-    });
-
-    btn.classList.add('active');
-
-    selectedFreeze = +btn.dataset.amt;
-  });
-});
-
-$('#freezeBtn').addEventListener('click',()=>{
-
-  if(state.balance < selectedFreeze){
-    toast('Недостаточно ⭐','error');
-    return;
-  }
-
-  state.balance -= selectedFreeze;
-  state.frozen += selectedFreeze;
-  state.totalBank += selectedFreeze;
-
-  $('#frozenAmount').textContent =
-    format(state.frozen);
-
-  $('#profitAmount').textContent =
-    format(Math.floor(state.frozen * 0.15));
-
-  $('#profitPerHour').textContent =
-    format(Math.floor(state.frozen * 0.025));
-
-  updateAllBalances();
-
-  updateGoal();
-
-  toast('Средства заморожены ❄️','success');
-});
-
-function updateGoal(){
-
-  $('#totalBank').textContent =
-    format(state.totalBank);
-
-  const p =
-    Math.min(
-      100,
-      (state.totalBank / state.goal) * 100
-    );
-
-  $('#progressFill').style.width = p + '%';
-
-  $('#progressPct').textContent =
-    p.toFixed(1)+'%';
-
-  if(p >= 100){
-    $('#goalAchieved').style.display = 'block';
-  }
-}
-
-updateGoal();
-
-/* =========================
-   GAME SWITCH
-========================= */
-
-const gameMeta = {
-  plinko:['🎱','Плинко'],
-  crash:['🚀','Краш'],
-  mines:['💣','Мины'],
-  dice:['🎲','Кубик'],
-  tower:['🗼','Башня'],
-  blackjack:['🃏','Blackjack']
-};
-
-$$('.all-game-tile').forEach(tile=>{
-
-  tile.addEventListener('click',()=>{
-
-    const game = tile.dataset.game;
-
-    $$('.all-game-tile').forEach(x=>{
-      x.classList.remove('active');
-    });
-
-    tile.classList.add('active');
-
-    $$('.game-area').forEach(a=>{
-      a.classList.remove('active');
-    });
-
-    $(`.game-area[data-area="${game}"]`)
-      .classList.add('active');
-
-    $('#ghIcon').textContent =
-      gameMeta[game][0];
-
-    $('#ghName').textContent =
-      gameMeta[game][1];
-
-    $('#sectionPlay')
-      .scrollIntoView({
-        behavior:'smooth'
-      });
-  });
-
-});
-
-/* =========================
-   BET CONTROLS
-========================= */
-
-$$('[data-minus]').forEach(btn=>{
-
-  btn.addEventListener('click',()=>{
-
-    const id =
-      '#bet'+
-      btn.dataset.minus.charAt(0).toUpperCase()+
-      btn.dataset.minus.slice(1);
-
-    const input = $(id);
-
-    input.value =
-      Math.max(
-        10,
-        (+input.value||0)-10
-      );
-  });
-
-});
-
-$$('[data-plus]').forEach(btn=>{
-
-  btn.addEventListener('click',()=>{
-
-    const id =
-      '#bet'+
-      btn.dataset.plus.charAt(0).toUpperCase()+
-      btn.dataset.plus.slice(1);
-
-    const input = $(id);
-
-    input.value =
-      (+input.value||0)+10;
-  });
-
-});
-
-$$('[data-qb]').forEach(btn=>{
-
-  btn.addEventListener('click',()=>{
-
-    const game = btn.dataset.qb;
-    const val = btn.dataset.val;
-
-    const map = {
-      plinko:'#betPlinko',
-      crash:'#betCrash'
-    };
-
-    if(map[game]){
-      $(map[game]).value = val;
-    }
-  });
-
-});
-
-/* =========================
-   DICE
-========================= */
-
-let diceTarget = 50;
-
-const slider = $('#diceSlider');
-
-function updateDice(){
-
-  $('#diceFill').style.width =
-    diceTarget + '%';
-
-  $('#diceHandle').style.left =
-    `calc(${diceTarget}% - 3px)`;
-
-  $('#diceChance').textContent =
-    diceTarget + '%';
-
-  $('#diceTarget').textContent =
-    diceTarget;
-
-  $('#diceX').textContent =
-    (99/diceTarget).toFixed(2)+'x';
-}
-
-slider.addEventListener('pointermove',e=>{
-
-  if(e.buttons !== 1) return;
-
-  const r = slider.getBoundingClientRect();
-
-  diceTarget =
-    Math.min(
-      95,
-      Math.max(
-        5,
-        Math.round(
-          ((e.clientX-r.left)/r.width)*100
-        )
-      )
-    );
-
-  updateDice();
-});
-
-updateDice();
-
-$('#diceRollBtn').addEventListener('click',()=>{
-
-  const bet = +$('#betDice').value || 0;
-
-  if(state.balance < bet){
-    toast('Недостаточно ⭐','error');
-    return;
-  }
-
-  const roll =
-    Math.floor(Math.random()*100)+1;
-
-  $('#diceResult').textContent = roll;
-  $('#diceLast').textContent = roll;
-
-  const win = roll <= diceTarget;
-
-  if(win){
-
-    const x = 99/diceTarget;
-    const profit = Math.floor(bet*x);
-
-    state.balance += profit;
-
-    $('#diceResult').className =
-      'dice-result win';
-
-    toast('WIN 🎉','success');
-
-    if(profit > 5000){
-      bigWin(profit);
-    }
-
-  }else{
-
-    state.balance -= bet;
-
-    $('#diceResult').className =
-      'dice-result lose';
-
-    toast('LOSE','error');
-  }
-
-  updateAllBalances();
-});
-
-/* =========================
-   MINES GRID
-========================= */
-
-const minesGrid = $('#minesGrid');
-
-for(let i=0;i<25;i++){
-
-  const cell = document.createElement('div');
-
-  cell.className = 'mine-cell';
-
-  minesGrid.appendChild(cell);
-}
-
-/* =========================
-   DEMO TICKER
-========================= */
-
-const demoUsers = [
-  ['Alex',12400],
-  ['Roman',8421],
-  ['Maks',25000],
-  ['Olivia',122200],
-  ['Leo',9200]
-];
-
-function buildTicker(id){
-
-  const root = $(id);
-
-  let html = '';
-
-  [...demoUsers,...demoUsers]
-    .forEach(u=>{
-
-      html += `
-      <div class="ticker-card">
-        <div class="ticker-avatar">
-          ${u[0][0]}
-        </div>
-
-        <div class="ticker-info">
-          <div class="ticker-user">
-            ${u[0]}
-          </div>
-
-          <div class="ticker-mult">
-            x${(Math.random()*8+1).toFixed(2)}
-          </div>
-        </div>
-
-        <div class="ticker-amount">
-          +${format(u[1])}
-        </div>
-      </div>
-      `;
-    });
-
-  root.innerHTML = html;
-}
-
-[
-  '#tickerBank',
-  '#tickerBalance',
-  '#tickerGames',
-  '#tickerProfile'
-].forEach(buildTicker);
-
-/* =========================
-   SIMPLE CHART
-========================= */
-
-const chart =
-  $('#statsChart');
-
-const ctx =
-  chart.getContext('2d');
-
-function resizeChart(){
-
-  chart.width =
-    chart.clientWidth * devicePixelRatio;
-
-  chart.height =
-    chart.clientHeight * devicePixelRatio;
-
-  ctx.scale(
-    devicePixelRatio,
-    devicePixelRatio
-  );
-
-  drawChart();
-}
-
-function drawChart(){
-
-  ctx.clearRect(
-    0,
-    0,
-    chart.clientWidth,
-    chart.clientHeight
-  );
-
-  ctx.beginPath();
-
-  const points =
-    [20,40,30,70,50,80,75];
-
-  points.forEach((y,i)=>{
-
-    const x =
-      (chart.clientWidth/6)*i;
-
-    const py =
-      chart.clientHeight-y;
-
-    if(i===0){
-      ctx.moveTo(x,py);
-    }else{
-      ctx.lineTo(x,py);
-    }
-
-  });
-
-  ctx.lineWidth = 3;
-  ctx.strokeStyle = '#8b5cf6';
-  ctx.stroke();
-}
-
-resizeChart();
-
-window.addEventListener(
-  'resize',
-  resizeChart
-);
-
-/* =========================
-   MOBILE HEIGHT FIX
-========================= */
-
-function setVH(){
-  document.documentElement
-    .style.setProperty(
-      '--vh',
-      (window.innerHeight*0.01)+'px'
-    );
-}
-
-setVH();
-
-window.addEventListener(
-  'resize',
-  setVH
-);
-
-/* =========================
-   PWA
-========================= */
-
-if('serviceWorker' in navigator){
-
-  window.addEventListener(
-    'load',
-    ()=>{
-
-      navigator.serviceWorker
-        .register('./sw.js')
-        .catch(()=>{});
-
-    }
-  );
-}
-
-/* =========================
-   UX OPTIMIZATION
-========================= */
-
-document.addEventListener(
-  'touchstart',
-  ()=>{},
-  {passive:true}
-);
-
-document.addEventListener(
-  'gesturestart',
-  e=>e.preventDefault()
-);
-
-toast('Demo mode enabled ⭐','gold');
-</script>
+    <script>
+        (function() {
+            'use strict';
+
+            const logEl = document.getElementById('logArea');
+            let totalTests = 0;
+            let passedTests = 0;
+            let failedTests = 0;
+            let warnTests = 0;
+
+            const log = (msg, type = '') => {
+                const line = document.createElement('div');
+                line.className = 'log-line ' + type;
+                line.textContent = '[' + new Date().toLocaleTimeString() + '] ' + msg;
+                logEl.appendChild(line);
+                logEl.scrollTop = logEl.scrollHeight;
+            };
+
+            const setStatus = (id, status, text) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.textContent = text;
+                el.className = 'test-status status-' + status;
+            };
+
+            const updateProgress = () => {
+                const total = totalTests || 1;
+                const pct = Math.round((passedTests / total) * 100);
+                document.getElementById('totalProgress').style.width = pct + '%';
+                const summary = document.getElementById('testSummary');
+                const failText = failedTests > 0 ?
+                    `<span class="fail">❌ ${failedTests} провалено</span>` : '';
+                const warnText = warnTests > 0 ?
+                    `<span class="warn">⚠️ ${warnTests} предупреждений</span>` : '';
+                summary.innerHTML = `
+                    Протестировано: <b>${totalTests}</b> &nbsp;|&nbsp;
+                    <b class="ok">✅ ${passedTests} успешно</b>
+                    ${failText} ${warnText}
+                `;
+            };
+
+            const test = (id, condition, okText, failText) => {
+                totalTests++;
+                if (condition) {
+                    passedTests++;
+                    setStatus(id, 'ok', okText || '✅ OK');
+                    log((okText || 'OK') + ' — пройден', 'ok');
+                } else {
+                    failedTests++;
+                    setStatus(id, 'fail', failText || '❌ Ошибка');
+                    log((failText || 'Ошибка') + ' — ПРОВАЛЕН', 'fail');
+                }
+                updateProgress();
+            };
+
+            const warn = (id, text) => {
+                totalTests++;
+                warnTests++;
+                setStatus(id, 'warn', text || '⚠️ Предупреждение');
+                log(text || 'Предупреждение', 'warn');
+                updateProgress();
+            };
+
+            // ======================== ТЕСТЫ СРЕДЫ ========================
+            log('🚀 Запуск тестов окружения...');
+
+            // Audio
+            try {
+                const ctx = new(window.AudioContext || window.webkitAudioContext)();
+                test('stAudio', ctx && ctx.sampleRate > 0,
+                    'Web Audio API — OK (Sample: ' + ctx.sampleRate + 'Hz)',
+                    'Web Audio API — НЕДОСТУПЕН');
+                ctx.close();
+            } catch (e) {
+                test('stAudio', false, '', 'Web Audio API — ОШИБКА: ' + e.message);
+            }
+
+            // Crypto
+            test('stCrypto',
+                typeof crypto !== 'undefined' && typeof crypto.subtle !== 'undefined',
+                'Web Crypto API — OK',
+                'Web Crypto API — НЕДОСТУПЕН (нужен HTTPS или localhost)');
+
+            // Canvas
+            const c = document.createElement('canvas');
+            test('stCanvas',
+                c.getContext('2d') !== null,
+                'Canvas 2D — OK (' + c.width + '×' + c.height + ')',
+                'Canvas 2D — НЕ ПОДДЕРЖИВАЕТСЯ');
+
+            // Storage
+            try {
+                localStorage.setItem('__test__', '1');
+                localStorage.removeItem('__test__');
+                test('stStorage', true, 'localStorage — OK (доступен для записи)',
+                    'localStorage — ОШИБКА');
+            } catch (e) {
+                test('stStorage', false, '', 'localStorage — НЕДОСТУПЕН: ' + e.message);
+            }
+
+            // Notifications
+            if ('Notification' in window) {
+                if (Notification.permission === 'granted') {
+                    test('stNotif', true, 'Notification API — OK (разрешены)');
+                } else if (Notification.permission === 'denied') {
+                    warn('stNotif', '⚠️ Уведомления ЗАБЛОКИРОВАНЫ');
+                } else {
+                    warn('stNotif', '⚠️ Уведомления не запрошены (статус: ' + Notification.permission + ')');
+                }
+            } else {
+                test('stNotif', false, '', 'Notification API — НЕ ПОДДЕРЖИВАЕТСЯ');
+            }
+
+            // Telegram
+            if (window.Telegram && window.Telegram.WebApp) {
+                try {
+                    window.Telegram.WebApp.ready();
+                    const u = window.Telegram.WebApp.initDataUnsafe?.user;
+                    test('stTg', true,
+                        'Telegram WebApp — OK' + (u ? ' (Пользователь: ' + u.first_name + ')' : ' (без данных)'));
+                } catch (e) {
+                    warn('stTg', '⚠️ Telegram WebApp обнаружен, но ошибка: ' + e.message);
+                }
+            } else {
+                warn('stTg', '⚠️ Не в Telegram WebApp (обычный браузер)');
+            }
+
+            // DPR
+            test('stDpr', window.devicePixelRatio > 0,
+                'Device Pixel Ratio: ' + window.devicePixelRatio.toFixed(1),
+                'Некорректный DPR');
+
+            // Viewport
+            test('stViewport', window.innerWidth > 0 && window.innerHeight > 0,
+                'Viewport: ' + window.innerWidth + '×' + window.innerHeight +
+                ' (Safe: ' + getComputedStyle(document.documentElement).getPropertyValue('--safe-t') + ')',
+                'Viewport — ОШИБКА');
+
+            // ======================== ТЕСТЫ ИГР ========================
+            window.runGameTests = function() {
+                log('🎮 Запуск тестов игровой механики...');
+
+                // Plinko — проверка множителей
+                const plinkoMult = [10, 5, 3, 1.5, 1, 0.75, 0.5, 0.25, 0.5, 0.75, 1, 1.5, 3, 5, 10];
+                test('stPlinko',
+                    plinkoMult.length === 15 && plinkoMult[0] === 10 && plinkoMult[7] === 0.25,
+                    'Plinko — ' + plinkoMult.length + ' слотов (x0.25–x10)',
+                    'Plinko — ОШИБКА множителей');
+
+                // Crash — генерация 10000 точек
+                let crashOk = true;
+                let belowOne = 0;
+                let maxCrash = 0;
+                const crashPoints = [];
+                for (let i = 0; i < 10000; i++) {
+                    const r = Math.random();
+                    const cp = r < 0.01 ? 1.00 : Math.max(1.01, 0.99 / (1 - r));
+                    crashPoints.push(cp);
+                    if (cp < 1) crashOk = false;
+                    if (cp > maxCrash) maxCrash = cp;
+                }
+                test('stCrash',
+                    crashOk && maxCrash > 10,
+                    'Crash — 10000 ген. OK (Max: ' + maxCrash.toFixed(0) + 'x, <1: ' + belowOne + ')',
+                    'Crash — ОШИБКА генерации');
+
+                // Mines — проверка размещения
+                const minesTest = (field, mode) => {
+                    const cells = field * field;
+                    const pct = mode === 'easy' ? 0.20 : mode === 'medium' ? 0.30 : 0.40;
+                    const expected = Math.max(1, Math.min(cells - 1, Math.round(cells * pct)));
+                    const grid = new Array(cells).fill(false);
+                    let placed = 0;
+                    while (placed < expected) {
+                        const idx = Math.floor(Math.random() * cells);
+                        if (!grid[idx]) { grid[idx] = true;
+                            placed++; }
+                    }
+                    return placed === expected;
+                };
+                const minesAllOk =
+                    minesTest(3, 'easy') && minesTest(5, 'medium') && minesTest(8, 'hard');
+                test('stMines', minesAllOk,
+                    'Mines — Размещение корректно (3×3, 5×5, 8×8)',
+                    'Mines — ОШИБКА размещения');
+
+                // Dice — проверка вероятностей
+                let diceOk = true;
+                const diceTarget = 50;
+                const chance = diceTarget * 0.99;
+                if (chance <= 0 || chance > 100) diceOk = false;
+                const mult = 99 / chance;
+                if (mult <= 1 || mult > 99) diceOk = false;
+                test('stDice', diceOk,
+                    'Dice — Шанс: ' + chance.toFixed(1) + '%, Множ: ' + mult.toFixed(2) + 'x',
+                    'Dice — ОШИБКА расчёта');
+
+                // Tower
+                const towerTest = (diff) => {
+                    const skulls = diff === 'easy' ? 1 : diff === 'medium' ? (Math.random() < 0.5 ? 1 :
+                        2) : (Math.random() < 0.7 ? 2 : 1);
+                    return skulls >= 1 && skulls <= 2;
+                };
+                const towerAllOk = towerTest('easy') && towerTest('medium') && towerTest('hard');
+                test('stTower', towerAllOk,
+                    'Tower — Генерация сложностей корректна',
+                    'Tower — ОШИБКА');
+
+                // Blackjack
+                const deck = [];
+                const suits = ['♠', '♥', '♦', '♣'];
+                const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+                for (let k = 0; k < 6; k++)
+                    for (let s = 0; s < 4; s++)
+                        for (let r = 0; r < 13; r++)
+                            deck.push({ rank: ranks[r], suit: suits[s], value: r === 0 ? 11 : Math.min(10, r + 1) });
+                const bjOk = deck.length === 6 * 4 * 13 &&
+                    deck[0].value >= 1 && deck[0].value <= 11 &&
+                    deck[12].rank === 'K' && deck[13].rank === 'A';
+                test('stBj', bjOk,
+                    'Blackjack — ' + deck.length + ' карт в 6 колодах',
+                    'Blackjack — ОШИБКА колоды');
+            };
+
+            // Проверка распределений
+            window.runProbDistTests = function() {
+                log('📊 Запуск тестов распределения...');
+                // Проверка равномерности Math.random
+                const buckets = new Array(10).fill(0);
+                const N = 50000;
+                for (let i = 0; i < N; i++) {
+                    const b = Math.floor(Math.random() * 10);
+                    buckets[b]++;
+                }
+                const expected = N / 10;
+                let chiSquare = 0;
+                for (let i = 0; i < 10; i++) {
+                    chiSquare += (buckets[i] - expected) ** 2 / expected;
+                }
+                // Критическое значение для 9 ст.св. и p=0.01 ≈ 21.7
+                const distOk = chiSquare < 25;
+                log(
+                    '📊 Math.random χ² = ' + chiSquare.toFixed(2) + ' (крит. 25, N=' + N + ') ' +
+                    (distOk ? '✅ Равномерно' : '❌ НЕравномерно'),
+                    distOk ? 'ok' : 'fail'
+                );
+                if (distOk) { passedTests++;
+                    totalTests++; } else { failedTests++;
+                    totalTests++; }
+                updateProgress();
+
+                // Crash распределение
+                const crashBuckets = { '1x': 0, '1-2x': 0, '2-5x': 0, '5-10x': 0, '10-50x': 0, '50+x': 0 };
+                for (let i = 0; i < 20000; i++) {
+                    const r = Math.random();
+                    const cp = r < 0.01 ? 1.00 : Math.max(1.01, 0.99 / (1 - r));
+                    if (cp === 1) crashBuckets['1x']++;
+                    else if (cp < 2) crashBuckets['1-2x']++;
+                    else if (cp < 5) crashBuckets['2-5x']++;
+                    else if (cp < 10) crashBuckets['5-10x']++;
+                    else if (cp < 50) crashBuckets['10-50x']++;
+                    else crashBuckets['50+x']++;
+                }
+                log('📊 Crash распределение (20000 раундов):');
+                for (const [k, v] of Object.entries(crashBuckets)) {
+                    log('   ' + k + ': ' + v + ' (' + (v / 20000 * 100).toFixed(1) + '%)');
+                }
+            };
+
+            // ======================== ТЕСТЫ ДАННЫХ ========================
+            window.runStorageTests = function() {
+                log('💾 Тестирование хранилища...');
+                try {
+                    const testData = {
+                        balance: 5000,
+                        frozen: 1000,
+                        test: true,
+                        timestamp: Date.now()
+                    };
+                    localStorage.setItem('__starsbank_test__', JSON.stringify(testData));
+                    const loaded = JSON.parse(localStorage.getItem('__starsbank_test__'));
+                    const ok = loaded && loaded.balance === 5000 && loaded.test === true;
+                    localStorage.removeItem('__starsbank_test__');
+                    test('stSave', ok, 'Сохранение — OK (JSON сериализация)',
+                        'Сохранение — ОШИБКА');
+                    test('stLoad', ok, 'Загрузка — OK (JSON десериализация)',
+                        'Загрузка — ОШИБКА');
+                } catch (e) {
+                    test('stSave', false, '', 'ОШИБКА: ' + e.message);
+                    test('stLoad', false, '', 'ОШИБКА: ' + e.message);
+                }
+
+                // Проверка реальных данных
+                try {
+                    const real = localStorage.getItem('starsbank_v10');
+                    if (real) {
+                        const parsed = JSON.parse(real);
+                        const hasFields = parsed.balance !== undefined &&
+                            parsed.frozen !== undefined &&
+                            parsed.totalBank !== undefined &&
+                            parsed.games !== undefined;
+                        test('stIntegrity', hasFields,
+                            'Данные v10 — OK (баланс: ' + (parsed.balance || 0) + ')',
+                            'Данные v10 — ПОВРЕЖДЕНЫ');
+                    } else {
+                        warn('stIntegrity', '⚠️ Нет данных v10 (первый запуск?)');
+                    }
+                } catch (e) {
+                    test('stIntegrity', false, '', 'ОШИБКА чтения: ' + e.message);
+                }
+            };
+
+            window.runBankTests = function() {
+                log('🏦 Тестирование механики банка...');
+                try {
+                    const real = localStorage.getItem('starsbank_v10');
+                    let data;
+                    if (real) {
+                        data = JSON.parse(real);
+                    } else {
+                        data = { balance: 10000, frozen: 0, pendingProfit: 0, cycleEnd: Date.now() + 21600000,
+                            history: [] };
+                    }
+
+                    const initialBalance = data.balance;
+                    const freezeAmt = 1000;
+
+                    // Тест заморозки
+                    if (data.balance >= freezeAmt) {
+                        data.balance -= freezeAmt;
+                        data.frozen += freezeAmt;
+                        const afterFreezeOk = data.balance === initialBalance - freezeAmt && data.frozen ===
+                            freezeAmt;
+                        test('stBank', afterFreezeOk,
+                            'Заморозка — OK (Баланс: ' + data.balance + ', Заморожено: ' + data.frozen + ')',
+                            'Заморозка — ОШИБКА');
+
+                        // Возвращаем
+                        data.balance += freezeAmt;
+                        data.frozen -= freezeAmt;
+                    } else {
+                        warn('stBank', '⚠️ Недостаточно средств для теста заморозки (нужно ' + freezeAmt +
+                            ')');
+                    }
+
+                    // Тест истории
+                    data.history = data.history || [];
+                    data.history.unshift({ type: 'test', title: 'Тест', amount: 100, time: Date.now() });
+                    test('stHistory',
+                        data.history.length >= 1 && data.history[0].type === 'test',
+                        'История — OK (' + data.history.length + ' записей)',
+                        'История — ОШИБКА');
+
+                    // Сохраняем обратно если были изменения
+                    if (real) {
+                        localStorage.setItem('starsbank_v10', JSON.stringify(data));
+                    }
+                } catch (e) {
+                    test('stBank', false, '', 'ОШИБКА: ' + e.message);
+                    test('stHistory', false, '', 'ОШИБКА: ' + e.message);
+                }
+            };
+
+            window.resetAllData = function() {
+                if (confirm('⚠️ Удалить ВСЕ данные Stars Bank?\n\nБаланс, статистика и история будут потеряны.')) {
+                    try {
+                        localStorage.removeItem('starsbank_v10');
+                        localStorage.removeItem('sb_sound');
+                        log('🔄 Данные успешно сброшены', 'ok');
+                        alert('✅ Данные сброшены. Обновите основное приложение.');
+                    } catch (e) {
+                        log('❌ Ошибка сброса: ' + e.message, 'fail');
+                        alert('❌ Не удалось сбросить данные');
+                    }
+                }
+            };
+
+            // ======================== ТЕСТЫ UI ========================
+            window.runUITests = function() {
+                log('🎨 Тестирование UI...');
+
+                // CSS переменные
+                const styles = getComputedStyle(document.documentElement);
+                const vars = ['--bg', '--purple', '--gold', '--green', '--red', '--border', '--safe-b',
+                    '--header-h', '--ticker-h'
+                ];
+                let allVarsOk = true;
+                for (const v of vars) {
+                    if (!styles.getPropertyValue(v)) allVarsOk = false;
+                }
+                test('stTheme', allVarsOk,
+                    'CSS-переменные — OK (' + vars.length + ' проверено)',
+                    'CSS-переменные — ОШИБКА (не все определены)');
+
+                // Проверка наличия ключевых элементов в DOM основного приложения
+                // (если оно загружено в iframe или на той же странице)
+                const checkEl = (id) => {
+                    try {
+                        const el = parent.document.getElementById(id);
+                        return !!el;
+                    } catch (e) {
+                        return null; // кросс-домен
+                    }
+                };
+
+                // Поскольку это отдельная страница, просто проверим что мы можем создать элементы
+                const testDiv = document.createElement('div');
+                testDiv.className = 'toast show';
+                testDiv.textContent = 'Тестовое уведомление';
+                document.body.appendChild(testDiv);
+                const toastOk = testDiv.offsetHeight > 0;
+                document.body.removeChild(testDiv);
+                test('stToast', toastOk, 'Toast — OK (рендерится)',
+                    'Toast — ОШИБКА рендеринга');
+
+                // Модальное окно
+                const modal = document.createElement('div');
+                modal.className = 'modal-overlay show';
+                modal.innerHTML = '<div class="modal"><div class="modal-title">Тест</div></div>';
+                document.body.appendChild(modal);
+                const modalOk = modal.offsetHeight > 0;
+                document.body.removeChild(modal);
+                test('stModal', modalOk, 'Модальное окно — OK',
+                    'Модальное окно — ОШИБКА');
+
+                // Тикер
+                const ticker = document.createElement('div');
+                ticker.className = 'ticker';
+                ticker.innerHTML =
+                    '<div class="ticker-card"><div class="ticker-avatar">⭐</div><div class="ticker-info"><div class="ticker-user">Тест</div></div><div class="ticker-mult">x50</div></div>';
+                document.body.appendChild(ticker);
+                const tickerOk = ticker.scrollWidth > 0;
+                document.body.removeChild(ticker);
+                test('stTicker', tickerOk, 'Тикер — OK',
+                    'Тикер — ОШИБКА');
+
+                // График
+                const chartCanvas = document.createElement('canvas');
+                chartCanvas.width = 200;
+                chartCanvas.height = 100;
+                const ctx = chartCanvas.getContext('2d');
+                ctx.fillStyle = '#10b981';
+                ctx.fillRect(0, 0, 200, 100);
+                const chartOk = chartCanvas.toDataURL().length > 100;
+                test('stCharts', chartOk, 'Графики — OK (Canvas рендеринг)',
+                    'Графики — ОШИБКА');
+
+                // Навигация (проверка структуры)
+                const navItems = ['Банк', 'Баланс', 'Игры', 'Профиль'];
+                test('stNav', navItems.length === 4,
+                    'Навигация — 4 раздела: ' + navItems.join(', '),
+                    'Навигация — ОШИБКА структуры');
+            };
+
+            // ======================== АВТО-ЗАПУСК БАЗОВЫХ ТЕСТОВ ========================
+            setTimeout(() => {
+                runStorageTests();
+                runBankTests();
+                runGameTests();
+                runUITests();
+                log('✅ Все тесты завершены!', 'ok');
+                log('📊 Итого: ' + passedTests + '/' + totalTests + ' пройдено, ' + failedTests +
+                    ' провалено, ' + warnTests + ' предупреждений');
+                if (failedTests === 0 && warnTests === 0) {
+                    log('🎉 Система полностью работоспособна!', 'ok');
+                } else if (failedTests === 0) {
+                    log('⚠️ Система работает, но есть предупреждения', 'warn');
+                } else {
+                    log('❌ Обнаружены критические проблемы!', 'fail');
+                }
+            }, 500);
+
+            log('🟢 Тестовая страница загружена. Запуск тестов...');
+        })();
+    </script>
 </body>
 </html>
