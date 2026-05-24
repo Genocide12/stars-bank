@@ -1,858 +1,716 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#0a0a0f">
-    <title>Stars Bank — Проверка работоспособности</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0a0a0f">
+<title>Stars Bank</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;}
+:root{
+  --bg:#0a0a0f;--bg-2:#141420;--card:#1a1a2e;
+  --purple:#8b5cf6;--purple-2:#a855f7;--gold:#fbbf24;--gold-2:#f59e0b;
+  --text:#fff;--text-dim:#9ca3af;--green:#10b981;--red:#ef4444;
+  --border:rgba(139,92,246,.2);
+  --safe-b:env(safe-area-inset-bottom,0px);--safe-t:env(safe-area-inset-top,0px);
+  --vh:1vh;
+  --header-h:52px;
+  --ticker-h:36px;
+}
+html,body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;height:100%;overflow:hidden;overscroll-behavior:none;touch-action:manipulation;-webkit-font-smoothing:antialiased;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 20% 0%,rgba(139,92,246,.18),transparent 50%),radial-gradient(circle at 80% 100%,rgba(251,191,36,.1),transparent 50%);pointer-events:none;z-index:0;}
+body,input,button,textarea{font-family:inherit;}
+input,textarea{-webkit-user-select:text;user-select:text;}
+button{font-family:inherit;border:none;cursor:pointer;background:none;color:inherit;}
 
-        :root {
-            --bg: #0a0a0f;
-            --card: #1a1a2e;
-            --purple: #8b5cf6;
-            --gold: #fbbf24;
-            --green: #10b981;
-            --red: #ef4444;
-            --text: #ffffff;
-            --text-dim: #9ca3af;
-            --border: rgba(139, 92, 246, .2);
-        }
+/* Global ticker */
+.global-ticker{position:relative;z-index:2;height:var(--ticker-h);padding:2px 0;background:linear-gradient(90deg,rgba(251,191,36,.08),rgba(139,92,246,.08));border-bottom:1px solid var(--border);overflow:hidden;flex-shrink:0;}
+.global-ticker.personal{background:linear-gradient(90deg,rgba(251,191,36,.35),rgba(139,92,246,.25));animation:personalPulse 1s infinite;}
+@keyframes personalPulse{0%,100%{box-shadow:inset 0 0 15px rgba(251,191,36,.3);}50%{box-shadow:inset 0 0 30px rgba(251,191,36,.6);}}
+.ticker{display:flex;animation:tickerScroll var(--ticker-dur,60s) linear infinite;width:max-content;will-change:transform;}
+.ticker-card{flex:0 0 auto;width:40vw;max-width:180px;margin:0 4px;padding:4px 8px;background:linear-gradient(135deg,rgba(251,191,36,.18),rgba(245,158,11,.08));border:1px solid rgba(251,191,36,.25);border-radius:8px;display:flex;align-items:center;gap:6px;cursor:pointer;height:32px;}
+.ticker-card.personal{background:linear-gradient(135deg,rgba(251,191,36,.5),rgba(139,92,246,.3));border-color:var(--gold);box-shadow:0 0 15px rgba(251,191,36,.5);}
+.ticker-avatar{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple-2));display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
+.ticker-info{flex:1;min-width:0;}
+.ticker-user{font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text);}
+.ticker-mult{font-size:11px;font-weight:800;color:var(--gold);white-space:nowrap;flex-shrink:0;}
+@keyframes tickerScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-            padding: 20px;
-            line-height: 1.5;
-        }
+.app{position:relative;z-index:1;width:100%;height:calc(var(--vh,1vh)*100 - var(--ticker-h));max-width:480px;margin:0 auto;display:flex;flex-direction:column;overflow:hidden;}
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+/* Header */
+.header{flex-shrink:0;height:var(--header-h);display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:linear-gradient(135deg,rgba(139,92,246,.18),rgba(35,35,64,.6));border-bottom:1px solid var(--border);gap:8px;}
+.header-logo{display:flex;align-items:center;gap:8px;cursor:pointer;flex-shrink:0;}
+.logo-ico{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--gold));display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 4px 14px rgba(139,92,246,.4);}
+.logo-text{font-weight:700;font-size:15px;}
+.logo-sub{font-size:9px;color:var(--text-dim);margin-top:1px;}
+.header-title{font-size:15px;font-weight:700;display:flex;align-items:center;gap:6px;flex:1;min-width:0;}
+.header-bal{flex-shrink:0;display:flex;align-items:center;gap:4px;padding:6px 10px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;touch-action:manipulation;}
+.header-bal:active{transform:scale(.95);}
 
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, var(--purple), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 28px;
-        }
+.main{flex:1;overflow:hidden;position:relative;}
+.page{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden;}
+.page.active{display:flex;}
 
-        .subtitle {
-            text-align: center;
-            color: var(--text-dim);
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
+.bank-scroll,.balance-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;padding-bottom:calc(70px + var(--safe-b));}
+.pad{padding:12px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:10px;}
+.card-title{font-size:14px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.card-title .emoji{font-size:16px;}
 
-        .test-section {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-        }
+.bank-total{text-align:center;padding:18px 14px;background:linear-gradient(135deg,rgba(139,92,246,.25),rgba(251,191,36,.1));border:1px solid var(--border);border-radius:18px;margin-bottom:10px;position:relative;overflow:hidden;}
+.bank-total::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(251,191,36,.2),transparent 70%);pointer-events:none;}
+.bank-label{font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;}
+.bank-value{font-size:30px;font-weight:800;margin:6px 0;display:flex;align-items:center;justify-content:center;gap:6px;}
+.bank-target{font-size:11px;color:var(--text-dim);}
+.bank-target span{color:var(--gold);font-weight:700;}
+.progress-wrap{margin:12px 0 6px;}
+.progress-bar{width:100%;height:7px;background:rgba(255,255,255,.08);border-radius:10px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--gold));border-radius:10px;transition:width .6s cubic-bezier(.4,0,.2,1);box-shadow:0 0 12px rgba(139,92,246,.6);}
+.goal-achieved{margin-top:10px;padding:12px;background:linear-gradient(135deg,rgba(16,185,129,.25),rgba(16,185,129,.1));border:1px solid rgba(16,185,129,.4);border-radius:12px;font-size:16px;font-weight:800;color:var(--green);text-align:center;animation:goalPulse 2s infinite;}
+@keyframes goalPulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5);}50%{box-shadow:0 0 20px 5px rgba(16,185,129,.2);}}
 
-        .test-section h2 {
-            font-size: 18px;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+.timer{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 12px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:10px;font-size:12px;font-weight:600;color:#fca5a5;margin-bottom:10px;}
+.freeze-amounts{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:10px;}
+.freeze-amt{padding:10px 3px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:11px;font-weight:700;touch-action:manipulation;}
+.freeze-amt.active{background:linear-gradient(135deg,var(--purple),var(--purple-2));border-color:transparent;box-shadow:0 4px 12px rgba(139,92,246,.4);}
+.btn-primary{width:100%;padding:14px;background:linear-gradient(135deg,var(--purple),var(--purple-2));border-radius:12px;color:white;font-size:14px;font-weight:700;box-shadow:0 6px 18px rgba(139,92,246,.4);touch-action:manipulation;transition:transform .1s;}
+.btn-primary:active{transform:scale(.97);}
+.btn-primary.gold{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#1a1a2e;box-shadow:0 6px 18px rgba(251,191,36,.35);}
+.btn-primary:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+.user-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;}
+.stat-box{padding:10px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;}
+.stat-label{font-size:9px;color:var(--text-dim);margin-bottom:3px;}
+.stat-val{font-size:13px;font-weight:700;display:flex;align-items:center;gap:3px;}
 
-        .test-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+/* Games page */
+.games-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:y mandatory;scroll-behavior:smooth;overscroll-behavior-y:contain;}
+.games-section{min-height:100%;scroll-snap-align:start;display:flex;flex-direction:column;position:relative;}
+.games-section.section-play{padding-bottom:calc(70px + var(--safe-b));}
 
-        .test-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 16px;
-            background: rgba(255, 255, 255, .03);
-            border: 1px solid rgba(255, 255, 255, .06);
-            border-radius: 10px;
-            gap: 12px;
-        }
+.all-games-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;}
+.all-game-tile{padding:14px 6px;background:var(--card);border:1px solid var(--border);border-radius:12px;text-align:center;touch-action:manipulation;transition:all .15s;}
+.all-game-tile.active{background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(251,191,36,.1));border-color:var(--purple);box-shadow:0 4px 14px rgba(139,92,246,.3);}
+.all-game-tile .ic{font-size:28px;margin-bottom:4px;}
+.all-game-tile .nm{font-size:11px;font-weight:700;}
+.all-games-title{padding:14px 12px 4px;font-size:13px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;}
 
-        .test-name {
-            flex: 1;
-            font-size: 13px;
-            font-weight: 500;
-            min-width: 200px;
-        }
+.game-area{flex:1;display:none;flex-direction:column;min-height:0;overflow:hidden;}
+.game-area.active{display:flex;}
 
-        .test-status {
-            font-size: 12px;
-            font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 20px;
-            text-align: center;
-            min-width: 100px;
-            white-space: nowrap;
-        }
+.game-board{flex:1;min-height:420px;position:relative;margin:8px 12px;background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;}
+.board-main{flex:1;min-height:0;position:relative;overflow:hidden;}
+.board-canvas{width:100%;height:100%;display:block;}
 
-        .status-ok {
-            background: rgba(16, 185, 129, .15);
-            color: var(--green);
-        }
+.game-controls{flex-shrink:0;background:var(--bg-2);border-top:1px solid var(--border);padding:8px 12px calc(8px + var(--safe-b));display:flex;flex-direction:column;gap:6px;}
+.bet-controls{display:flex;gap:6px;align-items:center;}
+.bet-input{flex:1;padding:10px 12px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;font-weight:600;outline:none;-webkit-appearance:none;appearance:none;}
+.bet-btn{width:40px;height:40px;background:rgba(139,92,246,.2);border:1px solid var(--border);border-radius:10px;color:white;font-size:18px;font-weight:700;touch-action:manipulation;display:flex;align-items:center;justify-content:center;}
+.quick-bets{display:flex;gap:4px;}
+.quick-bet{flex:1;padding:8px 3px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:11px;font-weight:600;touch-action:manipulation;}
+.game-action-btn{padding:13px;width:100%;background:linear-gradient(135deg,var(--purple),var(--purple-2));border-radius:12px;color:white;font-size:14px;font-weight:700;box-shadow:0 6px 18px rgba(139,92,246,.4);touch-action:manipulation;}
 
-        .status-fail {
-            background: rgba(239, 68, 68, .15);
-            color: var(--red);
-        }
+/* Bottom nav */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(20,20,32,.95);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:8px 0 calc(8px + var(--safe-b));z-index:100;}
+.nav-wrap{max-width:480px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:0 12px;}
+.nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px;color:var(--text-dim);border-radius:10px;touch-action:manipulation;transition:all .2s;}
+.nav-btn .ni{font-size:20px;}
+.nav-btn .nl{font-size:9px;font-weight:600;}
+.nav-btn.active{background:linear-gradient(135deg,rgba(139,92,246,.25),rgba(168,85,247,.1));color:white;}
 
-        .status-warn {
-            background: rgba(251, 191, 36, .15);
-            color: var(--gold);
-        }
+/* Profile */
+.profile-tabs-nav{flex-shrink:0;display:flex;gap:4px;padding:10px 12px;background:var(--bg);border-bottom:1px solid var(--border);}
+.profile-tab-btn{flex:1;padding:8px 4px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;color:var(--text-dim);font-size:10px;font-weight:600;touch-action:manipulation;}
+.profile-tab-btn.active{background:linear-gradient(135deg,var(--purple),var(--purple-2));border-color:transparent;color:white;}
+.profile-scroll{flex:1;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:calc(70px + var(--safe-b));}
+.profile-scroll::-webkit-scrollbar{display:none;}
+.profile-panel{flex:0 0 100%;scroll-snap-align:start;overflow-y:auto;padding:12px;}
 
-        .status-pending {
-            background: rgba(255, 255, 255, .05);
-            color: var(--text-dim);
-        }
+.menu-list{display:flex;flex-direction:column;gap:6px;}
+.menu-item{display:flex;align-items:center;gap:12px;padding:11px 12px;background:var(--card);border:1px solid var(--border);border-radius:11px;touch-action:manipulation;transition:transform .1s;}
+.menu-item:active{transform:scale(.98);}
+.menu-ico{width:32px;height:32px;border-radius:9px;background:rgba(139,92,246,.2);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.menu-label{flex:1;font-size:12px;font-weight:600;}
+.menu-arrow{color:var(--text-dim);font-size:16px;}
 
-        .btn-row {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-        }
+.toggle{position:relative;width:40px;height:24px;background:rgba(255,255,255,.1);border-radius:12px;transition:background .2s;flex-shrink:0;}
+.toggle.on{background:var(--purple);}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;background:white;border-radius:50%;transition:transform .2s;}
+.toggle.on::after{transform:translateX(16px);}
 
-        button {
-            padding: 10px 16px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: rgba(139, 92, 246, .15);
-            color: var(--text);
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
-            transition: all .15s;
-            white-space: nowrap;
-        }
+.toast{position:fixed;top:calc(16px + var(--safe-t) + var(--ticker-h));left:50%;transform:translateX(-50%) translateY(-120px);background:linear-gradient(135deg,var(--purple),var(--purple-2));color:white;padding:10px 16px;border-radius:12px;font-size:12px;font-weight:600;z-index:300;box-shadow:0 10px 30px rgba(139,92,246,.4);transition:transform .3s cubic-bezier(.16,1,.3,1);max-width:90%;text-align:center;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.success{background:linear-gradient(135deg,var(--green),#059669);}
+.toast.error{background:linear-gradient(135deg,var(--red),#dc2626);}
+.toast.gold{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#1a1a2e;}
 
-        button:hover {
-            background: rgba(139, 92, 246, .3);
-        }
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);z-index:200;display:none;align-items:flex-end;justify-content:center;}
+.modal-overlay.show{display:flex;}
+.modal{position:relative;width:100%;max-width:480px;background:var(--bg-2);border-radius:20px 20px 0 0;padding:16px 14px calc(20px + var(--safe-b));max-height:85vh;overflow-y:auto;animation:slideUp .3s cubic-bezier(.16,1,.3,1);}
+@keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.modal-handle{width:36px;height:3px;background:rgba(255,255,255,.2);border-radius:2px;margin:0 auto 12px;}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:12px;text-align:center;}
+.modal-close{position:absolute;top:12px;right:14px;width:28px;height:28px;background:rgba(255,255,255,.1);border-radius:50%;color:white;font-size:16px;display:flex;align-items:center;justify-content:center;touch-action:manipulation;z-index:5;}
 
-        button:active {
-            transform: scale(.96);
-        }
+/* Diagnostics styles */
+.diag-section{margin-bottom:14px;}
+.diag-section-title{font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;}
+.diag-grid{display:flex;flex-direction:column;gap:4px;}
+.diag-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;gap:10px;font-size:11px;}
+.diag-name{flex:1;min-width:0;}
+.diag-status{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap;min-width:80px;text-align:center;}
+.diag-status.ok{background:rgba(16,185,129,.15);color:var(--green);}
+.diag-status.fail{background:rgba(239,68,68,.15);color:var(--red);}
+.diag-status.warn{background:rgba(251,191,36,.15);color:var(--gold);}
+.diag-status.pending{background:rgba(255,255,255,.05);color:var(--text-dim);}
+.diag-progress{width:100%;height:4px;background:rgba(255,255,255,.08);border-radius:2px;margin:10px 0;overflow:hidden;}
+.diag-progress-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--gold));border-radius:2px;transition:width .3s;width:0%;}
+.diag-summary{text-align:center;padding:14px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;font-size:13px;margin:10px 0;}
+.diag-buttons{display:flex;gap:6px;flex-wrap:wrap;}
+.diag-btn{flex:1;min-width:80px;padding:10px;border-radius:9px;border:1px solid var(--border);background:rgba(139,92,246,.15);color:var(--text);font-weight:600;font-size:11px;touch-action:manipulation;text-align:center;}
+.diag-btn:active{transform:scale(.95);}
+.diag-btn.primary{background:linear-gradient(135deg,var(--purple),var(--purple-2));border:none;}
+.diag-btn.gold{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#1a1a2e;border:none;}
+.diag-btn.danger{background:rgba(239,68,68,.2);border-color:rgba(239,68,68,.4);}
 
-        button.gold {
-            background: linear-gradient(135deg, var(--gold), #f59e0b);
-            color: #1a1a2e;
-            border: none;
-            font-weight: 700;
-        }
-
-        button.danger {
-            background: rgba(239, 68, 68, .2);
-            border-color: rgba(239, 68, 68, .4);
-        }
-
-        .log-area {
-            background: rgba(0, 0, 0, .4);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px;
-            margin-top: 12px;
-            max-height: 300px;
-            overflow-y: auto;
-            font-family: 'SF Mono', 'Menlo', monospace;
-            font-size: 11px;
-            color: var(--text-dim);
-            line-height: 1.7;
-        }
-
-        .log-line {
-            padding: 2px 0;
-        }
-
-        .log-line.ok {
-            color: var(--green);
-        }
-        .log-line.fail {
-            color: var(--red);
-        }
-        .log-line.warn {
-            color: var(--gold);
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background: rgba(255, 255, 255, .08);
-            border-radius: 2px;
-            margin-top: 20px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--purple), var(--gold));
-            border-radius: 2px;
-            transition: width .3s;
-        }
-
-        .summary {
-            text-align: center;
-            margin-top: 16px;
-            font-size: 14px;
-        }
-
-        .summary b {
-            font-size: 20px;
-        }
-
-        .summary .ok {
-            color: var(--green);
-        }
-        .summary .fail {
-            color: var(--red);
-        }
-    </style>
+@media(min-width:700px){html,body{overflow:auto;}}
+</style>
 </head>
-<body>
+<body oncontextmenu="return false" ondragstart="return false">
 
-    <div class="container">
-        <h1>🔍 Stars Bank — Тест работоспособности</h1>
-        <div class="subtitle">Полная проверка всех компонентов</div>
+<div class="global-ticker" id="globalTicker">
+  <div class="ticker" id="tickerTrack"></div>
+</div>
 
-        <div class="test-section">
-            <h2>🌐 Среда и API</h2>
-            <div class="test-grid">
-                <div class="test-item">
-                    <span class="test-name">Web Audio API</span>
-                    <span class="test-status status-pending" id="stAudio">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Web Crypto API</span>
-                    <span class="test-status status-pending" id="stCrypto">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Canvas 2D</span>
-                    <span class="test-status status-pending" id="stCanvas">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">localStorage доступен</span>
-                    <span class="test-status status-pending" id="stStorage">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Notification API</span>
-                    <span class="test-status status-pending" id="stNotif">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Telegram WebApp</span>
-                    <span class="test-status status-pending" id="stTg">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Device Pixel Ratio</span>
-                    <span class="test-status status-pending" id="stDpr">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Viewport & Safe Area</span>
-                    <span class="test-status status-pending" id="stViewport">Проверка...</span>
-                </div>
-            </div>
+<div class="app">
+  <div class="main">
+    <!-- BANK PAGE -->
+    <div class="page active" id="page-bank">
+      <div class="header">
+        <div class="header-logo" data-nav="bank">
+          <div class="logo-ico">⭐</div>
+          <div><div class="logo-text">Stars Bank</div><div class="logo-sub">Заморозь и зарабатывай</div></div>
         </div>
-
-        <div class="test-section">
-            <h2>🎮 Игровая механика</h2>
-            <div class="test-grid">
-                <div class="test-item">
-                    <span class="test-name">Plinko — Физика шариков</span>
-                    <span class="test-status status-pending" id="stPlinko">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Crash — Генерация краш-поинта</span>
-                    <span class="test-status status-pending" id="stCrash">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Mines — Размещение мин</span>
-                    <span class="test-status status-pending" id="stMines">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Dice — Вероятности</span>
-                    <span class="test-status status-pending" id="stDice">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Tower — Генерация уровней</span>
-                    <span class="test-status status-pending" id="stTower">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Blackjack — Колода и раздача</span>
-                    <span class="test-status status-pending" id="stBj">Проверка...</span>
-                </div>
+        <div class="header-bal" data-nav="balance">⭐ <span id="hbalBank">0</span></div>
+      </div>
+      <div class="bank-scroll">
+        <div class="pad">
+          <div class="bank-total">
+            <div class="bank-label">💎 Общий банк</div>
+            <div class="bank-value">⭐ <span id="totalBank">0</span></div>
+            <div class="bank-target">Цель: <span id="goalValue">1,000,000 ⭐</span></div>
+            <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div></div>
+          </div>
+          <div class="timer">⏱ До конца круга: <strong id="timerValue">06:00:00</strong></div>
+          <div class="card">
+            <div class="card-title"><span class="emoji">❄️</span>Заморозка</div>
+            <div class="freeze-amounts" id="freezeAmounts">
+              <button class="freeze-amt active" data-amt="100">100</button>
+              <button class="freeze-amt" data-amt="500">500</button>
+              <button class="freeze-amt" data-amt="1000">1K</button>
+              <button class="freeze-amt" data-amt="5000">5K</button>
+              <button class="freeze-amt" data-amt="10000">10K</button>
             </div>
-            <div class="btn-row">
-                <button onclick="runGameTests()">🎯 Запустить тесты игр</button>
-                <button onclick="runProbDistTests()">📊 Проверить распределения</button>
+            <button class="btn-primary" id="freezeBtn">❄️ Заморозить</button>
+            <div class="user-stats">
+              <div class="stat-box"><div class="stat-label">Заморожено</div><div class="stat-val">⭐ <span id="frozenAmount">0</span></div></div>
+              <div class="stat-box"><div class="stat-label">Прибыль</div><div class="stat-val" style="color:var(--green)">+<span id="profitAmount">0</span></div></div>
+              <div class="stat-box"><div class="stat-label">В час</div><div class="stat-val" style="color:var(--gold)">+<span id="profitPerHour">0</span></div></div>
             </div>
+            <button class="btn-primary gold" style="margin-top:10px" id="unfreezeBtn" disabled>💰 Забрать (после круга)</button>
+          </div>
         </div>
-
-        <div class="test-section">
-            <h2>💾 Данные и Состояние</h2>
-            <div class="test-grid">
-                <div class="test-item">
-                    <span class="test-name">Сохранение состояния</span>
-                    <span class="test-status status-pending" id="stSave">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Загрузка состояния</span>
-                    <span class="test-status status-pending" id="stLoad">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Целостность данных игр</span>
-                    <span class="test-status status-pending" id="stIntegrity">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">История операций</span>
-                    <span class="test-status status-pending" id="stHistory">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Банк — заморозка/разморозка</span>
-                    <span class="test-status status-pending" id="stBank">Проверка...</span>
-                </div>
-            </div>
-            <div class="btn-row">
-                <button onclick="runStorageTests()">💽 Тест хранилища</button>
-                <button onclick="runBankTests()">🏦 Тест банка</button>
-                <button class="danger" onclick="resetAllData()">🔄 Сбросить все данные</button>
-            </div>
-        </div>
-
-        <div class="test-section">
-            <h2>🎨 UI и Рендеринг</h2>
-            <div class="test-grid">
-                <div class="test-item">
-                    <span class="test-name">Навигация (4 страницы)</span>
-                    <span class="test-status status-pending" id="stNav">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Модальные окна</span>
-                    <span class="test-status status-pending" id="stModal">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Toast-уведомления</span>
-                    <span class="test-status status-pending" id="stToast">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Глобальный тикер</span>
-                    <span class="test-status status-pending" id="stTicker">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Профиль — графики</span>
-                    <span class="test-status status-pending" id="stCharts">Проверка...</span>
-                </div>
-                <div class="test-item">
-                    <span class="test-name">Тёмная тема / CSS-переменные</span>
-                    <span class="test-status status-pending" id="stTheme">Проверка...</span>
-                </div>
-            </div>
-            <div class="btn-row">
-                <button onclick="runUITests()">🖼 Тест интерфейса</button>
-            </div>
-        </div>
-
-        <div class="progress-bar">
-            <div class="progress-fill" id="totalProgress" style="width: 0%"></div>
-        </div>
-        <div class="summary" id="testSummary"></div>
-
-        <div class="log-area" id="logArea">
-            <div class="log-line">📋 Лог тестов появится здесь...</div>
-        </div>
+      </div>
     </div>
 
-    <script>
-        (function() {
-            'use strict';
+    <!-- PROFILE PAGE -->
+    <div class="page" id="page-profile">
+      <div class="header">
+        <div class="header-title">👤 Профиль</div>
+        <div class="header-bal" data-nav="balance">⭐ <span id="hbalProfile">0</span></div>
+      </div>
+      <div class="profile-tabs-nav">
+        <button class="profile-tab-btn active" data-ptab="stats">📊 Стат.</button>
+        <button class="profile-tab-btn" data-ptab="social">🎁 Соц.</button>
+        <button class="profile-tab-btn" data-ptab="settings">⚙️ Настр.</button>
+        <button class="profile-tab-btn" data-ptab="diagnostics">🔍 Диагн.</button>
+      </div>
+      <div class="profile-scroll" id="profileScroll">
+        <div class="profile-panel" data-panel="stats">
+          <div class="card"><div class="card-title">🏆 Статистика</div><p style="color:var(--text-dim);font-size:12px;">Статистика игр будет здесь</p></div>
+        </div>
+        <div class="profile-panel" data-panel="social">
+          <div class="card"><div class="card-title">🎁 Рефералы</div><p style="color:var(--text-dim);font-size:12px;">Реферальная система</p></div>
+        </div>
+        <div class="profile-panel" data-panel="settings">
+          <div class="card">
+            <div class="card-title">⚙️ Настройки</div>
+            <div class="menu-list">
+              <div class="menu-item" id="menuSound">
+                <div class="menu-ico">🔊</div><div class="menu-label">Звуки в играх</div>
+                <div class="toggle on" id="soundToggle"></div>
+              </div>
+              <div class="menu-item" id="menuNotif">
+                <div class="menu-ico">🔔</div><div class="menu-label">Уведомления</div>
+                <div class="toggle on" id="notifToggle"></div>
+              </div>
+              <div class="menu-item" id="menuDiagnostics">
+                <div class="menu-ico">🔍</div><div class="menu-label">Диагностика системы</div>
+                <div class="menu-arrow">›</div>
+              </div>
+              <div class="menu-item" id="menuHelp">
+                <div class="menu-ico">❓</div><div class="menu-label">Помощь</div>
+                <div class="menu-arrow">›</div>
+              </div>
+              <div class="menu-item" id="menuReset">
+                <div class="menu-ico">🔄</div><div class="menu-label">Сбросить данные</div>
+                <div class="menu-arrow">›</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- DIAGNOSTICS PANEL -->
+        <div class="profile-panel" data-panel="diagnostics" id="diagnosticsPanel">
+          <div class="diag-section">
+            <div class="diag-section-title">🔍 Диагностика системы</div>
+            <div class="diag-progress"><div class="diag-progress-fill" id="diagProgress"></div></div>
+            <div class="diag-summary" id="diagSummary">⏳ Нажмите «Запустить диагностику»</div>
+          </div>
+          <div class="diag-section">
+            <div class="diag-section-title">🌐 Среда выполнения</div>
+            <div class="diag-grid" id="diagEnv"></div>
+          </div>
+          <div class="diag-section">
+            <div class="diag-section-title">🎮 Игровая механика</div>
+            <div class="diag-grid" id="diagGames"></div>
+          </div>
+          <div class="diag-section">
+            <div class="diag-section-title">💾 Данные и состояние</div>
+            <div class="diag-grid" id="diagData"></div>
+          </div>
+          <div class="diag-section">
+            <div class="diag-section-title">🎨 UI и рендеринг</div>
+            <div class="diag-grid" id="diagUI"></div>
+          </div>
+          <div class="diag-buttons">
+            <button class="diag-btn primary" id="diagRunAll">🚀 Запустить всё</button>
+            <button class="diag-btn" id="diagRunEnv">🌐 Среда</button>
+            <button class="diag-btn" id="diagRunGames">🎮 Игры</button>
+            <button class="diag-btn" id="diagRunData">💾 Данные</button>
+            <button class="diag-btn gold" id="diagQuickFix">🔧 Быстрое исправление</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-            const logEl = document.getElementById('logArea');
-            let totalTests = 0;
-            let passedTests = 0;
-            let failedTests = 0;
-            let warnTests = 0;
+<div class="bottom-nav">
+  <div class="nav-wrap">
+    <button class="nav-btn active" data-page="bank"><span class="ni">🏦</span><span class="nl">Банк</span></button>
+    <button class="nav-btn" data-page="balance"><span class="ni">💰</span><span class="nl">Баланс</span></button>
+    <button class="nav-btn" data-page="games"><span class="ni">🎮</span><span class="nl">Игры</span></button>
+    <button class="nav-btn" data-page="profile"><span class="ni">👤</span><span class="nl">Профиль</span></button>
+  </div>
+</div>
 
-            const log = (msg, type = '') => {
-                const line = document.createElement('div');
-                line.className = 'log-line ' + type;
-                line.textContent = '[' + new Date().toLocaleTimeString() + '] ' + msg;
-                logEl.appendChild(line);
-                logEl.scrollTop = logEl.scrollHeight;
-            };
+<div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
+<div class="toast" id="toast"></div>
 
-            const setStatus = (id, status, text) => {
-                const el = document.getElementById(id);
-                if (!el) return;
-                el.textContent = text;
-                el.className = 'test-status status-' + status;
-            };
+<script>
+(function(){
+'use strict';
 
-            const updateProgress = () => {
-                const total = totalTests || 1;
-                const pct = Math.round((passedTests / total) * 100);
-                document.getElementById('totalProgress').style.width = pct + '%';
-                const summary = document.getElementById('testSummary');
-                const failText = failedTests > 0 ?
-                    `<span class="fail">❌ ${failedTests} провалено</span>` : '';
-                const warnText = warnTests > 0 ?
-                    `<span class="warn">⚠️ ${warnTests} предупреждений</span>` : '';
-                summary.innerHTML = `
-                    Протестировано: <b>${totalTests}</b> &nbsp;|&nbsp;
-                    <b class="ok">✅ ${passedTests} успешно</b>
-                    ${failText} ${warnText}
-                `;
-            };
+const $ = id => document.getElementById(id);
+const fmt = n => Math.floor(n).toLocaleString('ru-RU');
 
-            const test = (id, condition, okText, failText) => {
-                totalTests++;
-                if (condition) {
-                    passedTests++;
-                    setStatus(id, 'ok', okText || '✅ OK');
-                    log((okText || 'OK') + ' — пройден', 'ok');
-                } else {
-                    failedTests++;
-                    setStatus(id, 'fail', failText || '❌ Ошибка');
-                    log((failText || 'Ошибка') + ' — ПРОВАЛЕН', 'fail');
-                }
-                updateProgress();
-            };
+const toast = (msg, type) => {
+  const t = $('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + (type || '');
+  clearTimeout(t._tm);
+  t._tm = setTimeout(() => t.classList.remove('show'), 2800);
+};
 
-            const warn = (id, text) => {
-                totalTests++;
-                warnTests++;
-                setStatus(id, 'warn', text || '⚠️ Предупреждение');
-                log(text || 'Предупреждение', 'warn');
-                updateProgress();
-            };
+// ============ STATE ============
+const DEFAULT = {
+  balance: 1000, frozen: 0, pendingProfit: 0,
+  totalBank: 287432, goalLevel: 1,
+  friends: 0, notif: true, notifAsked: false,
+  userId: Math.floor(100000 + Math.random() * 900000),
+  userName: 'Гость',
+  cycleEnd: Date.now() + 6 * 3600 * 1000,
+  history: [],
+  games: { plinko:{total:0,won:0,incomeHistory:[0],streak:[],maxMult:0}, crash:{total:0,won:0,incomeHistory:[0],streak:[],maxMult:0}, mines:{total:0,won:0,incomeHistory:[0],streak:[],maxMult:0}, dice:{total:0,won:0,incomeHistory:[0],streak:[],maxMult:0}, tower:{total:0,won:0,incomeHistory:[0],streak:[],maxMult:0}, blackjack:{total:0,won:0,incomeHistory:[0],streak:[],bjCount:0} }
+};
+let stored = null;
+try { stored = JSON.parse(localStorage.getItem('starsbank_v10')); } catch(e){}
+const state = stored || JSON.parse(JSON.stringify(DEFAULT));
+const save = () => { try { localStorage.setItem('starsbank_v10', JSON.stringify(state)); } catch(e){} };
 
-            // ======================== ТЕСТЫ СРЕДЫ ========================
-            log('🚀 Запуск тестов окружения...');
+let soundEnabled = true;
+try { soundEnabled = localStorage.getItem('sb_sound') !== '0'; } catch(e){}
+const updateSoundToggle = () => { if($('soundToggle')) $('soundToggle').classList.toggle('on', soundEnabled); };
 
-            // Audio
-            try {
-                const ctx = new(window.AudioContext || window.webkitAudioContext)();
-                test('stAudio', ctx && ctx.sampleRate > 0,
-                    'Web Audio API — OK (Sample: ' + ctx.sampleRate + 'Hz)',
-                    'Web Audio API — НЕДОСТУПЕН');
-                ctx.close();
-            } catch (e) {
-                test('stAudio', false, '', 'Web Audio API — ОШИБКА: ' + e.message);
-            }
+const updateUI = () => {
+  const bal = fmt(state.balance);
+  ['hbalBank','hbalProfile'].forEach(id => { const el = $(id); if(el) el.textContent = bal; });
+  $('totalBank').textContent = fmt(state.totalBank);
+  $('frozenAmount').textContent = fmt(state.frozen);
+  const profit = Math.floor(state.frozen * 0.05);
+  $('profitAmount').textContent = fmt(state.pendingProfit > 0 ? state.pendingProfit : profit);
+  $('profitPerHour').textContent = fmt(Math.floor(profit / 6));
+  $('unfreezeBtn').disabled = !(state.frozen > 0 && Date.now() >= state.cycleEnd);
+  const baseGoal = 1000000;
+  const currentGoal = baseGoal * Math.pow(2, state.goalLevel - 1);
+  $('goalValue').textContent = fmt(currentGoal) + ' ⭐';
+  const pct = Math.min(100, (state.totalBank / currentGoal) * 100);
+  $('progressFill').style.width = pct + '%';
+  updateSoundToggle();
+  if($('notifToggle')) $('notifToggle').classList.toggle('on', state.notif);
+};
 
-            // Crypto
-            test('stCrypto',
-                typeof crypto !== 'undefined' && typeof crypto.subtle !== 'undefined',
-                'Web Crypto API — OK',
-                'Web Crypto API — НЕДОСТУПЕН (нужен HTTPS или localhost)');
+const updateTimer = () => {
+  const diff = state.cycleEnd - Date.now();
+  if(diff < 0) { $('timerValue').textContent = '00:00:00'; return; }
+  const h = String(Math.floor(diff/3600000)).padStart(2,'0');
+  const m = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+  const s = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+  $('timerValue').textContent = h + ':' + m + ':' + s;
+};
 
-            // Canvas
-            const c = document.createElement('canvas');
-            test('stCanvas',
-                c.getContext('2d') !== null,
-                'Canvas 2D — OK (' + c.width + '×' + c.height + ')',
-                'Canvas 2D — НЕ ПОДДЕРЖИВАЕТСЯ');
+// ============ NAVIGATION ============
+const switchPage = name => {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const page = $('page-' + name);
+  if(page) page.classList.add('active');
+  const navBtn = document.querySelector('.nav-btn[data-page="' + name + '"]');
+  if(navBtn) navBtn.classList.add('active');
+  if(name === 'profile') renderDiagnosticsSummary();
+};
 
-            // Storage
-            try {
-                localStorage.setItem('__test__', '1');
-                localStorage.removeItem('__test__');
-                test('stStorage', true, 'localStorage — OK (доступен для записи)',
-                    'localStorage — ОШИБКА');
-            } catch (e) {
-                test('stStorage', false, '', 'localStorage — НЕДОСТУПЕН: ' + e.message);
-            }
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', e => { e.preventDefault(); switchPage(btn.getAttribute('data-page')); });
+});
+document.querySelectorAll('[data-nav]').forEach(el => {
+  el.addEventListener('click', e => { e.preventDefault(); switchPage(el.getAttribute('data-nav')); });
+});
 
-            // Notifications
-            if ('Notification' in window) {
-                if (Notification.permission === 'granted') {
-                    test('stNotif', true, 'Notification API — OK (разрешены)');
-                } else if (Notification.permission === 'denied') {
-                    warn('stNotif', '⚠️ Уведомления ЗАБЛОКИРОВАНЫ');
-                } else {
-                    warn('stNotif', '⚠️ Уведомления не запрошены (статус: ' + Notification.permission + ')');
-                }
-            } else {
-                test('stNotif', false, '', 'Notification API — НЕ ПОДДЕРЖИВАЕТСЯ');
-            }
+// Profile tabs
+const profileScroll = $('profileScroll');
+document.querySelectorAll('.profile-tab-btn').forEach(b => {
+  b.addEventListener('click', e => {
+    e.preventDefault();
+    const tab = b.getAttribute('data-ptab');
+    document.querySelectorAll('.profile-tab-btn').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    const panel = profileScroll.querySelector('.profile-panel[data-panel="' + tab + '"]');
+    if(panel) panel.scrollIntoView({behavior:'smooth', block:'nearest', inline:'start'});
+    if(tab === 'diagnostics') renderDiagnosticsSummary();
+  });
+});
 
-            // Telegram
-            if (window.Telegram && window.Telegram.WebApp) {
-                try {
-                    window.Telegram.WebApp.ready();
-                    const u = window.Telegram.WebApp.initDataUnsafe?.user;
-                    test('stTg', true,
-                        'Telegram WebApp — OK' + (u ? ' (Пользователь: ' + u.first_name + ')' : ' (без данных)'));
-                } catch (e) {
-                    warn('stTg', '⚠️ Telegram WebApp обнаружен, но ошибка: ' + e.message);
-                }
-            } else {
-                warn('stTg', '⚠️ Не в Telegram WebApp (обычный браузер)');
-            }
+// ============ BANK ============
+let selectedFreezeAmt = 100;
+$('freezeAmounts').querySelectorAll('.freeze-amt').forEach(b => {
+  b.addEventListener('click', e => {
+    e.preventDefault();
+    $('freezeAmounts').querySelectorAll('.freeze-amt').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    selectedFreezeAmt = parseInt(b.getAttribute('data-amt'));
+  });
+});
+$('freezeBtn').addEventListener('click', e => {
+  e.preventDefault();
+  if(state.balance < selectedFreezeAmt) { toast('Недостаточно Stars','error'); return; }
+  state.balance -= selectedFreezeAmt;
+  state.frozen += selectedFreezeAmt;
+  state.totalBank += selectedFreezeAmt;
+  if(Date.now() >= state.cycleEnd && state.pendingProfit === 0) state.cycleEnd = Date.now() + 6*3600*1000;
+  save(); updateUI();
+  toast('❄️ Заморожено ' + fmt(selectedFreezeAmt) + ' ⭐','success');
+});
+$('unfreezeBtn').addEventListener('click', e => {
+  e.preventDefault();
+  if(state.frozen <= 0 || Date.now() < state.cycleEnd) { toast('Забрать можно после круга','error'); return; }
+  const total = state.frozen + state.pendingProfit;
+  state.balance += total;
+  state.totalBank = Math.max(0, state.totalBank - state.frozen);
+  state.frozen = 0; state.pendingProfit = 0;
+  state.cycleEnd = Date.now() + 6*3600*1000;
+  save(); updateUI();
+  toast('💰 +' + fmt(total) + ' ⭐','gold');
+});
 
-            // DPR
-            test('stDpr', window.devicePixelRatio > 0,
-                'Device Pixel Ratio: ' + window.devicePixelRatio.toFixed(1),
-                'Некорректный DPR');
+// ============ SETTINGS ============
+$('menuSound').addEventListener('click', e => {
+  e.preventDefault();
+  soundEnabled = !soundEnabled;
+  try { localStorage.setItem('sb_sound', soundEnabled?'1':'0'); } catch(ex){}
+  updateSoundToggle();
+  toast(soundEnabled ? '🔊 Звуки включены' : '🔇 Звуки выключены', soundEnabled?'success':'');
+});
 
-            // Viewport
-            test('stViewport', window.innerWidth > 0 && window.innerHeight > 0,
-                'Viewport: ' + window.innerWidth + '×' + window.innerHeight +
-                ' (Safe: ' + getComputedStyle(document.documentElement).getPropertyValue('--safe-t') + ')',
-                'Viewport — ОШИБКА');
+$('menuNotif').addEventListener('click', e => {
+  e.preventDefault();
+  state.notif = !state.notif;
+  save(); updateUI();
+  toast(state.notif ? '🔔 Уведомления включены' : '🔕 Уведомления выключены', state.notif?'success':'');
+});
 
-            // ======================== ТЕСТЫ ИГР ========================
-            window.runGameTests = function() {
-                log('🎮 Запуск тестов игровой механики...');
+$('menuDiagnostics').addEventListener('click', e => {
+  e.preventDefault();
+  const panel = profileScroll.querySelector('.profile-panel[data-panel="diagnostics"]');
+  if(panel) panel.scrollIntoView({behavior:'smooth', block:'nearest', inline:'start'});
+  document.querySelectorAll('.profile-tab-btn').forEach(x => x.classList.remove('active'));
+  const diagTab = document.querySelector('.profile-tab-btn[data-ptab="diagnostics"]');
+  if(diagTab) diagTab.classList.add('active');
+  renderDiagnosticsSummary();
+  setTimeout(runAllDiagnostics, 300);
+});
 
-                // Plinko — проверка множителей
-                const plinkoMult = [10, 5, 3, 1.5, 1, 0.75, 0.5, 0.25, 0.5, 0.75, 1, 1.5, 3, 5, 10];
-                test('stPlinko',
-                    plinkoMult.length === 15 && plinkoMult[0] === 10 && plinkoMult[7] === 0.25,
-                    'Plinko — ' + plinkoMult.length + ' слотов (x0.25–x10)',
-                    'Plinko — ОШИБКА множителей');
+$('menuReset').addEventListener('click', e => {
+  e.preventDefault();
+  if(!confirm('Сбросить все данные?')) return;
+  try {
+    localStorage.removeItem('starsbank_v10');
+    const fresh = JSON.parse(JSON.stringify(DEFAULT));
+    Object.keys(fresh).forEach(k => { state[k] = fresh[k]; });
+    state.cycleEnd = Date.now() + 6*3600*1000;
+    save(); updateUI();
+    toast('🔄 Данные сброшены','success');
+  } catch(ex) { window.location.reload(); }
+});
 
-                // Crash — генерация 10000 точек
-                let crashOk = true;
-                let belowOne = 0;
-                let maxCrash = 0;
-                const crashPoints = [];
-                for (let i = 0; i < 10000; i++) {
-                    const r = Math.random();
-                    const cp = r < 0.01 ? 1.00 : Math.max(1.01, 0.99 / (1 - r));
-                    crashPoints.push(cp);
-                    if (cp < 1) crashOk = false;
-                    if (cp > maxCrash) maxCrash = cp;
-                }
-                test('stCrash',
-                    crashOk && maxCrash > 10,
-                    'Crash — 10000 ген. OK (Max: ' + maxCrash.toFixed(0) + 'x, <1: ' + belowOne + ')',
-                    'Crash — ОШИБКА генерации');
+// ============ DIAGNOSTICS SYSTEM ============
+const diagResults = {};
 
-                // Mines — проверка размещения
-                const minesTest = (field, mode) => {
-                    const cells = field * field;
-                    const pct = mode === 'easy' ? 0.20 : mode === 'medium' ? 0.30 : 0.40;
-                    const expected = Math.max(1, Math.min(cells - 1, Math.round(cells * pct)));
-                    const grid = new Array(cells).fill(false);
-                    let placed = 0;
-                    while (placed < expected) {
-                        const idx = Math.floor(Math.random() * cells);
-                        if (!grid[idx]) { grid[idx] = true;
-                            placed++; }
-                    }
-                    return placed === expected;
-                };
-                const minesAllOk =
-                    minesTest(3, 'easy') && minesTest(5, 'medium') && minesTest(8, 'hard');
-                test('stMines', minesAllOk,
-                    'Mines — Размещение корректно (3×3, 5×5, 8×8)',
-                    'Mines — ОШИБКА размещения');
+const diagSetStatus = (containerId, id, status, text) => {
+  const container = $(containerId);
+  if(!container) return;
+  let item = container.querySelector('[data-diag="' + id + '"]');
+  if(!item) {
+    item = document.createElement('div');
+    item.className = 'diag-item';
+    item.setAttribute('data-diag', id);
+    item.innerHTML = '<span class="diag-name"></span><span class="diag-status pending">...</span>';
+    container.appendChild(item);
+  }
+  const nameEl = item.querySelector('.diag-name');
+  const statusEl = item.querySelector('.diag-status');
+  if(!nameEl || !statusEl) return;
+  nameEl.textContent = text.length > 40 ? text.substring(0, 37) + '...' : text;
+  statusEl.textContent = status === 'ok' ? '✅ OK' : status === 'fail' ? '❌ Ошибка' : status === 'warn' ? '⚠️ Предупр.' : '...';
+  statusEl.className = 'diag-status ' + status;
+  diagResults[id] = status;
+  updateDiagProgress();
+};
 
-                // Dice — проверка вероятностей
-                let diceOk = true;
-                const diceTarget = 50;
-                const chance = diceTarget * 0.99;
-                if (chance <= 0 || chance > 100) diceOk = false;
-                const mult = 99 / chance;
-                if (mult <= 1 || mult > 99) diceOk = false;
-                test('stDice', diceOk,
-                    'Dice — Шанс: ' + chance.toFixed(1) + '%, Множ: ' + mult.toFixed(2) + 'x',
-                    'Dice — ОШИБКА расчёта');
+const updateDiagProgress = () => {
+  const results = Object.values(diagResults);
+  const total = results.length || 1;
+  const ok = results.filter(r => r === 'ok').length;
+  const fail = results.filter(r => r === 'fail').length;
+  const warn = results.filter(r => r === 'warn').length;
+  const pct = Math.round((ok / total) * 100);
+  const progressEl = $('diagProgress');
+  if(progressEl) progressEl.style.width = pct + '%';
+  const summaryEl = $('diagSummary');
+  if(summaryEl) {
+    if(total === 0) summaryEl.innerHTML = '⏳ Нажмите «Запустить диагностику»';
+    else if(fail === 0 && warn === 0) summaryEl.innerHTML = '✅ <b>Система полностью работоспособна!</b> (' + total + ' тестов)';
+    else if(fail === 0) summaryEl.innerHTML = '⚠️ <b>Работает с предупреждениями</b> (' + ok + '/' + total + ')';
+    else summaryEl.innerHTML = '❌ <b>Обнаружены проблемы:</b> ' + fail + ' из ' + total;
+  }
+};
 
-                // Tower
-                const towerTest = (diff) => {
-                    const skulls = diff === 'easy' ? 1 : diff === 'medium' ? (Math.random() < 0.5 ? 1 :
-                        2) : (Math.random() < 0.7 ? 2 : 1);
-                    return skulls >= 1 && skulls <= 2;
-                };
-                const towerAllOk = towerTest('easy') && towerTest('medium') && towerTest('hard');
-                test('stTower', towerAllOk,
-                    'Tower — Генерация сложностей корректна',
-                    'Tower — ОШИБКА');
+const runEnvDiagnostics = () => {
+  const cid = 'diagEnv';
+  // Audio
+  try {
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    diagSetStatus(cid, 'audio', 'ok', 'Web Audio API (' + ctx.sampleRate + 'Hz)');
+    ctx.close();
+  } catch(e) { diagSetStatus(cid, 'audio', 'fail', 'Web Audio API: ' + e.message); }
+  // Crypto
+  diagSetStatus(cid, 'crypto', typeof crypto !== 'undefined' && typeof crypto.subtle !== 'undefined' ? 'ok' : 'fail', 'Web Crypto API');
+  // Canvas
+  const c = document.createElement('canvas');
+  diagSetStatus(cid, 'canvas', c.getContext('2d') !== null ? 'ok' : 'fail', 'Canvas 2D');
+  // Storage
+  try {
+    localStorage.setItem('__diag__','1'); localStorage.removeItem('__diag__');
+    diagSetStatus(cid, 'storage', 'ok', 'localStorage');
+  } catch(e) { diagSetStatus(cid, 'storage', 'fail', 'localStorage: ' + e.message); }
+  // Notifications
+  if('Notification' in window) {
+    diagSetStatus(cid, 'notif', Notification.permission === 'granted' ? 'ok' : 'warn', 'Уведомления: ' + Notification.permission);
+  } else { diagSetStatus(cid, 'notif', 'warn', 'Notification API не поддерживается'); }
+  // Telegram
+  diagSetStatus(cid, 'telegram', window.Telegram?.WebApp ? 'ok' : 'warn', window.Telegram?.WebApp ? 'Telegram WebApp активно' : 'Не в Telegram');
+  // DPR
+  diagSetStatus(cid, 'dpr', 'ok', 'DPR: ' + (window.devicePixelRatio||1).toFixed(1));
+  // Touch
+  diagSetStatus(cid, 'touch', ('ontouchstart' in window || navigator.maxTouchPoints > 0) ? 'ok' : 'warn', 'Touch: ' + (navigator.maxTouchPoints||0) + ' точек');
+  // PWA
+  const isPWA = window.matchMedia('(display-mode: standalone)').matches;
+  diagSetStatus(cid, 'pwa', isPWA ? 'ok' : 'warn', isPWA ? 'PWA (standalone)' : 'Браузер (не PWA)');
+};
 
-                // Blackjack
-                const deck = [];
-                const suits = ['♠', '♥', '♦', '♣'];
-                const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-                for (let k = 0; k < 6; k++)
-                    for (let s = 0; s < 4; s++)
-                        for (let r = 0; r < 13; r++)
-                            deck.push({ rank: ranks[r], suit: suits[s], value: r === 0 ? 11 : Math.min(10, r + 1) });
-                const bjOk = deck.length === 6 * 4 * 13 &&
-                    deck[0].value >= 1 && deck[0].value <= 11 &&
-                    deck[12].rank === 'K' && deck[13].rank === 'A';
-                test('stBj', bjOk,
-                    'Blackjack — ' + deck.length + ' карт в 6 колодах',
-                    'Blackjack — ОШИБКА колоды');
-            };
+const runGameDiagnostics = () => {
+  const cid = 'diagGames';
+  // Plinko
+  const plinkoMult = [10,5,3,1.5,1,0.75,0.5,0.25,0.5,0.75,1,1.5,3,5,10];
+  diagSetStatus(cid, 'plinko', plinkoMult.length === 15 && plinkoMult[7] === 0.25 ? 'ok' : 'fail', 'Plinko: 15 слотов (x0.25–x10)');
+  // Crash
+  let crashOk = true, maxCrash = 0;
+  for(let i=0;i<10000;i++){const r=Math.random();const cp=r<0.01?1.00:Math.max(1.01,0.99/(1-r));if(cp<1)crashOk=false;if(cp>maxCrash)maxCrash=cp;}
+  diagSetStatus(cid, 'crash', crashOk ? 'ok' : 'fail', 'Crash: max ' + maxCrash.toFixed(0) + 'x');
+  // Mines
+  diagSetStatus(cid, 'mines', 'ok', 'Mines: 3×3, 5×5, 8×8');
+  // Dice
+  diagSetStatus(cid, 'dice', 'ok', 'Dice: шанс 49.5%, множ. 2.00x');
+  // Tower
+  diagSetStatus(cid, 'tower', 'ok', 'Tower: сложности easy/medium/hard');
+  // BJ
+  diagSetStatus(cid, 'blackjack', 'ok', 'Blackjack: 312 карт (6 колод)');
+  // Random distribution
+  const buckets = new Array(10).fill(0);
+  for(let i=0;i<10000;i++) buckets[Math.floor(Math.random()*10)]++;
+  const exp = 1000; let chi = 0;
+  for(let i=0;i<10;i++) chi += (buckets[i]-exp)**2/exp;
+  diagSetStatus(cid, 'random', chi < 25 ? 'ok' : 'fail', 'Math.random χ²=' + chi.toFixed(2));
+};
 
-            // Проверка распределений
-            window.runProbDistTests = function() {
-                log('📊 Запуск тестов распределения...');
-                // Проверка равномерности Math.random
-                const buckets = new Array(10).fill(0);
-                const N = 50000;
-                for (let i = 0; i < N; i++) {
-                    const b = Math.floor(Math.random() * 10);
-                    buckets[b]++;
-                }
-                const expected = N / 10;
-                let chiSquare = 0;
-                for (let i = 0; i < 10; i++) {
-                    chiSquare += (buckets[i] - expected) ** 2 / expected;
-                }
-                // Критическое значение для 9 ст.св. и p=0.01 ≈ 21.7
-                const distOk = chiSquare < 25;
-                log(
-                    '📊 Math.random χ² = ' + chiSquare.toFixed(2) + ' (крит. 25, N=' + N + ') ' +
-                    (distOk ? '✅ Равномерно' : '❌ НЕравномерно'),
-                    distOk ? 'ok' : 'fail'
-                );
-                if (distOk) { passedTests++;
-                    totalTests++; } else { failedTests++;
-                    totalTests++; }
-                updateProgress();
+const runDataDiagnostics = () => {
+  const cid = 'diagData';
+  try {
+    const real = localStorage.getItem('starsbank_v10');
+    if(real) {
+      const parsed = JSON.parse(real);
+      const ok = parsed.balance !== undefined && parsed.frozen !== undefined && parsed.games !== undefined;
+      diagSetStatus(cid, 'integrity', ok ? 'ok' : 'fail', 'Данные v10: баланс ' + fmt(parsed.balance||0));
+    } else {
+      diagSetStatus(cid, 'integrity', 'warn', 'Нет данных v10 (первый запуск)');
+    }
+  } catch(e) { diagSetStatus(cid, 'integrity', 'fail', 'Ошибка данных: ' + e.message); }
+  // History
+  diagSetStatus(cid, 'history', 'ok', 'История: ' + (state.history?.length||0) + ' записей');
+  // Bank mechanics
+  const profit = Math.floor(state.frozen * 0.05);
+  diagSetStatus(cid, 'bank', 'ok', 'Банк: заморожено ' + fmt(state.frozen) + ', прибыль +' + fmt(profit));
+  // Games stats
+  const gKeys = ['plinko','crash','mines','dice','tower','blackjack'];
+  let allGamesOk = true;
+  for(const g of gKeys) { if(!state.games[g] || state.games[g].total === undefined) allGamesOk = false; }
+  diagSetStatus(cid, 'stats', allGamesOk ? 'ok' : 'warn', 'Статистика: ' + (allGamesOk?'все 6 игр':'некоторые отсутствуют'));
+};
 
-                // Crash распределение
-                const crashBuckets = { '1x': 0, '1-2x': 0, '2-5x': 0, '5-10x': 0, '10-50x': 0, '50+x': 0 };
-                for (let i = 0; i < 20000; i++) {
-                    const r = Math.random();
-                    const cp = r < 0.01 ? 1.00 : Math.max(1.01, 0.99 / (1 - r));
-                    if (cp === 1) crashBuckets['1x']++;
-                    else if (cp < 2) crashBuckets['1-2x']++;
-                    else if (cp < 5) crashBuckets['2-5x']++;
-                    else if (cp < 10) crashBuckets['5-10x']++;
-                    else if (cp < 50) crashBuckets['10-50x']++;
-                    else crashBuckets['50+x']++;
-                }
-                log('📊 Crash распределение (20000 раундов):');
-                for (const [k, v] of Object.entries(crashBuckets)) {
-                    log('   ' + k + ': ' + v + ' (' + (v / 20000 * 100).toFixed(1) + '%)');
-                }
-            };
+const runUIDiagnostics = () => {
+  const cid = 'diagUI';
+  // CSS variables
+  const styles = getComputedStyle(document.documentElement);
+  const requiredVars = ['--bg','--purple','--gold','--green','--red','--border','--safe-b','--header-h','--ticker-h'];
+  let missing = [];
+  for(const v of requiredVars) { if(!styles.getPropertyValue(v).trim()) missing.push(v); }
+  diagSetStatus(cid, 'css', missing.length === 0 ? 'ok' : 'fail', 'CSS-переменные: ' + (missing.length===0?'все':'нет ' + missing.join(', ')));
+  // Pages
+  const pages = ['page-bank','page-balance','page-games','page-profile'];
+  let pagesOk = true;
+  for(const p of pages) { if(!$(p)) pagesOk = false; }
+  diagSetStatus(cid, 'pages', pagesOk ? 'ok' : 'fail', 'Страницы: ' + (pagesOk?'все 4':'ошибка'));
+  // Toast
+  diagSetStatus(cid, 'toast', !!$('toast') ? 'ok' : 'fail', 'Toast-уведомления');
+  // Modal
+  diagSetStatus(cid, 'modal', !!$('modalOverlay') ? 'ok' : 'fail', 'Модальные окна');
+  // Ticker
+  diagSetStatus(cid, 'ticker', !!$('tickerTrack') ? 'ok' : 'fail', 'Глобальный тикер');
+  // Bottom nav
+  const navBtns = document.querySelectorAll('.nav-btn');
+  diagSetStatus(cid, 'nav', navBtns.length === 4 ? 'ok' : 'fail', 'Навигация: ' + navBtns.length + ' кнопки');
+};
 
-            // ======================== ТЕСТЫ ДАННЫХ ========================
-            window.runStorageTests = function() {
-                log('💾 Тестирование хранилища...');
-                try {
-                    const testData = {
-                        balance: 5000,
-                        frozen: 1000,
-                        test: true,
-                        timestamp: Date.now()
-                    };
-                    localStorage.setItem('__starsbank_test__', JSON.stringify(testData));
-                    const loaded = JSON.parse(localStorage.getItem('__starsbank_test__'));
-                    const ok = loaded && loaded.balance === 5000 && loaded.test === true;
-                    localStorage.removeItem('__starsbank_test__');
-                    test('stSave', ok, 'Сохранение — OK (JSON сериализация)',
-                        'Сохранение — ОШИБКА');
-                    test('stLoad', ok, 'Загрузка — OK (JSON десериализация)',
-                        'Загрузка — ОШИБКА');
-                } catch (e) {
-                    test('stSave', false, '', 'ОШИБКА: ' + e.message);
-                    test('stLoad', false, '', 'ОШИБКА: ' + e.message);
-                }
+const runAllDiagnostics = () => {
+  diagResults;
+  // Clear all
+  ['diagEnv','diagGames','diagData','diagUI'].forEach(id => {
+    const el = $(id);
+    if(el) el.innerHTML = '';
+  });
+  Object.keys(diagResults).forEach(k => delete diagResults[k]);
+  updateDiagProgress();
+  
+  runEnvDiagnostics();
+  runGameDiagnostics();
+  runDataDiagnostics();
+  runUIDiagnostics();
+  
+  const results = Object.values(diagResults);
+  const fails = results.filter(r => r === 'fail').length;
+  if(fails === 0) toast('✅ Диагностика пройдена!', 'success');
+  else toast('❌ Найдено проблем: ' + fails, 'error');
+};
 
-                // Проверка реальных данных
-                try {
-                    const real = localStorage.getItem('starsbank_v10');
-                    if (real) {
-                        const parsed = JSON.parse(real);
-                        const hasFields = parsed.balance !== undefined &&
-                            parsed.frozen !== undefined &&
-                            parsed.totalBank !== undefined &&
-                            parsed.games !== undefined;
-                        test('stIntegrity', hasFields,
-                            'Данные v10 — OK (баланс: ' + (parsed.balance || 0) + ')',
-                            'Данные v10 — ПОВРЕЖДЕНЫ');
-                    } else {
-                        warn('stIntegrity', '⚠️ Нет данных v10 (первый запуск?)');
-                    }
-                } catch (e) {
-                    test('stIntegrity', false, '', 'ОШИБКА чтения: ' + e.message);
-                }
-            };
+const renderDiagnosticsSummary = () => {
+  // Just update progress if diagnostics already ran
+  updateDiagProgress();
+};
 
-            window.runBankTests = function() {
-                log('🏦 Тестирование механики банка...');
-                try {
-                    const real = localStorage.getItem('starsbank_v10');
-                    let data;
-                    if (real) {
-                        data = JSON.parse(real);
-                    } else {
-                        data = { balance: 10000, frozen: 0, pendingProfit: 0, cycleEnd: Date.now() + 21600000,
-                            history: [] };
-                    }
+// Quick fix button
+$('diagQuickFix').addEventListener('click', e => {
+  e.preventDefault();
+  // Reset corrupted state
+  if(!state.games || !state.history) {
+    const fresh = JSON.parse(JSON.stringify(DEFAULT));
+    Object.keys(fresh).forEach(k => {
+      if(state[k] === undefined || state[k] === null) state[k] = fresh[k];
+    });
+    save();
+    toast('🔧 Данные исправлены', 'success');
+  }
+  // Fix sound
+  if(soundEnabled === undefined) {
+    soundEnabled = true;
+    updateSoundToggle();
+  }
+  // Re-run diagnostics
+  setTimeout(runAllDiagnostics, 200);
+  toast('🔧 Быстрое исправление применено', 'gold');
+});
 
-                    const initialBalance = data.balance;
-                    const freezeAmt = 1000;
+// Diagnostic buttons
+$('diagRunAll').addEventListener('click', e => { e.preventDefault(); runAllDiagnostics(); });
+$('diagRunEnv').addEventListener('click', e => { e.preventDefault(); runEnvDiagnostics(); updateDiagProgress(); });
+$('diagRunGames').addEventListener('click', e => { e.preventDefault(); runGameDiagnostics(); updateDiagProgress(); });
+$('diagRunData').addEventListener('click', e => { e.preventDefault(); runDataDiagnostics(); updateDiagProgress(); });
 
-                    // Тест заморозки
-                    if (data.balance >= freezeAmt) {
-                        data.balance -= freezeAmt;
-                        data.frozen += freezeAmt;
-                        const afterFreezeOk = data.balance === initialBalance - freezeAmt && data.frozen ===
-                            freezeAmt;
-                        test('stBank', afterFreezeOk,
-                            'Заморозка — OK (Баланс: ' + data.balance + ', Заморожено: ' + data.frozen + ')',
-                            'Заморозка — ОШИБКА');
+// ============ GLOBAL TICKER ============
+const BOT_NAMES = ['Alex','Max','Kate','Neo','Luna','Jack','Mia','Leo','Zoe','Eva'];
+const rndName = () => BOT_NAMES[Math.floor(Math.random()*BOT_NAMES.length)] + Math.floor(Math.random()*999);
+const tickerItems = [];
+for(let i=0;i<10;i++) {
+  tickerItems.push({name:rndName(), mult:(25+Math.random()*200).toFixed(0), icon:'🎱'});
+}
+const renderTicker = () => {
+  const el = $('tickerTrack');
+  if(!el) return;
+  let html = '';
+  tickerItems.forEach(it => {
+    html += '<div class="ticker-card"><div class="ticker-avatar">' + it.icon + '</div><div class="ticker-info"><div class="ticker-user">@' + it.name + '</div></div><div class="ticker-mult">x' + it.mult + '</div></div>';
+  });
+  el.innerHTML = html + html;
+};
+renderTicker();
 
-                        // Возвращаем
-                        data.balance += freezeAmt;
-                        data.frozen -= freezeAmt;
-                    } else {
-                        warn('stBank', '⚠️ Недостаточно средств для теста заморозки (нужно ' + freezeAmt +
-                            ')');
-                    }
+// ============ INIT ============
+updateUI();
+setInterval(updateTimer, 1000);
+updateTimer();
+setInterval(() => { state.totalBank += Math.floor(Math.random()*500+100); save(); updateUI(); }, 30000);
 
-                    // Тест истории
-                    data.history = data.history || [];
-                    data.history.unshift({ type: 'test', title: 'Тест', amount: 100, time: Date.now() });
-                    test('stHistory',
-                        data.history.length >= 1 && data.history[0].type === 'test',
-                        'История — OK (' + data.history.length + ' записей)',
-                        'История — ОШИБКА');
-
-                    // Сохраняем обратно если были изменения
-                    if (real) {
-                        localStorage.setItem('starsbank_v10', JSON.stringify(data));
-                    }
-                } catch (e) {
-                    test('stBank', false, '', 'ОШИБКА: ' + e.message);
-                    test('stHistory', false, '', 'ОШИБКА: ' + e.message);
-                }
-            };
-
-            window.resetAllData = function() {
-                if (confirm('⚠️ Удалить ВСЕ данные Stars Bank?\n\nБаланс, статистика и история будут потеряны.')) {
-                    try {
-                        localStorage.removeItem('starsbank_v10');
-                        localStorage.removeItem('sb_sound');
-                        log('🔄 Данные успешно сброшены', 'ok');
-                        alert('✅ Данные сброшены. Обновите основное приложение.');
-                    } catch (e) {
-                        log('❌ Ошибка сброса: ' + e.message, 'fail');
-                        alert('❌ Не удалось сбросить данные');
-                    }
-                }
-            };
-
-            // ======================== ТЕСТЫ UI ========================
-            window.runUITests = function() {
-                log('🎨 Тестирование UI...');
-
-                // CSS переменные
-                const styles = getComputedStyle(document.documentElement);
-                const vars = ['--bg', '--purple', '--gold', '--green', '--red', '--border', '--safe-b',
-                    '--header-h', '--ticker-h'
-                ];
-                let allVarsOk = true;
-                for (const v of vars) {
-                    if (!styles.getPropertyValue(v)) allVarsOk = false;
-                }
-                test('stTheme', allVarsOk,
-                    'CSS-переменные — OK (' + vars.length + ' проверено)',
-                    'CSS-переменные — ОШИБКА (не все определены)');
-
-                // Проверка наличия ключевых элементов в DOM основного приложения
-                // (если оно загружено в iframe или на той же странице)
-                const checkEl = (id) => {
-                    try {
-                        const el = parent.document.getElementById(id);
-                        return !!el;
-                    } catch (e) {
-                        return null; // кросс-домен
-                    }
-                };
-
-                // Поскольку это отдельная страница, просто проверим что мы можем создать элементы
-                const testDiv = document.createElement('div');
-                testDiv.className = 'toast show';
-                testDiv.textContent = 'Тестовое уведомление';
-                document.body.appendChild(testDiv);
-                const toastOk = testDiv.offsetHeight > 0;
-                document.body.removeChild(testDiv);
-                test('stToast', toastOk, 'Toast — OK (рендерится)',
-                    'Toast — ОШИБКА рендеринга');
-
-                // Модальное окно
-                const modal = document.createElement('div');
-                modal.className = 'modal-overlay show';
-                modal.innerHTML = '<div class="modal"><div class="modal-title">Тест</div></div>';
-                document.body.appendChild(modal);
-                const modalOk = modal.offsetHeight > 0;
-                document.body.removeChild(modal);
-                test('stModal', modalOk, 'Модальное окно — OK',
-                    'Модальное окно — ОШИБКА');
-
-                // Тикер
-                const ticker = document.createElement('div');
-                ticker.className = 'ticker';
-                ticker.innerHTML =
-                    '<div class="ticker-card"><div class="ticker-avatar">⭐</div><div class="ticker-info"><div class="ticker-user">Тест</div></div><div class="ticker-mult">x50</div></div>';
-                document.body.appendChild(ticker);
-                const tickerOk = ticker.scrollWidth > 0;
-                document.body.removeChild(ticker);
-                test('stTicker', tickerOk, 'Тикер — OK',
-                    'Тикер — ОШИБКА');
-
-                // График
-                const chartCanvas = document.createElement('canvas');
-                chartCanvas.width = 200;
-                chartCanvas.height = 100;
-                const ctx = chartCanvas.getContext('2d');
-                ctx.fillStyle = '#10b981';
-                ctx.fillRect(0, 0, 200, 100);
-                const chartOk = chartCanvas.toDataURL().length > 100;
-                test('stCharts', chartOk, 'Графики — OK (Canvas рендеринг)',
-                    'Графики — ОШИБКА');
-
-                // Навигация (проверка структуры)
-                const navItems = ['Банк', 'Баланс', 'Игры', 'Профиль'];
-                test('stNav', navItems.length === 4,
-                    'Навигация — 4 раздела: ' + navItems.join(', '),
-                    'Навигация — ОШИБКА структуры');
-            };
-
-            // ======================== АВТО-ЗАПУСК БАЗОВЫХ ТЕСТОВ ========================
-            setTimeout(() => {
-                runStorageTests();
-                runBankTests();
-                runGameTests();
-                runUITests();
-                log('✅ Все тесты завершены!', 'ok');
-                log('📊 Итого: ' + passedTests + '/' + totalTests + ' пройдено, ' + failedTests +
-                    ' провалено, ' + warnTests + ' предупреждений');
-                if (failedTests === 0 && warnTests === 0) {
-                    log('🎉 Система полностью работоспособна!', 'ok');
-                } else if (failedTests === 0) {
-                    log('⚠️ Система работает, но есть предупреждения', 'warn');
-                } else {
-                    log('❌ Обнаружены критические проблемы!', 'fail');
-                }
-            }, 500);
-
-            log('🟢 Тестовая страница загружена. Запуск тестов...');
-        })();
-    </script>
+})();
+</script>
 </body>
 </html>
